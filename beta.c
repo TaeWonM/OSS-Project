@@ -55,7 +55,22 @@ int main () {
         else if (GetAsyncKeyState(VK_DOWN) && map[y][x-1+MOVE]!=' ' && map[y][x-1+MOVE]!='='){
             system ("cls");
             gotoxy(30,10);
-            printf ("LOADING");
+            printf ("Press dificulty 1~3");
+            while (1){
+                int difficulty;
+                if (GetAsyncKeyState (0x31)){
+                    difficulty = 1;
+                    break;
+                }
+                if (GetAsyncKeyState (0x32)){
+                    difficulty = 2;
+                    break;
+                }
+                if (GetAsyncKeyState (0x33)){
+                    difficulty = 3;
+                    break;
+                }
+            }
         }
         Sleep(50);
         if (map[y][x-1+MOVE] != '=' && map[y][x-1+MOVE] != ' '){
