@@ -31,6 +31,21 @@ void gotoxy(int x, int y){
     SetConsoleCursorPosition (GetStdHandle(STD_OUTPUT_HANDLE), pos);
 }
 
+int Choose_1to3 (){
+    while (1){
+        int difficulty;
+        if (GetAsyncKeyState (0x31)){
+            return 1;
+        }
+        if (GetAsyncKeyState (0x32)){
+            return 2;
+        }
+        if (GetAsyncKeyState (0x33)){
+            return 3;
+        }
+    }
+}
+
 int main () {
     Filescan ();
     int x=startx;
@@ -56,45 +71,54 @@ int main () {
             system ("cls");
             gotoxy(30,10);
             printf ("Press dificulty 1~3");
-            while (1){
-                int difficulty;
-                if (GetAsyncKeyState (0x31)){
-                    difficulty = 1;
-                    break;
-                }
-                if (GetAsyncKeyState (0x32)){
-                    difficulty = 2;
-                    break;
-                }
-                if (GetAsyncKeyState (0x33)){
-                    difficulty = 3;
-                    break;
-                }
+            Choose_1to3 ();
+            switch (map[y][x-1+MOVE])
+            {
+            case '1':
+                
+                break;
+            
+            default:
+                break;
             }
         }
-        Sleep(50);
+        if (GetAsyncKeyState (VK_ESCAPE)){
+            system ("cls");
+            gotoxy(30,10);
+            printf ("Press Option 1~3");
+            gotoxy(30,11);
+            printf(" 1 : EXIT");
+            gotoxy(30,12);
+            printf(" 2 : SAVE");
+            gotoxy(30,13);
+            printf(" 3 : Change Character");
+
+            switch (Choose_1to3())
+            {
+            case 1:
+                system ("cls");
+                return 0;
+            default:
+                break;
+            };
+        }
+        Sleep(20);
         if (map[y][x-1+MOVE] != '=' && map[y][x-1+MOVE] != ' '){
             if (map[y][x-1+MOVE] == '1'){
                 gotoxy(80,5);
                 printf ("Stage 1 : Pac-Man");
-                gotoxy(80,6);
-                printf ("Dificulty : **");
                 gotoxy(80,7);
                 printf ("Press Down");
             }
             else if (map[y][x-1+MOVE] == '2'){
                 gotoxy(80,5);
                 printf ("Stage 2 : Tetris");
-                gotoxy(80,6);
-                printf ("Dificulty : ****");
                 gotoxy(80,7);
                 printf ("Press Down");
             }
             else if (map[y][x-1+MOVE] == '3'){
                 gotoxy(80,5);
                 printf ("Stage 3 : Untertail");
-                gotoxy(80,6);
-                printf ("Dificulty : ******");
                 gotoxy(80,7);
                 printf ("Press Down");
             }
