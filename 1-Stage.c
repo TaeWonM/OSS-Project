@@ -13,6 +13,8 @@
 #define DOWN 80
 
 char maze[MAX_SIZE][MAX_SIZE];
+int flag[MAX_SIZE][MAX_SIZE] = { 1 };
+int count = 0;
 
 void GotoXY(int x, int y);
 void print_mazeGame(char maze[][MAX_SIZE], int row);
@@ -20,6 +22,7 @@ int is_block(char maze[][MAX_SIZE], int row, int col);
 void move_maze(char maze[][MAX_SIZE], int* row, int* col);
 void CursorView(char show);
 void complete_exit();
+int fileopen();
 
 int main(void)
 {
@@ -37,12 +40,17 @@ int main(void)
     return 0;
 }
 
-int fileopen() {
+int fileopen()
+{
     FILE* fp = fopen("maze_1.txt", "r");
 
-    for (int i = 0; i < MAX_SIZE; i++) {
-        for (int j = 0; j < MAX_SIZE; j++) {
+    for (int i = 0; i < MAX_SIZE; i++)
+    {
+        for (int j = 0; j < MAX_SIZE; j++)
+        {
             fscanf(fp, " %c", &maze[i][j]);
+            if (maze[i][j] != '0')
+                flag[i][j] = 0;
         }
     }
     fclose(fp);
@@ -78,20 +86,21 @@ int GetKey()
 
 void print_mazeGame(char maze[][MAX_SIZE], int row)
 {
-
     for (int i = 0; i < row; i++)
     {
         GotoXY(XPOS, YPOS + i);
         for (int j = 0; j < MAX_SIZE; j++)
         {
             if (maze[i][j] == '1')
-                printf("¡á");
+                printf("â– ");
             else if (maze[i][j] == 'y')
+                printf("e");
+            else if (maze[i][j] == '0' && flag[i][j] == 0)
                 printf("*");
-            else if (maze[i][j] == '0')
-                printf("*");
-            else
-                printf("¡Ü");
+            else if (maze[i][j] == '0' && flag[i][j] == 1)
+                printf(" ");
+            else if (maze[i][j] == 'x')
+                printf("â—");
         }
         puts("");
     }
@@ -99,16 +108,25 @@ void print_mazeGame(char maze[][MAX_SIZE], int row)
 
 int is_block(char maze[][MAX_SIZE], int i, int j)
 {
-
-    if (maze[i][j] == '1' || maze[i][j] == 'y')
+    if (maze[i][j] == '1')
         return 1;
+    else if (count == 63 && maze[i][j] == '0' && flag[i][j] == 0)
+    {
+        printf("game clear");
+        exit(0);
+    }
+    else if (flag[i][j] == 0 && maze[i][j] == '0'&&flag[i][j] != 1)
+    {
+        flag[i][j] = 1;
+        count++;
+        return 0;
+    }
     else
         return 0;
 }
 
 int is_finish(char maze[][MAX_SIZE], int i, int j)
 {
-
     if (maze[i][j] == 'y')
         return 1;
     else
@@ -127,12 +145,10 @@ void move_maze(char maze[][MAX_SIZE], int* row, int* col)
     int i = *row;
     int j = *col;
 
-
     chr = GetKey();
 
     if (chr == 0 || chr == 0xe0)
     {
-        Sleep(100);
         chr = GetKey();
         switch (chr)
         {
@@ -144,13 +160,6 @@ void move_maze(char maze[][MAX_SIZE], int* row, int* col)
                 maze[i][j] = 'x';
                 *row -= 1;
             }
-            else if (is_finish(maze, i, j))
-            {
-                maze[*row][j] = '0';
-                maze[i][j] = 'x';
-                print_mazeGame(maze, 12);
-                complete_exit();
-            }
             break;
 
         case DOWN:
@@ -160,13 +169,6 @@ void move_maze(char maze[][MAX_SIZE], int* row, int* col)
                 maze[*row][j] = '0';
                 maze[i][j] = 'x';
                 *row += 1;
-            }
-            else if (is_finish(maze, i, j))
-            {
-                maze[*row][j] = '0';
-                maze[i][j] = 'x';
-                print_mazeGame(maze, 12);
-                complete_exit();
             }
             break;
 
@@ -178,13 +180,6 @@ void move_maze(char maze[][MAX_SIZE], int* row, int* col)
                 maze[i][j] = 'x';
                 *col -= 1;
             }
-            else if (is_finish(maze, i, j))
-            {
-                maze[i][*col] = '0';
-                maze[i][j] = 'x';
-                print_mazeGame(maze, 12);
-                complete_exit();
-            }
             break;
 
         case RIGHT:
@@ -195,15 +190,7 @@ void move_maze(char maze[][MAX_SIZE], int* row, int* col)
                 maze[i][j] = 'x';
                 *col += 1;
             }
-            else if (is_finish(maze, i, j))
-            {
-                maze[i][*col] = '0';
-                maze[i][j] = 'x';
-                print_mazeGame(maze, 12);
-                complete_exit();
-            }
             break;
         }
     }
-
 }
