@@ -35,6 +35,7 @@ int main(void)
     {
         print_mazeGame(maze, 12);
         move_maze(maze, &row, &col);
+        Sleep(100);
     }
 
     return 0;
