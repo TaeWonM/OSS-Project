@@ -2,6 +2,8 @@
 #include <stdio.h>
 #include <windows.h>
 #include <conio.h>
+#include <stdlib.h>
+#include <time.h>
 
 #define MAX_SIZE 12
 #define XPOS 50
@@ -21,12 +23,13 @@ void print_mazeGame(char maze[][MAX_SIZE], int row);
 int is_block(char maze[][MAX_SIZE], int row, int col);
 void move_maze(char maze[][MAX_SIZE], int* row, int* col);
 void CursorView(char show);
-void complete_exit();
 int fileopen();
+void print_score();
 
 int main(void)
 {
     int row = 1, col = 1;
+    int y_row = 2, y_col = 2;
 
     fileopen();
     CursorView(0);
@@ -35,12 +38,13 @@ int main(void)
     {
         print_mazeGame(maze, 12);
         move_maze(maze, &row, &col);
+        print_score();
         Sleep(100);
     }
 
     return 0;
 }
-
+ 
 int fileopen()
 {
     FILE* fp = fopen("maze_1.txt", "r");
@@ -113,10 +117,11 @@ int is_block(char maze[][MAX_SIZE], int i, int j)
         return 1;
     else if (count == 63 && maze[i][j] == '0' && flag[i][j] == 0)
     {
+        GotoXY(XPOS - 3, YPOS - 2);
         printf("game clear");
         exit(0);
     }
-    else if (flag[i][j] == 0 && maze[i][j] == '0'&&flag[i][j] != 1)
+    else if (flag[i][j] == 0 && maze[i][j] == '0' && flag[i][j] != 1)
     {
         flag[i][j] = 1;
         count++;
@@ -124,20 +129,6 @@ int is_block(char maze[][MAX_SIZE], int i, int j)
     }
     else
         return 0;
-}
-
-int is_finish(char maze[][MAX_SIZE], int i, int j)
-{
-    if (maze[i][j] == 'y')
-        return 1;
-    else
-        return 0;
-}
-
-void complete_exit()
-{
-    printf("fail\n");
-    exit(0);
 }
 
 void move_maze(char maze[][MAX_SIZE], int* row, int* col)
@@ -194,4 +185,9 @@ void move_maze(char maze[][MAX_SIZE], int* row, int* col)
             break;
         }
     }
+}
+
+void print_score() {
+    GotoXY(XPOS - 3, YPOS - 2);
+    printf("남은 개수 : %d", 64 - count);
 }
