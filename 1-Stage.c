@@ -24,7 +24,6 @@ int is_block(char maze[][MAX_SIZE], int row, int col);
 void move_maze(char maze[][MAX_SIZE], int* row, int* col);
 void CursorView(char show);
 int fileopen();
-void print_score();
 
 int main(void)
 {
@@ -38,6 +37,7 @@ int main(void)
     {
         print_mazeGame(maze, 12);
         move_maze(maze, &row, &col);
+        print_score();
         Sleep(100);
     }
 
@@ -184,4 +184,12 @@ void move_maze(char maze[][MAX_SIZE], int* row, int* col)
             break;
         }
     }
+}    
+
+int print_score() {
+    GotoXY(XPOS - 3, YPOS - 2);
+    if((64 - count) >= 10)
+        printf("남은 개수 : %d", 64 - count);
+    else
+        printf("                          ");        
 }
