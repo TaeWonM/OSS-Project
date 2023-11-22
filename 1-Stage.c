@@ -38,7 +38,6 @@ int main(void)
     {
         print_mazeGame(maze, 12);
         move_maze(maze, &row, &col);
-        print_score();
         Sleep(100);
     }
 
@@ -185,9 +184,4 @@ void move_maze(char maze[][MAX_SIZE], int* row, int* col)
             break;
         }
     }
-}
-
-void print_score() {
-    GotoXY(XPOS - 3, YPOS - 2);
-    printf("남은 개수 : %d", 64 - count);
 }
