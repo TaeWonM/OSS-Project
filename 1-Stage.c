@@ -1,6 +1,7 @@
+#define _CRT_SECURE_NO_WARNINGS
 #include <stdio.h>
-#include<windows.h>
-#include<conio.h>
+#include <windows.h>
+#include <conio.h>
 
 #define MAX_SIZE 12
 #define XPOS 50
@@ -11,19 +12,7 @@
 #define UP 72
 #define DOWN 80
 
-char maze[MAX_SIZE][MAX_SIZE] = { { '1','1','1','1','1','1','1','1','1','1','1','1' },
-                                 { '1','x','0','0','0','0','0','0','0','0','0','1' },
-                                 { '1','0','1','1','0','1','1','0','1','1','0','1' },
-                                 { '1','0','1','1','0','1','1','0','1','1','0','1' },
-                                 { '1','0','0','0','y','0','0','y','0','0','0','1' },
-                                 { '1','0','1','1','0','1','1','0','1','1','0','1' },
-                                 { '1','0','1','1','0','1','1','0','1','1','0','1' },
-                                 { '1','0','0','0','y','0','0','y','0','0','0','1' },
-                                 { '1','0','1','1','0','1','1','0','1','1','0','1' },
-                                 { '1','0','1','1','0','1','1','0','1','1','0','1' },
-                                 { '1','0','0','0','0','0','0','0','0','0','0','1' },
-                                 { '1','1','1','1','1','1','1','1','1','1','1','1' },
-};
+char maze[MAX_SIZE][MAX_SIZE];
 
 void GotoXY(int x, int y);
 void print_mazeGame(char maze[][MAX_SIZE], int row);
@@ -36,8 +25,8 @@ int main(void)
 {
     int row = 1, col = 1;
 
+    fileopen();
     CursorView(0);
-
 
     while (1)
     {
@@ -46,6 +35,17 @@ int main(void)
     }
 
     return 0;
+}
+
+int fileopen() {
+    FILE* fp = fopen("maze_1.txt", "r");
+
+    for (int i = 0; i < MAX_SIZE; i++) {
+        for (int j = 0; j < MAX_SIZE; j++) {
+            fscanf(fp, " %c", &maze[i][j]);
+        }
+    }
+    fclose(fp);
 }
 
 void CursorView(char show)
@@ -85,13 +85,13 @@ void print_mazeGame(char maze[][MAX_SIZE], int row)
         for (int j = 0; j < MAX_SIZE; j++)
         {
             if (maze[i][j] == '1')
-                printf("â– ");
+                printf("¡á");
             else if (maze[i][j] == 'y')
                 printf("e");
             else if (maze[i][j] == '0')
-                printf("â–¡");
+                printf("*");
             else
-                printf("â—");
+                printf("¡Ü");
         }
         puts("");
     }
@@ -132,6 +132,7 @@ void move_maze(char maze[][MAX_SIZE], int* row, int* col)
 
     if (chr == 0 || chr == 0xe0)
     {
+        Sleep(100);
         chr = GetKey();
         switch (chr)
         {
