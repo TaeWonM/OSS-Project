@@ -5,7 +5,7 @@
 #include <locale.h>
 #include <wchar.h>
 
-int printx = 20, printy = 10;
+int printx = 20, printy = 5;
 int stage3mapmaxx = 18, stage3mapmaxy = 14;
 clock_t start,skillstart;
 clock_t phasetime;
@@ -27,6 +27,7 @@ void makeclearstring ();
 int skill1();
 int skill2();
 int skill3();
+void phase1();
 void phase3 ();
 void phase2();
 
@@ -45,26 +46,16 @@ int main () {
     printf ("@");
     start = clock();
     phasetime = start;
-    while (1){
-        phase1move();
-        Sleep (20);
-        if ((double)(clock() - start) / CLOCKS_PER_SEC >=1){
-            srand(time(NULL));
-            gotoxy(40,11);
-            int num = rand()%6;
-            printf ("%d",num);
-            if (num==1) {
-                if (skill1()) break;
-            }
-            else if (num==2) {
-                if (skill2()) break;
-            }
-            else if (num==3) {
-                if (skill3()) break;
-            }
-            start = clock();
-        }
-    }
+    srand(time(NULL));
+    phase1();
+    system ("cls");
+    gotoxy (50,15);
+    printf ("phase 2");
+    Sleep(1000);
+    start = clock();
+    phasetime = start;
+    phase2();
+    phase1();
     system ("cls");
     gotoxy (50,15);
     printf ("END");
@@ -101,7 +92,7 @@ void stageprint () {
     for (int i = 1; i<stage3mapmaxy+1; i++) {
         for (int j = 0; j<stage3mapmaxx+2; j++) {
             gotoxy (printx+j,printy+i);
-            if (j==0 || j== stage3mapmaxx+1) wprintf(L"■");
+            if ( j== 0 || j == stage3mapmaxx+1) wprintf(L"■");
         }
     }
     for (int j = 0; j<stage3mapmaxx+2; j++) {
@@ -171,14 +162,14 @@ int skill1 () {
             gotoxy(printx+1+raw,printy+1+i);
             printf("|");
         }
-        gotoxy(21+raw,11+col);
+        gotoxy(printx+1+raw,printy+1+col);
         printf ("+");
         skillstart = clock();
         while ((double)(clock() - skillstart) / CLOCKS_PER_SEC <=0.7){
             phase1move();
             Sleep (30);
         }
-        if (stage3y == 11+col || stage3x == 21+raw){
+        if (stage3y == printy+1+col || stage3x == printx+1+raw){
             life--;
             if (life==0) return 1;
             Setlife();
@@ -218,7 +209,7 @@ int skill2(){
             phase1move();
             Sleep (30);
         }
-        if (stage3x <= printx + stage3mapmaxx/2 || stage3y >= printy + stage3mapmaxy/2){
+        if (stage3x < printx + stage3mapmaxx/2 || stage3y > printy + stage3mapmaxy/2){
             life--;
             Setlife();
         }
@@ -240,7 +231,7 @@ int skill2(){
             phase1move();
             Sleep (30);
         }
-        if (stage3x <= printx + stage3mapmaxx/2 || stage3y <= printy + stage3mapmaxy/2){
+        if (stage3x < printx + stage3mapmaxx/2 || stage3y < printy + stage3mapmaxy/2){
             life--;
             Setlife();
         }
@@ -262,7 +253,7 @@ int skill2(){
             phase1move();
             Sleep (30);
         }
-        if (stage3x >= printx + stage3mapmaxx/2 || stage3y >= printy + stage3mapmaxy/2){
+        if (stage3x > printx + stage3mapmaxx/2 || stage3y > printy + stage3mapmaxy/2){
             life--;
             Setlife();
         }
@@ -284,7 +275,7 @@ int skill2(){
             phase1move();
             Sleep (30);
         }
-        if (stage3x >= printx + stage3mapmaxx/2 || stage3y <= printy + stage3mapmaxy/2){
+        if (stage3x > printx + stage3mapmaxx/2 || stage3y < printy + stage3mapmaxy/2){
             life--;
             Setlife();
         }
@@ -347,8 +338,24 @@ int skill3(){
     return 0;
 }
 
-void phase3 () {
-    
+void phase1(){
+    while ((double)(clock() - phasetime) / CLOCKS_PER_SEC <=60){
+        phase1move();
+        Sleep (20);
+        if ((double)(clock() - start) / CLOCKS_PER_SEC >=1){
+            int num = rand()%3;
+            if (num==0) {
+                if (skill1()) break;
+            }
+            else if (num==1) {
+                if (skill2()) break;
+            }
+            else if (num==2) {
+                if (skill3()) break;
+            }
+            start = clock();
+        }
+    }
 }
 
 void phase2() {
@@ -356,13 +363,14 @@ void phase2() {
     while (raw<=stage3mapmaxx || raw%2!=0) {
         raw = rand()%36;
     }
-    int col =  rand()%36;
-    while (raw<=stage3mapmaxy || raw%2!=0) {
-        raw = rand()%36;
+    int col =  rand()%20;
+    while (col<=stage3mapmaxy || col%2!=0) {
+        col = rand()%20;
     }
-    printx -= (stage3mapmaxx - raw)/2;
-    printy -= (stage3mapmaxy - col)/2;
+    printx -= (raw-stage3mapmaxx)/2;
+    printy -= (col-stage3mapmaxy)/2;
     stage3mapmaxx = raw;
+    stage3mapmaxy = col;
     system("cls");
     textcolor(15);
     makeclearstring();
@@ -371,3 +379,8 @@ void phase2() {
     gotoxy (stage3x,stage3y);
     printf ("@");
 }
+
+void phase3 () {
+    
+}
+
