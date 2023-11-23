@@ -8,6 +8,7 @@
 int printx = 20, printy = 10;
 int stage3mapmaxx = 18, stage3mapmaxy = 14;
 clock_t start,skillstart;
+clock_t phasetime;
 char smallstring[] = " ";
 int life = 3;
 int prestage3x;
@@ -20,17 +21,20 @@ void gotoxy(int x, int y);
 void Setconsole();
 void textcolor (int color);
 void clear ();
-void move ();
+void phase1move ();
 void Setlife ();
 void makeclearstring ();
 int skill1();
 int skill2();
 int skill3();
-int skill4();
-int skill5();
-void stagemove();
+void phase3 ();
+void phase2();
+
+
 
 int main () {
+    HANDLE hThrd;
+    DWORD threadId;
     Setconsole();
     Setlife ();
     setlocale(LC_ALL,"");
@@ -40,8 +44,9 @@ int main () {
     gotoxy (stage3x,stage3y);
     printf ("@");
     start = clock();
+    phasetime = start;
     while (1){
-        move();
+        phase1move();
         Sleep (20);
         if ((double)(clock() - start) / CLOCKS_PER_SEC >=1){
             srand(time(NULL));
@@ -56,12 +61,6 @@ int main () {
             }
             else if (num==3) {
                 if (skill3()) break;
-            }
-            else if (num==4) {
-                if (skill4()) break;
-            }
-            else if (num==5) {
-                if (skill5()) break;
             }
             start = clock();
         }
@@ -118,7 +117,7 @@ void clear (){
     }
 };
 
-void move (){
+void phase1move (){
     prestage3x = stage3x;
     prestage3y = stage3y;
     if (GetAsyncKeyState(VK_LEFT) && stage3x-printx-1 > 0){
@@ -160,7 +159,7 @@ void makeclearstring () {
 };
 
 int skill1 () {
-        move();
+        phase1move();
         textcolor(3);
         int col = rand()%(stage3mapmaxy);
         for (int i = 0; i<stage3mapmaxx; i++){
@@ -176,7 +175,7 @@ int skill1 () {
         printf ("+");
         skillstart = clock();
         while ((double)(clock() - skillstart) / CLOCKS_PER_SEC <=0.7){
-            move();
+            phase1move();
             Sleep (30);
         }
         if (stage3y == 11+col || stage3x == 21+raw){
@@ -216,7 +215,7 @@ int skill2(){
         printf("@");
         skillstart = clock();
         while ((double)(clock() - skillstart) / CLOCKS_PER_SEC <=0.5){
-            move();
+            phase1move();
             Sleep (30);
         }
         if (stage3x <= printx + stage3mapmaxx/2 || stage3y >= printy + stage3mapmaxy/2){
@@ -238,7 +237,7 @@ int skill2(){
         printf("@");
         skillstart = clock();
         while ((double)(clock() - skillstart) / CLOCKS_PER_SEC <=1){
-            move();
+            phase1move();
             Sleep (30);
         }
         if (stage3x <= printx + stage3mapmaxx/2 || stage3y <= printy + stage3mapmaxy/2){
@@ -260,7 +259,7 @@ int skill2(){
         printf("@");
         skillstart = clock();
         while ((double)(clock() - skillstart) / CLOCKS_PER_SEC <=0.5){
-            move();
+            phase1move();
             Sleep (30);
         }
         if (stage3x >= printx + stage3mapmaxx/2 || stage3y >= printy + stage3mapmaxy/2){
@@ -282,7 +281,7 @@ int skill2(){
         printf("@");
         skillstart = clock();
         while ((double)(clock() - skillstart) / CLOCKS_PER_SEC <=0.5){
-            move();
+            phase1move();
             Sleep (30);
         }
         if (stage3x >= printx + stage3mapmaxx/2 || stage3y <= printy + stage3mapmaxy/2){
@@ -328,7 +327,7 @@ int skill3(){
     int skill3y = stage3y;
     skillstart = clock();
     while ((double)(clock() - skillstart) / CLOCKS_PER_SEC <=1){
-        move();
+        phase1move();
         Sleep (30);
     }
     clear();
@@ -348,14 +347,11 @@ int skill3(){
     return 0;
 }
 
-int skill4(){
-    return 0;
+void phase3 () {
+    
 }
 
-int skill5(){
-    return 0;
-}
-void stagemove() {
+void phase2() {
     int raw = rand()%36;
     while (raw<=stage3mapmaxx || raw%2!=0) {
         raw = rand()%36;
