@@ -24,8 +24,8 @@ void GotoXY(int x, int y);
 void print_mazeGame(char maze[][MAX_SIZE], int row);
 int is_block(char maze[][MAX_SIZE], int row, int col);
 void move_maze(char maze[][MAX_SIZE], int* row, int* col);
-void moveGhost(int player_row, int player_col);
-
+void moveGhost_player(int player_row, int player_col);
+void moveGhost_random();
 void CursorView(char show);
 int fileopen();
 
@@ -200,7 +200,7 @@ void move_maze(char maze[][MAX_SIZE], int* row, int* col)
 }
 
 
-void moveGhost(int player_row, int player_col)
+void moveGhost_player(int player_row, int player_col)
 {
     int random_direction = rand() % 4;
 
@@ -251,3 +251,60 @@ void moveGhost(int player_row, int player_col)
         break;
     }
 }
+
+void moveGhost_random()
+{
+    int random_direction = rand() % 4;
+
+
+    int current_ghost_row = ghost_row;
+    int current_ghost_col = ghost_col;
+
+    switch (random_direction)
+    {
+    case 0:
+        if (!(is_block(maze, ghost_row - 1, ghost_col)))
+        {
+            if (maze[ghost_row - 1][ghost_col] != '*')
+                maze[current_ghost_row][current_ghost_col] = '0';
+
+            maze[ghost_row - 1][ghost_col] = 'y';
+            ghost_row--;
+        }
+        break;
+
+    case 1:
+        if (!(is_block(maze, ghost_row + 1, ghost_col)))
+        {
+            if (maze[ghost_row + 1][ghost_col] != '*')
+                maze[current_ghost_row][current_ghost_col] = '0';
+
+            maze[ghost_row + 1][ghost_col] = 'y';
+            ghost_row++;
+        }
+        break;
+
+    case 2:
+        if (!(is_block(maze, ghost_row, ghost_col - 1)))
+        {
+            if (maze[ghost_row][ghost_col - 1] != '*')
+                maze[current_ghost_row][current_ghost_col] = '0';
+
+            maze[ghost_row][ghost_col - 1] = 'y';
+            ghost_col--;
+        }
+        break;
+
+    case 3:
+        if (!(is_block(maze, ghost_row, ghost_col + 1)))
+        {
+            if (maze[ghost_row][ghost_col + 1] != '*')
+                maze[current_ghost_row][current_ghost_col] = '0';
+
+            maze[ghost_row][ghost_col + 1] = 'y';
+            ghost_col++;
+        }
+        break;
+    }
+}
+
