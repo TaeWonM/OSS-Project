@@ -18,13 +18,16 @@ char maze[MAX_SIZE][MAX_SIZE];
 int flag[MAX_SIZE][MAX_SIZE] = { 1 };
 int count = 0;
 
+int ghost_row = 5, ghost_col = 6;
+
 void GotoXY(int x, int y);
 void print_mazeGame(char maze[][MAX_SIZE], int row);
 int is_block(char maze[][MAX_SIZE], int row, int col);
 void move_maze(char maze[][MAX_SIZE], int* row, int* col);
+void moveGhost(int player_row, int player_col);
+
 void CursorView(char show);
 int fileopen();
-void print_score();
 
 int main(void)
 {
@@ -38,13 +41,13 @@ int main(void)
     {
         print_mazeGame(maze, 12);
         move_maze(maze, &row, &col);
-        print_score();
+        moveGhost(row, col);
         Sleep(100);
     }
 
     return 0;
 }
- 
+
 int fileopen()
 {
     FILE* fp = fopen("maze_1.txt", "r");
@@ -187,7 +190,48 @@ void move_maze(char maze[][MAX_SIZE], int* row, int* col)
     }
 }
 
-void print_score() {
-    GotoXY(XPOS - 3, YPOS - 2);
-    printf("남은 개수 : %d", 64 - count);
+
+void moveGhost(int player_row, int player_col)
+{
+
+    int random_direction = rand() % 4;
+
+    switch (random_direction)
+    {
+    case 0:
+        if (!(is_block(maze, ghost_row - 1, ghost_col)))
+        {
+            maze[ghost_row][ghost_col] = '0';
+            maze[ghost_row - 1][ghost_col] = 'y';
+            ghost_row--;
+        }
+        break;
+
+    case 1:
+        if (!(is_block(maze, ghost_row + 1, ghost_col)))
+        {
+            maze[ghost_row][ghost_col] = '0';
+            maze[ghost_row + 1][ghost_col] = 'y';
+            ghost_row++;
+        }
+        break;
+
+    case 2:
+        if (!(is_block(maze, ghost_row, ghost_col - 1)))
+        {
+            maze[ghost_row][ghost_col] = '0';
+            maze[ghost_row][ghost_col - 1] = 'y';
+            ghost_col--;
+        }
+        break;
+
+    case 3:
+        if (!(is_block(maze, ghost_row, ghost_col + 1)))
+        {
+            maze[ghost_row][ghost_col] = '0';
+            maze[ghost_row][ghost_col + 1] = 'y';
+            ghost_col++;
+        }
+        break;
+    }
 }
