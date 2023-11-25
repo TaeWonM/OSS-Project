@@ -22,7 +22,8 @@ int ghost_row = 5, ghost_col = 6;
 
 void GotoXY(int x, int y);
 void print_mazeGame(char maze[][MAX_SIZE], int row);
-int is_block(char maze[][MAX_SIZE], int row, int col);
+int p_block(char maze[][MAX_SIZE], int row, int col);
+int m_block(char maze[][MAX_SIZE], int row, int col);
 void move_maze(char maze[][MAX_SIZE], int* row, int* col);
 void moveGhost_player(int player_row, int player_col);
 void moveGhost_random();
@@ -42,7 +43,7 @@ int main(void)
     {
         print_mazeGame(maze, 12);
         move_maze(maze, &row, &col);
-        moveGhost(row, col);
+        moveGhost_player(row, col);
 
         if (row == ghost_row && col == ghost_col)
         {
@@ -143,6 +144,14 @@ int p_block(char maze[][MAX_SIZE], int i, int j)
         return 0;
 }
 
+int m_block(char maze[][MAX_SIZE], int i, int j)
+{
+    if (maze[i][j] == '1')
+        return 1;
+    else
+        return 0;
+}
+
 void move_maze(char maze[][MAX_SIZE], int* row, int* col)
 {
     int chr;
@@ -199,7 +208,6 @@ void move_maze(char maze[][MAX_SIZE], int* row, int* col)
     }
 }
 
-
 void moveGhost_player(int player_row, int player_col)
 {
     int random_direction = rand() % 4;
@@ -207,7 +215,7 @@ void moveGhost_player(int player_row, int player_col)
     switch (random_direction)
     {
     case 0:
-        if (!(is_block(maze, ghost_row - 1, ghost_col)))
+        if (!(m_block(maze, ghost_row - 1, ghost_col)))
         {
             if (maze[ghost_row][ghost_col] != '*')
                 maze[ghost_row][ghost_col] = '0';
@@ -218,7 +226,7 @@ void moveGhost_player(int player_row, int player_col)
         break;
 
     case 1:
-        if (!(is_block(maze, ghost_row + 1, ghost_col)))
+        if (!(m_block(maze, ghost_row + 1, ghost_col)))
         {
             if (maze[ghost_row][ghost_col] != '*')
                 maze[ghost_row][ghost_col] = '0';
@@ -229,7 +237,7 @@ void moveGhost_player(int player_row, int player_col)
         break;
 
     case 2:
-        if (!(is_block(maze, ghost_row, ghost_col - 1)))
+        if (!(m_block(maze, ghost_row, ghost_col - 1)))
         {
             if (maze[ghost_row][ghost_col] != '*')
                 maze[ghost_row][ghost_col] = '0';
@@ -240,7 +248,7 @@ void moveGhost_player(int player_row, int player_col)
         break;
 
     case 3:
-        if (!(is_block(maze, ghost_row, ghost_col + 1)))
+        if (!(m_block(maze, ghost_row, ghost_col + 1)))
         {
             if (maze[ghost_row][ghost_col] != '*')
                 maze[ghost_row][ghost_col] = '0';
@@ -263,7 +271,7 @@ void moveGhost_random()
     switch (random_direction)
     {
     case 0:
-        if (!(is_block(maze, ghost_row - 1, ghost_col)))
+        if (!(m_block(maze, ghost_row - 1, ghost_col)))
         {
             if (maze[ghost_row - 1][ghost_col] != '*')
                 maze[current_ghost_row][current_ghost_col] = '0';
@@ -274,7 +282,7 @@ void moveGhost_random()
         break;
 
     case 1:
-        if (!(is_block(maze, ghost_row + 1, ghost_col)))
+        if (!(m_block(maze, ghost_row + 1, ghost_col)))
         {
             if (maze[ghost_row + 1][ghost_col] != '*')
                 maze[current_ghost_row][current_ghost_col] = '0';
@@ -285,7 +293,7 @@ void moveGhost_random()
         break;
 
     case 2:
-        if (!(is_block(maze, ghost_row, ghost_col - 1)))
+        if (!(m_block(maze, ghost_row, ghost_col - 1)))
         {
             if (maze[ghost_row][ghost_col - 1] != '*')
                 maze[current_ghost_row][current_ghost_col] = '0';
@@ -296,7 +304,7 @@ void moveGhost_random()
         break;
 
     case 3:
-        if (!(is_block(maze, ghost_row, ghost_col + 1)))
+        if (!(m_block(maze, ghost_row, ghost_col + 1)))
         {
             if (maze[ghost_row][ghost_col + 1] != '*')
                 maze[current_ghost_row][current_ghost_col] = '0';
