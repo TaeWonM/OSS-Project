@@ -5,7 +5,6 @@
 #include <stdlib.h>
 #include <time.h>
 
-#define MAX_SIZE 12
 #define XPOS 50
 #define YPOS 5
 
@@ -14,18 +13,24 @@
 #define UP 72
 #define DOWN 80
 
-char maze[MAX_SIZE][MAX_SIZE];
-int flag[MAX_SIZE][MAX_SIZE] = { 1 };
+#define MAX_SIZE1 12
+#define MAX_SIZE2 15
+#define MAX_SIZE3 20
+
+int MAX_SIZE;
+char maze[MAX_SIZE3][MAX_SIZE3];
+int flag[MAX_SIZE3][MAX_SIZE3] = { 1 };
 int count = 0;
 int ghost_row = 7, ghost_col = 7; //유령 위치 값
-int game_timer = 60; //타이머 시간 값 초단위
+int game_timer = 60;              //타이머 시간 값 초단위
+int game_level = 0;
 time_t start_time;
 
 void GotoXY(int x, int y);
-void print_mazeGame(char maze[][MAX_SIZE], int row);
-int p_block(char maze[][MAX_SIZE], int row, int col);
-int m_block(char maze[][MAX_SIZE], int row, int col);
-void move_maze(char maze[][MAX_SIZE], int* row, int* col);
+void print_mazeGame(char maze[][MAX_SIZE3], int row);
+int p_block(char maze[][MAX_SIZE3], int row, int col);
+int m_block(char maze[][MAX_SIZE3], int row, int col);
+void move_maze(char maze[][MAX_SIZE3], int* row, int* col);
 void moveGhost_player(int player_row, int player_col);
 void moveGhost_random();
 void CursorView(char show);
@@ -35,24 +40,36 @@ int fileopen();
 int main(void)
 {
     int row = 1, col = 1;
-    int y_row = 2, y_col = 2;
 
+    printf("맵을 선택하세요 (1, 2, 3): ");
+    scanf("%d", &game_level);
+
+    switch (game_level)
+    {
+    case 1:
+        MAX_SIZE = MAX_SIZE1;
+        break;
+    case 2:
+        MAX_SIZE = MAX_SIZE2;
+        break;
+    case 3:
+        MAX_SIZE = MAX_SIZE3;
+        break;
+    }
     fileopen();
     CursorView(0);
+    time(&start_time);
 
-    fileopen();
-    CursorView(0);
-
-    time(&start_time); 
-
-    while (1) {
-        print_mazeGame(maze, 12);
+    while (1)
+    {
+        print_mazeGame(maze, MAX_SIZE);
         move_maze(maze, &row, &col);
         moveGhost_player(row, col);
 
         printTimeElapsed();
 
-        if (row == ghost_row && col == ghost_col) {
+        if (row == ghost_row && col == ghost_col)
+        {
             GotoXY(XPOS - 3, YPOS - 2);
             printf("게임 종료");
             exit(0);
@@ -62,22 +79,27 @@ int main(void)
 
         time_t current_time;
         time(&current_time);
-        if (difftime(current_time, start_time) >= game_timer) { // 시간조정 위치
+        if (difftime(current_time, start_time) >= game_timer)
+        {
             GotoXY(XPOS - 3, YPOS - 2);
             printf("게임 시간 초과");
             exit(0);
         }
     }
-
-    return 0;
-
     return 0;
 }
 
-
 int fileopen()
 {
-    FILE* fp = fopen("maze_1.txt", "r");
+    char fileName[20];
+    sprintf(fileName, "maze_%d.txt", game_level);
+    FILE* fp = fopen(fileName, "r");
+
+    if (fp == NULL)
+    {
+        printf("파일을 열 수 없습니다.\n");
+        exit(1);
+    }
 
     for (int i = 0; i < MAX_SIZE; i++)
     {
@@ -119,7 +141,7 @@ int GetKey()
     return 0;
 }
 
-void print_mazeGame(char maze[][MAX_SIZE], int row)
+void print_mazeGame(char maze[][MAX_SIZE3], int row)
 {
     for (int i = 0; i < row; i++)
     {
@@ -141,7 +163,7 @@ void print_mazeGame(char maze[][MAX_SIZE], int row)
     }
 }
 
-int p_block(char maze[][MAX_SIZE], int i, int j)
+int p_block(char maze[][MAX_SIZE3], int i, int j)
 {
     if (maze[i][j] == '1')
         return 1;
@@ -161,7 +183,7 @@ int p_block(char maze[][MAX_SIZE], int i, int j)
         return 0;
 }
 
-int m_block(char maze[][MAX_SIZE], int i, int j)
+int m_block(char maze[][MAX_SIZE3], int i, int j)
 {
     if (maze[i][j] == '1')
         return 1;
@@ -169,7 +191,7 @@ int m_block(char maze[][MAX_SIZE], int i, int j)
         return 0;
 }
 
-void move_maze(char maze[][MAX_SIZE], int* row, int* col)
+void move_maze(char maze[][MAX_SIZE3], int* row, int* col)
 {
     int chr;
     int i = *row;
