@@ -30,8 +30,8 @@ Ghost initial_ghost_positions[][3] = {
 };
 
 int MAX_SIZE;
-char maze[MAX_SIZE3][MAX_SIZE3];
 int flag[MAX_SIZE3][MAX_SIZE3] = { 1 };
+char maze[MAX_SIZE3][MAX_SIZE3];
 int count = 0;
 int ghost_row = 7, ghost_col = 7;
 int game_timer = 60;
@@ -185,9 +185,22 @@ void print_mazeGame(char maze[][MAX_SIZE3], int row) {
 }
 
 int p_block(char maze[][MAX_SIZE3], int i, int j) {
+    int clear_count = 0;
+    switch (game_level) {
+    case 1:
+        clear_count = 63;
+        break;
+    case 2:
+        clear_count = 119;
+        break;
+    case 3:
+        clear_count = 3;
+        break;
+    }
+
     if (maze[i][j] == '1')
         return 1;
-    else if (count == 63 && maze[i][j] == '0' && flag[i][j] == 0) {
+    else if (count == clear_count && maze[i][j] == '0' && flag[i][j] == 0) {
         GotoXY(XPOS - 3, YPOS - 2);
         printf("game clear");
         exit(0);
