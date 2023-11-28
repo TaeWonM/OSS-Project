@@ -22,10 +22,10 @@ typedef struct {
 Ghost ghosts[MAX_SIZE3 * MAX_SIZE3];
 int num_ghosts = 1;
 
-int ghost_coords[MAX_SIZE3 * MAX_SIZE3][2] = { //유령 위치
-    {7, 7}, // 레벨 1
-    {7, 7}, {10, 10}, // 레벨 2
-    {7, 7}, {10, 10}, {15, 15} // 레벨 3
+Ghost initial_ghost_positions[][3] = { //유령들 좌표
+    {{5, 5}}, //1 
+    {{5, 5}, {15, 15}}, //2
+    {{5, 5}, {15, 15}, {10, 10}} //3
 };
 
 int MAX_SIZE;
@@ -60,13 +60,19 @@ int main(void)
     {
     case 1:
         MAX_SIZE = MAX_SIZE1;
+        num_ghosts = 1;
         break;
     case 2:
         MAX_SIZE = MAX_SIZE2;
+        num_ghosts = 2;
         break;
     case 3:
         MAX_SIZE = MAX_SIZE3;
+        num_ghosts = 3;
         break;
+    default:
+        printf("잘못된 입력입니다. 1, 2, 3 중 하나를 선택하세요.\n");
+        return 1;
     }
     fileopen();
     CursorView(0);
@@ -149,15 +155,6 @@ int fileopen()
     }
 
     return 0;
-}
-
-void addGhost()
-{
-    for (int i = 0; i < num_ghosts; i++)
-    {
-        ghosts[i].row = ghost_coords[(game_level - 1) * MAX_SIZE3 + i][0];
-        ghosts[i].col = ghost_coords[(game_level - 1) * MAX_SIZE3 + i][1];
-    }
 }
 
 void CursorView(char show)
@@ -409,4 +406,11 @@ void printTimeElapsed() {
 
     GotoXY(XPOS - 3, YPOS - 4);
     printf("남은 시간: %.0lf초", game_timer - elapsed_time);
+}
+
+void initializeGhosts() {
+    for (int i = 0; i < num_ghosts; i++) {
+        ghosts[i].row = initial_ghost_positions[game_level - 1][i].row;
+        ghosts[i].col = initial_ghost_positions[game_level - 1][i].col;
+    }
 }
