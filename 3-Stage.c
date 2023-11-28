@@ -44,7 +44,6 @@ void Achivement (int phase);
 
 int main () {
     HANDLE hThrd;
-    
     Setconsole();
     Setlife ();
     setlocale(LC_ALL,"");
@@ -407,7 +406,8 @@ void phase3 () {
     gotoxy (stage3x,stage3y);
     printf ("@");
     clock_t object = clock();
-    while (1){
+    clock_t stage3phase3start = clock();
+    while ((double)(clock() - stage3phase3start) / CLOCKS_PER_SEC <= 15){
         if ((double)(clock() - object) / CLOCKS_PER_SEC >1){
             srand(time(NULL));
             switch (rand()%2)
@@ -463,7 +463,9 @@ void colobject (void * n) {
         }
         x--;
     }
+    return;
 }
+
 void rawobject (void * n) {
     int x = printx+1;
     int y = printy+stage3mapmaxy;
@@ -497,6 +499,7 @@ void rawobject (void * n) {
         }
         y--;
     }
+    return;
 }
 
 void end(int phase){
@@ -506,20 +509,22 @@ void end(int phase){
     Sleep(30);
     gotoxy (44,17);
     printf ("Press ESC to out");
+    gotoxy (44,18);
     Achivement (phase);
+    for (int i = 0; i < 5; i++) printf("%c ",stage3achieve[i]);
     while (1){
         if (GetAsyncKeyState(VK_ESCAPE)) return;
     }
 }
 
 void Achivement (int phase){
-    if (phase <= 1){
+    if (phase >= 1){
         stage3achieve[0] = 'O';
     }
-    if (phase <= 2){
+    if (phase >= 2){
         stage3achieve[1] = 'O';
     }
-    if (phase <= 3){
+    if (phase >= 3){
         stage3achieve[2] = 'O';
     }
     if (life == 3 && phase == 3){
