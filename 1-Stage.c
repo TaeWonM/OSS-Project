@@ -43,7 +43,7 @@ int main(void)
     {
         print_mazeGame(maze, 12);
         move_maze(maze, &row, &col);
-        moveGhost_random(row, col);
+        moveGhost_player(row, col);
 
         if (row == ghost_row && col == ghost_col)
         {
