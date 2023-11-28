@@ -49,9 +49,6 @@ int main () {
     srand(time(NULL));
     phase1();
     system ("cls");
-    gotoxy (50,15);
-    printf ("phase 2");
-    Sleep(1000);
     start = clock();
     phasetime = start;
     phase2();
