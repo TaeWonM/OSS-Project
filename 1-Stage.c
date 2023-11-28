@@ -339,5 +339,5 @@ void printTimeElapsed() {
     double elapsed_time = difftime(current_time, start_time);
 
     GotoXY(XPOS - 3, YPOS - 4);
-    printf("경과 시간: %.0lf초", elapsed_time);
+    printf("남은 시간: %.0lf초", game_timer - elapsed_time);
 }
