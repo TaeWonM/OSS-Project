@@ -21,6 +21,7 @@ int stage3y = 12;
 char cleartring[50];
 char stage3achieve[5] = {'X','X','X','X','X'};
 int difficulty;
+short stage3phase;
 DWORD threadId;
 
 void stageprint ();
@@ -52,7 +53,7 @@ int main () {
     stageprint ();
     gotoxy (stage3x,stage3y);
     printf ("@");
-    start = clock();
+    /*start = clock();
     phasetime = start;
     srand(time(NULL));
     phase1();
@@ -68,7 +69,7 @@ int main () {
     if (life<=0){
         end(1);
         return 0;
-    }
+    }*/
     phase3();
     if (life<=0){
         end(2);
@@ -396,6 +397,7 @@ void phase2() {
 void phase3 () {
     stage3mapmaxx = 10;
     stage3mapmaxy = 8;
+    stage3phase = 0;
     system("cls");
     textcolor(15);
     makeclearstring();
@@ -428,6 +430,7 @@ void phase3 () {
         Sleep(50);
         if (life <= 0) return;
     }
+    stage3phase = 1;
 }
 
 void colobject (void * n) {
@@ -460,6 +463,16 @@ void colobject (void * n) {
             printf(" ");
             threadId = 0;
             break;
+        }
+        if (stage3phase){
+            while (1) if (threadId == 0) {
+                threadId = 1;
+                gotoxy(x,y);
+                printf(" ");
+                threadId = 0;
+                break;
+            }
+            return;
         }
         x--;
     }
@@ -497,7 +510,18 @@ void rawobject (void * n) {
             threadId = 0;
             break;
         }
+        if (stage3phase){
+            while (1) if (threadId == 0) {
+                threadId = 1;
+                gotoxy(x,y);
+                printf(" ");
+                threadId = 0;
+                break;
+            }
+            return;
+        }
         y--;
+        
     }
     return;
 }
@@ -509,7 +533,7 @@ void end(int phase){
     Sleep(30);
     gotoxy (44,17);
     printf ("Press ESC to out");
-    gotoxy (44,18);
+    gotoxy (47,19);
     Achivement (phase);
     for (int i = 0; i < 5; i++) printf("%c ",stage3achieve[i]);
     while (1){
@@ -530,7 +554,7 @@ void Achivement (int phase){
     if (life == 3 && phase == 3){
         stage3achieve[3] = 'O';
     }
-    if (difficulty == 3 && phase == 3) {
+    if (difficulty == 3 && phase >= 3) {
         stage3achieve[4] = 'O';
     }
 }
