@@ -17,16 +17,19 @@
 char maze[MAX_SIZE][MAX_SIZE];
 int flag[MAX_SIZE][MAX_SIZE] = { 1 };
 int count = 0;
-
-int ghost_row = 5, ghost_col = 6;
+int ghost_row = 7, ghost_col = 7; //유령 위치 값
+int game_timer = 60; //타이머 시간 값 초단위
+time_t start_time;
 
 void GotoXY(int x, int y);
 void print_mazeGame(char maze[][MAX_SIZE], int row);
-int is_block(char maze[][MAX_SIZE], int row, int col);
+int p_block(char maze[][MAX_SIZE], int row, int col);
+int m_block(char maze[][MAX_SIZE], int row, int col);
 void move_maze(char maze[][MAX_SIZE], int* row, int* col);
-void moveGhost(int player_row, int player_col);
-
+void moveGhost_player(int player_row, int player_col);
+void moveGhost_random();
 void CursorView(char show);
+void printTimeElapsed();
 int fileopen();
 
 int main(void)
@@ -37,16 +40,40 @@ int main(void)
     fileopen();
     CursorView(0);
 
-    while (1)
-    {
+    fileopen();
+    CursorView(0);
+
+    time(&start_time); 
+
+    while (1) {
         print_mazeGame(maze, 12);
         move_maze(maze, &row, &col);
-        moveGhost(row, col);
+        moveGhost_player(row, col);
+
+        printTimeElapsed();
+
+        if (row == ghost_row && col == ghost_col) {
+            GotoXY(XPOS - 3, YPOS - 2);
+            printf("게임 종료");
+            exit(0);
+        }
+
         Sleep(100);
+
+        time_t current_time;
+        time(&current_time);
+        if (difftime(current_time, start_time) >= game_timer) { // 시간조정 위치
+            GotoXY(XPOS - 3, YPOS - 2);
+            printf("게임 시간 초과");
+            exit(0);
+        }
     }
 
     return 0;
+
+    return 0;
 }
+
 
 int fileopen()
 {
@@ -114,7 +141,7 @@ void print_mazeGame(char maze[][MAX_SIZE], int row)
     }
 }
 
-int is_block(char maze[][MAX_SIZE], int i, int j)
+int p_block(char maze[][MAX_SIZE], int i, int j)
 {
     if (maze[i][j] == '1')
         return 1;
@@ -134,6 +161,14 @@ int is_block(char maze[][MAX_SIZE], int i, int j)
         return 0;
 }
 
+int m_block(char maze[][MAX_SIZE], int i, int j)
+{
+    if (maze[i][j] == '1')
+        return 1;
+    else
+        return 0;
+}
+
 void move_maze(char maze[][MAX_SIZE], int* row, int* col)
 {
     int chr;
@@ -149,7 +184,7 @@ void move_maze(char maze[][MAX_SIZE], int* row, int* col)
         {
         case UP:
             i--;
-            if (!(is_block(maze, i, j)))
+            if (!(p_block(maze, i, j)))
             {
                 maze[*row][j] = '0';
                 maze[i][j] = 'x';
@@ -159,7 +194,7 @@ void move_maze(char maze[][MAX_SIZE], int* row, int* col)
 
         case DOWN:
             i++;
-            if (!(is_block(maze, i, j)))
+            if (!(p_block(maze, i, j)))
             {
                 maze[*row][j] = '0';
                 maze[i][j] = 'x';
@@ -169,7 +204,7 @@ void move_maze(char maze[][MAX_SIZE], int* row, int* col)
 
         case LEFT:
             j--;
-            if (!(is_block(maze, i, j)))
+            if (!(p_block(maze, i, j)))
             {
                 maze[i][*col] = '0';
                 maze[i][j] = 'x';
@@ -179,7 +214,7 @@ void move_maze(char maze[][MAX_SIZE], int* row, int* col)
 
         case RIGHT:
             j++;
-            if (!(is_block(maze, i, j)))
+            if (!(p_block(maze, i, j)))
             {
                 maze[i][*col] = '0';
                 maze[i][j] = 'x';
@@ -190,48 +225,119 @@ void move_maze(char maze[][MAX_SIZE], int* row, int* col)
     }
 }
 
-
-void moveGhost(int player_row, int player_col)
+void moveGhost_player(int player_row, int player_col)
 {
-
     int random_direction = rand() % 4;
 
     switch (random_direction)
     {
     case 0:
-        if (!(is_block(maze, ghost_row - 1, ghost_col)))
+        if (!(m_block(maze, ghost_row - 1, ghost_col)))
         {
-            maze[ghost_row][ghost_col] = '0';
+            if (maze[ghost_row][ghost_col] != '*')
+                maze[ghost_row][ghost_col] = '0';
+
             maze[ghost_row - 1][ghost_col] = 'y';
             ghost_row--;
         }
         break;
 
     case 1:
-        if (!(is_block(maze, ghost_row + 1, ghost_col)))
+        if (!(m_block(maze, ghost_row + 1, ghost_col)))
         {
-            maze[ghost_row][ghost_col] = '0';
+            if (maze[ghost_row][ghost_col] != '*')
+                maze[ghost_row][ghost_col] = '0';
+
             maze[ghost_row + 1][ghost_col] = 'y';
             ghost_row++;
         }
         break;
 
     case 2:
-        if (!(is_block(maze, ghost_row, ghost_col - 1)))
+        if (!(m_block(maze, ghost_row, ghost_col - 1)))
         {
-            maze[ghost_row][ghost_col] = '0';
+            if (maze[ghost_row][ghost_col] != '*')
+                maze[ghost_row][ghost_col] = '0';
+
             maze[ghost_row][ghost_col - 1] = 'y';
             ghost_col--;
         }
         break;
 
     case 3:
-        if (!(is_block(maze, ghost_row, ghost_col + 1)))
+        if (!(m_block(maze, ghost_row, ghost_col + 1)))
         {
-            maze[ghost_row][ghost_col] = '0';
+            if (maze[ghost_row][ghost_col] != '*')
+                maze[ghost_row][ghost_col] = '0';
+
             maze[ghost_row][ghost_col + 1] = 'y';
             ghost_col++;
         }
         break;
     }
+}
+
+void moveGhost_random()
+{
+    int random_direction = rand() % 4;
+
+
+    int current_ghost_row = ghost_row;
+    int current_ghost_col = ghost_col;
+
+    switch (random_direction)
+    {
+    case 0:
+        if (!(m_block(maze, ghost_row - 1, ghost_col)))
+        {
+            if (maze[ghost_row - 1][ghost_col] != '*')
+                maze[current_ghost_row][current_ghost_col] = '0';
+
+            maze[ghost_row - 1][ghost_col] = 'y';
+            ghost_row--;
+        }
+        break;
+
+    case 1:
+        if (!(m_block(maze, ghost_row + 1, ghost_col)))
+        {
+            if (maze[ghost_row + 1][ghost_col] != '*')
+                maze[current_ghost_row][current_ghost_col] = '0';
+
+            maze[ghost_row + 1][ghost_col] = 'y';
+            ghost_row++;
+        }
+        break;
+
+    case 2:
+        if (!(m_block(maze, ghost_row, ghost_col - 1)))
+        {
+            if (maze[ghost_row][ghost_col - 1] != '*')
+                maze[current_ghost_row][current_ghost_col] = '0';
+
+            maze[ghost_row][ghost_col - 1] = 'y';
+            ghost_col--;
+        }
+        break;
+
+    case 3:
+        if (!(m_block(maze, ghost_row, ghost_col + 1)))
+        {
+            if (maze[ghost_row][ghost_col + 1] != '*')
+                maze[current_ghost_row][current_ghost_col] = '0';
+
+            maze[ghost_row][ghost_col + 1] = 'y';
+            ghost_col++;
+        }
+        break;
+    }
+}
+
+void printTimeElapsed() {
+    time_t current_time;
+    time(&current_time);
+    double elapsed_time = difftime(current_time, start_time);
+
+    GotoXY(XPOS - 3, YPOS - 4);
+    printf("남은 시간: %.0lf초", game_timer - elapsed_time);
 }
