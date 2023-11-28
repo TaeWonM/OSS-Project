@@ -381,7 +381,50 @@ void phase2() {
     printf ("@");
 }
 
+void phase3 () {
+    stage3mapmaxx = 10;
+    stage3mapmaxy = 8;
+    system("cls");
+    textcolor(15);
+    makeclearstring();
+    stageprint ();
+    Setlife();
+    stage3x = printx + stage3mapmaxx/2;
+    stage3y = printy + stage3mapmaxy/2;
+    gotoxy (stage3x,stage3y);
+    printf ("@");
+    _beginthread(colobject, 0,(void *)1);
+    while (1){
+        phase1move();
+        Sleep(50);
+    }
+}
 
+void colobject (void * n) {
+    int x = printx+stage3mapmaxx;
+    int y = printy+1;
+    int tmpprintx = printx;
+    srand(time(NULL));
+    int tmpy = rand()%stage3mapmaxy;
+    int tmpprinty = printy;
+    y+=tmpy;
+    clock_t startcolobject;
+    while (x>tmpprintx){
+        gotoxy(x,y);
+        printf("*");
+        startcolobject = clock();
+        while ((double)(clock() - startcolobject) / CLOCKS_PER_SEC <=1){
+            if (x == stage3x && y == stage3y) {
+                life--;
+                Setlife();
+                return;
+            }
+        }
+        gotoxy(x,y);
+        printf(" ");
+        x--;
+    }
+}
 
 void end(){
     system ("cls");
