@@ -102,12 +102,6 @@ int main(void) {
 
         printTimeElapsed();
 
-        if (row == ghost_row && col == ghost_col) {
-            GotoXY(XPOS - 3, YPOS - 2);
-            printf("게임 종료 : 유령");
-            exit(0);
-        }
-
         Sleep(100);
 
         time_t current_time;
@@ -261,7 +255,16 @@ void move_maze(char maze[][MAX_SIZE3], int* row, int* col) {
             break;
         }
     }
+
+    for (int k = 0; k < num_ghosts; k++) {
+        if (i == ghosts[k].row && j == ghosts[k].col) {
+            GotoXY(XPOS - 3, YPOS - 2);
+            printf("게임 종료 : 유령");
+            exit(0);
+        }
+    }
 }
+
 
 void moveGhost_player(int player_row, int player_col) {
     int random_direction = rand() % 4;
