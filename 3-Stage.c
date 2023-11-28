@@ -395,12 +395,25 @@ void phase3 () {
     stage3y = printy + stage3mapmaxy/2;
     gotoxy (stage3x,stage3y);
     printf ("@");
-    _beginthread(colobject, 0,(void *)1);
+    clock_t object = clock();
     while (1){
+        if ((double)(clock() - object) / CLOCKS_PER_SEC >1){
+            srand(time(NULL));
+            switch (rand()%2)
+            {
+            case 0:
+                _beginthread(colobject, 0,(void *)1);
+                break;
+            default:
+                break;
+            }
+            object = clock();
+        }
         threadId = _beginthread(phase1move, 0,(void *)1);
         WaitForSingleObject(threadId,INFINITE);
         threadId = 0;
         Sleep(50);
+        if (life <= 0) return;
     }
 }
 
@@ -414,8 +427,13 @@ void colobject (void * n) {
     y+=tmpy;
     clock_t startcolobject;
     while (x>tmpprintx){
-        gotoxy(x,y);
-        printf("*");
+        while (1) if (threadId == 0) {
+            threadId = 1;
+            gotoxy(x,y);
+            printf("*");
+            threadId = 0;
+            break;
+        }
         startcolobject = clock();
         while ((double)(clock() - startcolobject) / CLOCKS_PER_SEC <=1){
             if (x == stage3x && y == stage3y) {
@@ -423,8 +441,13 @@ void colobject (void * n) {
                 while (1) if (threadId == 0) { Setlife(); return;}
             }
         }
-        gotoxy(x,y);
-        printf(" ");
+        while (1) if (threadId == 0) {
+            threadId = 1;
+            gotoxy(x,y);
+            printf(" ");
+            threadId = 0;
+            break;
+        }
         x--;
     }
 }
