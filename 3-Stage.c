@@ -4,7 +4,10 @@
 #include <stdlib.h>
 #include <locale.h>
 #include <wchar.h>
+#include <process.h>
 
+float stagexv = 0;
+float stageyv = 0;
 int printx = 20, printy = 5;
 int stage3mapmaxx = 18, stage3mapmaxy = 14;
 clock_t start,skillstart;
@@ -13,8 +16,8 @@ char smallstring[] = " ";
 int life = 3;
 int prestage3x;
 int prestage3y;
-int stage3x = 27;
-int stage3y = 17;
+int stage3x = 29;
+int stage3y = 12;
 char cleartring[50];
 void stageprint ();
 void gotoxy(int x, int y);
@@ -30,8 +33,9 @@ int skill3();
 void phase1();
 void phase3 ();
 void phase2();
-
-
+void end();
+void colobject (void *);
+void rawobject ();
 
 int main () {
     HANDLE hThrd;
@@ -44,24 +48,24 @@ int main () {
     stageprint ();
     gotoxy (stage3x,stage3y);
     printf ("@");
-    start = clock();
+    /*start = clock();
     phasetime = start;
     srand(time(NULL));
     phase1();
+    if (life<=0){
+        end();
+        return 0;
+    }
     system ("cls");
     start = clock();
     phasetime = start;
     phase2();
     phase1();
-    system ("cls");
-    gotoxy (50,15);
-    printf ("END");
-    Sleep(30);
-    gotoxy (44,17);
-    printf ("Press ESC to out");
-    while (1){
-        if (GetAsyncKeyState(VK_ESCAPE)) return 0;
-    }
+    if (life<=0){
+        end();
+        return 0;
+    }*/
+    phase3();
 }
 
 void gotoxy(int x, int y){
@@ -336,7 +340,7 @@ int skill3(){
 }
 
 void phase1(){
-    while ((double)(clock() - phasetime) / CLOCKS_PER_SEC <=60){
+    while ((double)(clock() - phasetime) / CLOCKS_PER_SEC <=30){
         phase1move();
         Sleep (20);
         if ((double)(clock() - start) / CLOCKS_PER_SEC >=1){
@@ -377,7 +381,16 @@ void phase2() {
     printf ("@");
 }
 
-void phase3 () {
-    
-}
 
+
+void end(){
+    system ("cls");
+    gotoxy (50,15);
+    printf ("END");
+    Sleep(30);
+    gotoxy (44,17);
+    printf ("Press ESC to out");
+    while (1){
+        if (GetAsyncKeyState(VK_ESCAPE)) return;
+    }
+}
