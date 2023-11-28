@@ -47,6 +47,7 @@ void moveGhost_random();
 void CursorView(char show);
 void printTimeElapsed();
 int fileopen();
+void addGhost();
 
 int main(void)
 {
@@ -141,6 +142,22 @@ int fileopen()
         }
     }
     fclose(fp);
+
+    if (game_level > 1)
+    {
+        addGhost();
+    }
+
+    return 0;
+}
+
+void addGhost()
+{
+    for (int i = 0; i < num_ghosts; i++)
+    {
+        ghosts[i].row = ghost_coords[(game_level - 1) * MAX_SIZE3 + i][0];
+        ghosts[i].col = ghost_coords[(game_level - 1) * MAX_SIZE3 + i][1];
+    }
 }
 
 void CursorView(char show)
