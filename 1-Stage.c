@@ -4,18 +4,29 @@
 #include <conio.h>
 #include <stdlib.h>
 #include <time.h>
-
 #define XPOS 50
 #define YPOS 5
-
 #define LEFT 75
 #define RIGHT 77
 #define UP 72
 #define DOWN 80
-
 #define MAX_SIZE1 12
 #define MAX_SIZE2 15
 #define MAX_SIZE3 20
+
+typedef struct {
+    int row;
+    int col;
+} Ghost;
+
+Ghost ghosts[MAX_SIZE3 * MAX_SIZE3];
+int num_ghosts = 1;
+
+int ghost_coords[MAX_SIZE3 * MAX_SIZE3][2] = { //유령 위치
+    {7, 7}, // 레벨 1
+    {7, 7}, {10, 10}, // 레벨 2
+    {7, 7}, {10, 10}, {15, 15} // 레벨 3
+};
 
 int MAX_SIZE;
 char maze[MAX_SIZE3][MAX_SIZE3];
@@ -64,7 +75,26 @@ int main(void)
     {
         print_mazeGame(maze, MAX_SIZE);
         move_maze(maze, &row, &col);
-        moveGhost_player(row, col);
+
+        if (game_level >= 1)
+        {
+            for (int i = 0; i < num_ghosts; i++)
+            {
+                if (game_level == 1)
+                    moveGhost_random(i);
+                else if (game_level == 2)
+                {
+                    moveGhost_random(i);
+                    moveGhost_player(row, col);
+                }
+                else if (game_level == 3)
+                {
+                    moveGhost_random(i);
+                    moveGhost_random(i + num_ghosts);
+                    moveGhost_player(row, col);
+                }
+            }
+        }
 
         printTimeElapsed();
 
