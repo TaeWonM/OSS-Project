@@ -17,8 +17,8 @@
 char maze[MAX_SIZE][MAX_SIZE];
 int flag[MAX_SIZE][MAX_SIZE] = { 1 };
 int count = 0;
-
 int ghost_row = 7, ghost_col = 7; //유령 위치 값
+time_t start_time;
 
 void GotoXY(int x, int y);
 void print_mazeGame(char maze[][MAX_SIZE], int row);
@@ -28,8 +28,8 @@ void move_maze(char maze[][MAX_SIZE], int* row, int* col);
 void moveGhost_player(int player_row, int player_col);
 void moveGhost_random();
 void CursorView(char show);
+void printTimeElapsed();
 int fileopen();
-
 
 int main(void)
 {
@@ -39,20 +39,36 @@ int main(void)
     fileopen();
     CursorView(0);
 
-    while (1)
-    {
+    fileopen();
+    CursorView(0);
+
+    time(&start_time); 
+
+    while (1) {
         print_mazeGame(maze, 12);
         move_maze(maze, &row, &col);
         moveGhost_player(row, col);
 
-        if (row == ghost_row && col == ghost_col)
-        {
+        printTimeElapsed();
+
+        if (row == ghost_row && col == ghost_col) {
             GotoXY(XPOS - 3, YPOS - 2);
             printf("게임 종료");
             exit(0);
         }
+
         Sleep(100);
+
+        time_t current_time;
+        time(&current_time);
+        if (difftime(current_time, start_time) >= 60) { // 시간조정 위치
+            GotoXY(XPOS - 3, YPOS - 2);
+            printf("게임 시간 초과");
+            exit(0);
+        }
     }
+
+    return 0;
 
     return 0;
 }
@@ -316,3 +332,11 @@ void moveGhost_random()
     }
 }
 
+void printTimeElapsed() {
+    time_t current_time;
+    time(&current_time);
+    double elapsed_time = difftime(current_time, start_time);
+
+    GotoXY(XPOS - 3, YPOS - 4);
+    printf("경과 시간: %.0lf초", elapsed_time);
+}
