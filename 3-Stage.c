@@ -19,6 +19,8 @@ int prestage3y;
 int stage3x = 29;
 int stage3y = 12;
 char cleartring[50];
+DWORD threadId;
+
 void stageprint ();
 void gotoxy(int x, int y);
 void Setconsole();
@@ -39,7 +41,7 @@ void rawobject ();
 
 int main () {
     HANDLE hThrd;
-    DWORD threadId;
+    
     Setconsole();
     Setlife ();
     setlocale(LC_ALL,"");
@@ -395,7 +397,9 @@ void phase3 () {
     printf ("@");
     _beginthread(colobject, 0,(void *)1);
     while (1){
-        phase1move();
+        threadId = _beginthread(phase1move, 0,(void *)1);
+        WaitForSingleObject(threadId,INFINITE);
+        threadId = 0;
         Sleep(50);
     }
 }
@@ -416,8 +420,7 @@ void colobject (void * n) {
         while ((double)(clock() - startcolobject) / CLOCKS_PER_SEC <=1){
             if (x == stage3x && y == stage3y) {
                 life--;
-                Setlife();
-                return;
+                while (1) if (threadId == 0) { Setlife(); return;}
             }
         }
         gotoxy(x,y);
