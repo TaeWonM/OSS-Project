@@ -19,6 +19,8 @@ int prestage3y;
 int stage3x = 29;
 int stage3y = 12;
 char cleartring[50];
+char stage3achieve[5] = {'X','X','X','X','X'};
+int difficulty;
 DWORD threadId;
 
 void stageprint ();
@@ -35,9 +37,10 @@ int skill3();
 void phase1();
 void phase3 ();
 void phase2();
-void end();
+void end(int phase);
 void colobject (void *);
 void rawobject (void *);
+void Achivement (int phase);
 
 int main () {
     HANDLE hThrd;
@@ -50,12 +53,12 @@ int main () {
     stageprint ();
     gotoxy (stage3x,stage3y);
     printf ("@");
-    /*start = clock();
+    start = clock();
     phasetime = start;
     srand(time(NULL));
     phase1();
     if (life<=0){
-        end();
+        end(0);
         return 0;
     }
     system ("cls");
@@ -64,10 +67,18 @@ int main () {
     phase2();
     phase1();
     if (life<=0){
-        end();
+        end(1);
         return 0;
-    }*/
+    }
     phase3();
+    if (life<=0){
+        end(2);
+        return 0;
+    }
+    else {
+        end(3);
+        return 0;
+    }
 }
 
 void gotoxy(int x, int y){
@@ -488,14 +499,33 @@ void rawobject (void * n) {
     }
 }
 
-void end(){
+void end(int phase){
     system ("cls");
     gotoxy (50,15);
     printf ("END");
     Sleep(30);
     gotoxy (44,17);
     printf ("Press ESC to out");
+    Achivement (phase);
     while (1){
         if (GetAsyncKeyState(VK_ESCAPE)) return;
+    }
+}
+
+void Achivement (int phase){
+    if (phase <= 1){
+        stage3achieve[0] = 'O';
+    }
+    if (phase <= 2){
+        stage3achieve[1] = 'O';
+    }
+    if (phase <= 3){
+        stage3achieve[2] = 'O';
+    }
+    if (life == 3 && phase == 3){
+        stage3achieve[3] = 'O';
+    }
+    if (difficulty == 3 && phase == 3) {
+        stage3achieve[4] = 'O';
     }
 }
