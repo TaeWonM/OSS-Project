@@ -4,7 +4,10 @@
 #include <stdlib.h>
 #include <locale.h>
 #include <wchar.h>
+#include <process.h>
 
+float stagexv = 0;
+float stageyv = 0;
 int printx = 20, printy = 5;
 int stage3mapmaxx = 18, stage3mapmaxy = 14;
 clock_t start,skillstart;
@@ -13,9 +16,14 @@ char smallstring[] = " ";
 int life = 3;
 int prestage3x;
 int prestage3y;
-int stage3x = 27;
-int stage3y = 17;
+int stage3x = 29;
+int stage3y = 12;
 char cleartring[50];
+char stage3achieve[5] = {'X','X','X','X','X'};
+int difficulty;
+short stage3phase;
+DWORD threadId;
+
 void stageprint ();
 void gotoxy(int x, int y);
 void Setconsole();
@@ -30,12 +38,13 @@ int skill3();
 void phase1();
 void phase3 ();
 void phase2();
-
-
+void end(int phase);
+void colobject (void *);
+void rawobject (void *);
+void Achivement (int phase);
 
 int main () {
     HANDLE hThrd;
-    DWORD threadId;
     Setconsole();
     Setlife ();
     setlocale(LC_ALL,"");
@@ -48,22 +57,27 @@ int main () {
     phasetime = start;
     srand(time(NULL));
     phase1();
+    if (life<=0){
+        end(0);
+        return 0;
+    }
     system ("cls");
-    gotoxy (50,15);
-    printf ("phase 2");
-    Sleep(1000);
     start = clock();
     phasetime = start;
     phase2();
     phase1();
-    system ("cls");
-    gotoxy (50,15);
-    printf ("END");
-    Sleep(30);
-    gotoxy (44,17);
-    printf ("Press ESC to out");
-    while (1){
-        if (GetAsyncKeyState(VK_ESCAPE)) return 0;
+    if (life<=0){
+        end(1);
+        return 0;
+    }
+    phase3();
+    if (life<=0){
+        end(2);
+        return 0;
+    }
+    else {
+        end(3);
+        return 0;
     }
 }
 
@@ -339,7 +353,7 @@ int skill3(){
 }
 
 void phase1(){
-    while ((double)(clock() - phasetime) / CLOCKS_PER_SEC <=60){
+    while ((double)(clock() - phasetime) / CLOCKS_PER_SEC <=30){
         phase1move();
         Sleep (20);
         if ((double)(clock() - start) / CLOCKS_PER_SEC >=1){
@@ -381,6 +395,166 @@ void phase2() {
 }
 
 void phase3 () {
-    
+    stage3mapmaxx = 10;
+    stage3mapmaxy = 8;
+    stage3phase = 0;
+    system("cls");
+    textcolor(15);
+    makeclearstring();
+    stageprint ();
+    Setlife();
+    stage3x = printx + stage3mapmaxx/2;
+    stage3y = printy + stage3mapmaxy/2;
+    gotoxy (stage3x,stage3y);
+    printf ("@");
+    clock_t object = clock();
+    clock_t stage3phase3start = clock();
+    while ((double)(clock() - stage3phase3start) / CLOCKS_PER_SEC <= 15){
+        if ((double)(clock() - object) / CLOCKS_PER_SEC >1){
+            srand(time(NULL));
+            switch (rand()%2)
+            {
+            case 0:
+                _beginthread(colobject, 0,(void *)1);
+                break;
+            case 1:
+                _beginthread(rawobject, 0,(void *)1);
+            default:
+                break;
+            }
+            object = clock();
+        }
+        threadId = _beginthread(phase1move, 0,(void *)1);
+        WaitForSingleObject(threadId,INFINITE);
+        threadId = 0;
+        Sleep(50);
+        if (life <= 0) return;
+    }
+    stage3phase = 1;
 }
 
+void colobject (void * n) {
+    int x = printx+stage3mapmaxx;
+    int y = printy+1;
+    int tmpprintx = printx;
+    srand(time(NULL));
+    int tmpy = rand()%stage3mapmaxy;
+    int tmpprinty = printy;
+    y+=tmpy;
+    clock_t startcolobject;
+    while (x>tmpprintx){
+        while (1) if (threadId == 0) {
+            threadId = 1;
+            gotoxy(x,y);
+            printf("*");
+            threadId = 0;
+            break;
+        }
+        startcolobject = clock();
+        while ((double)(clock() - startcolobject) / CLOCKS_PER_SEC <=1){
+            if (x == stage3x && y == stage3y) {
+                life--;
+                while (1) if (threadId == 0) { Setlife(); return;}
+            }
+        }
+        while (1) if (threadId == 0) {
+            threadId = 1;
+            gotoxy(x,y);
+            printf(" ");
+            threadId = 0;
+            break;
+        }
+        if (stage3phase){
+            while (1) if (threadId == 0) {
+                threadId = 1;
+                gotoxy(x,y);
+                printf(" ");
+                threadId = 0;
+                break;
+            }
+            return;
+        }
+        x--;
+    }
+    return;
+}
+
+void rawobject (void * n) {
+    int x = printx+1;
+    int y = printy+stage3mapmaxy;
+    int tmpprintx = printx;
+    srand(time(NULL));
+    int tmpx = rand()%stage3mapmaxx;
+    int tmpprinty = printy;
+    x+=tmpx;
+    clock_t startcolobject;
+    while (y>tmpprinty){
+        while (1) if (threadId == 0) {
+            threadId = 1;
+            gotoxy(x,y);
+            printf("*");
+            threadId = 0;
+            break;
+        }
+        startcolobject = clock();
+        while ((double)(clock() - startcolobject) / CLOCKS_PER_SEC <=1){
+            if (x == stage3x && y == stage3y) {
+                life--;
+                while (1) if (threadId == 0) { Setlife(); return;}
+            }
+        }
+        while (1) if (threadId == 0) {
+            threadId = 1;
+            gotoxy(x,y);
+            printf(" ");
+            threadId = 0;
+            break;
+        }
+        if (stage3phase){
+            while (1) if (threadId == 0) {
+                threadId = 1;
+                gotoxy(x,y);
+                printf(" ");
+                threadId = 0;
+                break;
+            }
+            return;
+        }
+        y--;
+        
+    }
+    return;
+}
+
+void end(int phase){
+    system ("cls");
+    gotoxy (50,15);
+    printf ("END");
+    Sleep(30);
+    gotoxy (44,17);
+    printf ("Press ESC to out");
+    gotoxy (47,19);
+    Achivement (phase);
+    for (int i = 0; i < 5; i++) printf("%c ",stage3achieve[i]);
+    while (1){
+        if (GetAsyncKeyState(VK_ESCAPE)) return;
+    }
+}
+
+void Achivement (int phase){
+    if (phase >= 1){
+        stage3achieve[0] = 'O';
+    }
+    if (phase >= 2){
+        stage3achieve[1] = 'O';
+    }
+    if (phase >= 3){
+        stage3achieve[2] = 'O';
+    }
+    if (life == 3 && phase == 3){
+        stage3achieve[3] = 'O';
+    }
+    if (difficulty == 3 && phase >= 3) {
+        stage3achieve[4] = 'O';
+    }
+}

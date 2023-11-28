@@ -7,8 +7,11 @@ int CAMMAXY = 20;
 int MAPMAXX,MOVE = 0;
 int startx = 0;
 int starty = 0;
+float xv = 0;
+float yv = 0;
 int check = 0;
-
+char stage3 [6] = {'X','X','X','X','X','X'};
+char character = 'W';
 void Filescan () {
     fp = fopen ("mainmap.txt","r");
     for (int i = 0; i<CAMMAXY; i++) fgets (map[i],sizeof(char)*101,fp);
@@ -48,31 +51,34 @@ int Choose_1to3 (){
 
 int main () {
     Filescan ();
-    int x=startx;
-    int y=starty;
+    int prex=startx,curx;
+    int prey=starty,cury;
     for (int i = 0; i<CAMMAXY; i++) {
             for (int j = 0; j<CAMMAXX; j++) printf ("%c",map[i][j]);
             printf("\n");
     }
+    gotoxy(prex,prey);
+    printf("W");
     while (1){
-        if (GetAsyncKeyState(VK_LEFT) && x>1 && map[y-1][x-2+MOVE]==' '){
-            x--;
+        if (GetAsyncKeyState(VK_LEFT)){
+            if (xv >= -1.5){
+                xv-=0.3;
+            }
         }
-        if (GetAsyncKeyState(VK_RIGHT) && x<MAPMAXX && map[y-1][x+MOVE]==' '){
-            x++;
+        if (GetAsyncKeyState(VK_RIGHT)){
+            if (xv <= 1.5){
+                xv+=0.3;
+            }
         }
-        if (GetAsyncKeyState(VK_UP) && y>1 && map[y-2][x-1+MOVE]==' '){
-            y--;
+        if (GetAsyncKeyState(VK_UP) && prey>1 && map[prey-2][prex-1+MOVE]==' ' && map[prey][prex-1+MOVE] == '='){
+            yv-=2;
         }
-        if (GetAsyncKeyState(VK_DOWN) && y<CAMMAXY && map[y][x-1+MOVE]==' '){
-            y++;
-        }
-        else if (GetAsyncKeyState(VK_DOWN) && map[y][x-1+MOVE]!=' ' && map[y][x-1+MOVE]!='='){
+        else if (GetAsyncKeyState(VK_DOWN) && map[prey][prex-1+MOVE]!=' ' && map[prey][prex-1+MOVE]!='='){
             system ("cls");
             gotoxy(30,10);
             printf ("Press dificulty 1~3");
             Choose_1to3 ();
-            switch (map[y][x-1+MOVE])
+            switch (map[prey][prex-1+MOVE])
             {
             case '1':
                 
@@ -82,6 +88,8 @@ int main () {
                 break;
             }
         }
+        xv-=0.1*xv;
+        yv+=0.3;
         if (GetAsyncKeyState (VK_ESCAPE)){
             system ("cls");
             gotoxy(30,10);
@@ -92,7 +100,6 @@ int main () {
             printf(" 2 : SAVE");
             gotoxy(30,13);
             printf(" 3 : Change Character");
-
             switch (Choose_1to3())
             {
             case 1:
@@ -103,45 +110,80 @@ int main () {
             };
         }
         Sleep(20);
-        if (map[y][x-1+MOVE] != '=' && map[y][x-1+MOVE] != ' '){
-            if (map[y][x-1+MOVE] == '1'){
+        if (map[prey][prex-1+MOVE] != '=' && map[prey][prex-1+MOVE] != ' '){
+            if (map[prey][prex-1+MOVE] == '1'){
                 gotoxy(80,5);
                 printf ("Stage 1 : Pac-Man");
                 gotoxy(80,7);
                 printf ("Press Down");
             }
-            else if (map[y][x-1+MOVE] == '2'){
+            else if (map[prey][prex-1+MOVE] == '2'){
                 gotoxy(80,5);
                 printf ("Stage 2 : Tetris");
                 gotoxy(80,7);
                 printf ("Press Down");
             }
-            else if (map[y][x-1+MOVE] == '3'){
+            else if (map[prey][prex-1+MOVE] == '3'){
                 gotoxy(80,5);
                 printf ("Stage 3 : Untertail");
                 gotoxy(80,7);
                 printf ("Press Down");
             }
             check = 1;
-            }
+        }
         else if (check) {
             system ("cls");
             check = 0;
         }
-        if (x>CAMMAXX*0.9 && MOVE+CAMMAXX != MAPMAXX) {
-            MOVE+=1;
-            x--;
+        curx = prex + (int)xv;
+        if (map[prey-1][curx-1 + MOVE] != ' '){
+            curx = prex;
         }
-        if (x<CAMMAXX*0.1 && MOVE != 0) {
+        cury = prey + (int)yv;
+        if (cury > prey){
+            for (int i = prey; i <= cury; i++) {
+                if (map[i-1][curx-1 + MOVE] != ' ') {
+                    cury = i-1;
+                    prey = i-1;
+                    yv = 0;
+                    break;
+                }
+            }
+        }
+        if (cury < prey){
+            for (int i = cury; i <= prey; i++) {
+                if (map[i-1][curx-1 + MOVE] != ' ') {
+                    cury = i-1;
+                    prey = i-1;
+                    yv = 0;
+                    break;
+                }
+            }
+        }
+        if (prex>CAMMAXX*0.8 && MOVE+CAMMAXX != MAPMAXX) {
+            MOVE+=1;
+            curx--;
+        }
+        if (prex<CAMMAXX*0.2 && MOVE != 0) {
             MOVE-=1;
-            x++;
+            curx++;
         }
         gotoxy(1,1);
         for (int i = 0; i<CAMMAXY; i++) {
             printf ("%.60s",&map[i][MOVE]);
             printf("\n");
         }
-        gotoxy (x,y);
-        printf ("W");
+        if (prex != curx || prey!= cury){
+        gotoxy (prex,prey);
+        printf (" ");
+        gotoxy (curx,cury);
+        printf ("%c",character);
+        }
+        else {
+            gotoxy (curx,cury);
+            printf ("%c",character);
+        }
+        prex = curx;
+        prey = cury;
     }
 }
