@@ -53,7 +53,7 @@ int main () {
     stageprint ();
     gotoxy (stage3x,stage3y);
     printf ("@");
-    /*start = clock();
+    start = clock();
     phasetime = start;
     srand(time(NULL));
     phase1();
@@ -69,7 +69,7 @@ int main () {
     if (life<=0){
         end(1);
         return 0;
-    }*/
+    }
     phase3();
     if (life<=0){
         end(2);
