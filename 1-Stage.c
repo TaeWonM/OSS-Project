@@ -18,6 +18,7 @@ char maze[MAX_SIZE][MAX_SIZE];
 int flag[MAX_SIZE][MAX_SIZE] = { 1 };
 int count = 0;
 int ghost_row = 7, ghost_col = 7; //유령 위치 값
+int game_timer = 60; //타이머 시간 값 초단위
 time_t start_time;
 
 void GotoXY(int x, int y);
@@ -61,7 +62,7 @@ int main(void)
 
         time_t current_time;
         time(&current_time);
-        if (difftime(current_time, start_time) >= 60) { // 시간조정 위치
+        if (difftime(current_time, start_time) >= game_timer) { // 시간조정 위치
             GotoXY(XPOS - 3, YPOS - 2);
             printf("게임 시간 초과");
             exit(0);
