@@ -37,7 +37,7 @@ void phase3 ();
 void phase2();
 void end();
 void colobject (void *);
-void rawobject ();
+void rawobject (void *);
 
 int main () {
     HANDLE hThrd;
@@ -404,6 +404,8 @@ void phase3 () {
             case 0:
                 _beginthread(colobject, 0,(void *)1);
                 break;
+            case 1:
+                _beginthread(rawobject, 0,(void *)1);
             default:
                 break;
             }
@@ -449,6 +451,40 @@ void colobject (void * n) {
             break;
         }
         x--;
+    }
+}
+void rawobject (void * n) {
+    int x = printx+1;
+    int y = printy+stage3mapmaxy;
+    int tmpprintx = printx;
+    srand(time(NULL));
+    int tmpx = rand()%stage3mapmaxx;
+    int tmpprinty = printy;
+    x+=tmpx;
+    clock_t startcolobject;
+    while (y>tmpprinty){
+        while (1) if (threadId == 0) {
+            threadId = 1;
+            gotoxy(x,y);
+            printf("*");
+            threadId = 0;
+            break;
+        }
+        startcolobject = clock();
+        while ((double)(clock() - startcolobject) / CLOCKS_PER_SEC <=1){
+            if (x == stage3x && y == stage3y) {
+                life--;
+                while (1) if (threadId == 0) { Setlife(); return;}
+            }
+        }
+        while (1) if (threadId == 0) {
+            threadId = 1;
+            gotoxy(x,y);
+            printf(" ");
+            threadId = 0;
+            break;
+        }
+        y--;
     }
 }
 
