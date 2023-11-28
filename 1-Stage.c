@@ -18,7 +18,7 @@ char maze[MAX_SIZE][MAX_SIZE];
 int flag[MAX_SIZE][MAX_SIZE] = { 1 };
 int count = 0;
 
-int ghost_row = 5, ghost_col = 6;
+int ghost_row = 7, ghost_col = 7; //유령 위치 값
 
 void GotoXY(int x, int y);
 void print_mazeGame(char maze[][MAX_SIZE], int row);
@@ -43,7 +43,7 @@ int main(void)
     {
         print_mazeGame(maze, 12);
         move_maze(maze, &row, &col);
-        moveGhost_player(row, col);
+        moveGhost_random(row, col);
 
         if (row == ghost_row && col == ghost_col)
         {
