@@ -506,6 +506,10 @@ void rawobject (void * n) {
 
 char *end(int phase){
     system ("cls");
+    stage3gotoxy(30,10);
+    if (phase == 3) printf("Game Clear");
+    else printf("Game End");
+    
     setlocale( LC_ALL, "English" );
     return Achivement (phase);
 }
