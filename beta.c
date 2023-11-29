@@ -66,6 +66,7 @@ int main () {
                 break;
             }
             setlocale(LC_ALL,"C");
+            continue;
         }
         
         xv-=0.1*xv;
@@ -88,7 +89,6 @@ int main () {
             default:
                 break;
             };
-            setlocale( LC_ALL, ".ACP" );
         }
         Sleep(20);
         if (map[prey][prex-1+MOVE] != '=' && map[prey][prex-1+MOVE] != ' '){
