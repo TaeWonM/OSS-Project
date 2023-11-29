@@ -54,7 +54,7 @@ void initializeGhosts();
 int main(void) {
     int row = 1, col = 1;
 
-    printf("맵을 선택하세요 (1, 2, 3): ");
+    printf("난이도 선택 (1, 2, 3): ");
     scanf("%d", &game_level);
 
     switch (game_level) {
