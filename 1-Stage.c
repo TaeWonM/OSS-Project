@@ -71,7 +71,7 @@ int main(void) {
         num_ghosts = 3;
         break;
     default:
-        printf("잘못된 입력입니다. 1, 2, 3 중 하나를 선택하세요.\n");
+        printf("잘못된 입력\n");
         return 1;
     }
     fileopen();
@@ -119,11 +119,6 @@ int fileopen() {
     char fileName[20];
     sprintf(fileName, "maze_%d.txt", game_level);
     FILE* fp = fopen(fileName, "r");
-
-    if (fp == NULL) {
-        printf("파일을 열 수 없습니다.\n");
-        exit(1);
-    }
 
     for (int i = 0; i < MAX_SIZE; i++) {
         for (int j = 0; j < MAX_SIZE; j++) {
@@ -214,11 +209,22 @@ int p_block(char maze[][MAX_SIZE3], int i, int j) {
         return 0;
 }
 
-int m_block(char maze[][MAX_SIZE3], int i, int j) {
-    if (maze[i][j] == '1')
+int m_block_r(char maze[][MAX_SIZE3], int i, int j) {
+    if (i >= 0 && i < MAX_SIZE3 && j >= 0 && j < MAX_SIZE3) {
+        return (maze[i][j] == '1');
+    }
+    else {
         return 1;
-    else
-        return 0;
+    }
+}
+
+int m_block_p(char maze[][MAX_SIZE3], int i, int j) {
+    if (i >= 0 && i < MAX_SIZE3 && j >= 0 && j < MAX_SIZE3) {
+        return (maze[i][j] == '1');
+    }
+    else {
+        return 1;
+    }
 }
 
 void move_maze(char maze[][MAX_SIZE3], int* row, int* col) {
@@ -284,7 +290,7 @@ void moveGhost_player(int player_row, int player_col) {
 
     switch (random_direction) {
     case 0:
-        if (!(m_block(maze, ghost_row - 1, ghost_col))) {
+        if (!(m_block_p(maze, ghost_row - 1, ghost_col))) {
             if (maze[ghost_row][ghost_col] != '*')
                 maze[ghost_row][ghost_col] = '0';
 
@@ -294,7 +300,7 @@ void moveGhost_player(int player_row, int player_col) {
         break;
 
     case 1:
-        if (!(m_block(maze, ghost_row + 1, ghost_col))) {
+        if (!(m_block_p(maze, ghost_row + 1, ghost_col))) {
             if (maze[ghost_row][ghost_col] != '*')
                 maze[ghost_row][ghost_col] = '0';
 
@@ -304,7 +310,7 @@ void moveGhost_player(int player_row, int player_col) {
         break;
 
     case 2:
-        if (!(m_block(maze, ghost_row, ghost_col - 1))) {
+        if (!(m_block_p(maze, ghost_row, ghost_col - 1))) {
             if (maze[ghost_row][ghost_col] != '*')
                 maze[ghost_row][ghost_col] = '0';
 
@@ -314,7 +320,7 @@ void moveGhost_player(int player_row, int player_col) {
         break;
 
     case 3:
-        if (!(m_block(maze, ghost_row, ghost_col + 1))) {
+        if (!(m_block_p(maze, ghost_row, ghost_col + 1))) {
             if (maze[ghost_row][ghost_col] != '*')
                 maze[ghost_row][ghost_col] = '0';
 
@@ -333,7 +339,7 @@ void moveGhost_random(int ghost_index) {
 
     switch (random_direction) {
     case 0:
-        if (!(m_block(maze, current_ghost_row - 1, current_ghost_col))) {
+        if (!(m_block_r(maze, current_ghost_row - 1, current_ghost_col))) {
             if (maze[current_ghost_row - 1][current_ghost_col] != '*')
                 maze[current_ghost_row][current_ghost_col] = '0';
 
@@ -343,7 +349,7 @@ void moveGhost_random(int ghost_index) {
         break;
 
     case 1:
-        if (!(m_block(maze, current_ghost_row + 1, current_ghost_col))) {
+        if (!(m_block_r(maze, current_ghost_row + 1, current_ghost_col))) {
             if (maze[current_ghost_row + 1][current_ghost_col] != '*')
                 maze[current_ghost_row][current_ghost_col] = '0';
 
@@ -353,7 +359,7 @@ void moveGhost_random(int ghost_index) {
         break;
 
     case 2:
-        if (!(m_block(maze, current_ghost_row, current_ghost_col - 1))) {
+        if (!(m_block_r(maze, current_ghost_row, current_ghost_col - 1))) {
             if (maze[current_ghost_row][current_ghost_col - 1] != '*')
                 maze[current_ghost_row][current_ghost_col] = '0';
 
@@ -363,7 +369,7 @@ void moveGhost_random(int ghost_index) {
         break;
 
     case 3:
-        if (!(m_block(maze, current_ghost_row, current_ghost_col + 1))) {
+        if (!(m_block_r(maze, current_ghost_row, current_ghost_col + 1))) {
             if (maze[current_ghost_row][current_ghost_col + 1] != '*')
                 maze[current_ghost_row][current_ghost_col] = '0';
 
