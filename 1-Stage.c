@@ -210,10 +210,12 @@ int p_block(char maze[][MAX_SIZE3], int i, int j) {
 }
 
 int m_block(char maze[][MAX_SIZE3], int i, int j) {
-    if (maze[i][j] == '1')
+    if (i >= 0 && i < MAX_SIZE3 && j >= 0 && j < MAX_SIZE3) {
+        return (maze[i][j] == '1');
+    }
+    else {
         return 1;
-    else
-        return 0;
+    }
 }
 
 void move_maze(char maze[][MAX_SIZE3], int* row, int* col) {
