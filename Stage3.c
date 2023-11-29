@@ -5,9 +5,8 @@
 #include <locale.h>
 #include <wchar.h>
 #include <process.h>
+#include "Stage3.h"
 
-float stagexv = 0;
-float stageyv = 0;
 int printx = 20, printy = 5;
 int stage3mapmaxx = 18, stage3mapmaxy = 14;
 clock_t start,skillstart;
@@ -23,43 +22,26 @@ char stage3achieve[5] = {'X','X','X','X','X'};
 int difficulty;
 short stage3phase;
 DWORD threadId;
+char * oldsetting;
 
-void stageprint ();
-void gotoxy(int x, int y);
-void Setconsole();
-void textcolor (int color);
-void clear ();
-void phase1move ();
-void Setlife ();
-void makeclearstring ();
-int skill1();
-int skill2();
-int skill3();
-void phase1();
-void phase3 ();
-void phase2();
-void end(int phase);
-void colobject (void *);
-void rawobject (void *);
-void Achivement (int phase);
-
-int main () {
-    HANDLE hThrd;
-    Setconsole();
+char *stage3(int Difficulty) {
+    life = 3;
+    stage3mapmaxx = 18;
+    stage3mapmaxy = 14;
+    difficulty = Difficulty;
     Setlife ();
     setlocale(LC_ALL,"");
     textcolor(15);
     makeclearstring();
     stageprint ();
-    gotoxy (stage3x,stage3y);
+    stage3gotoxy (stage3x,stage3y);
     printf ("@");
     start = clock();
     phasetime = start;
     srand(time(NULL));
     phase1();
     if (life<=0){
-        end(0);
-        return 0;
+        return end(0);
     }
     system ("cls");
     start = clock();
@@ -67,59 +49,47 @@ int main () {
     phase2();
     phase1();
     if (life<=0){
-        end(1);
-        return 0;
+        return end(1);
     }
     phase3();
     if (life<=0){
-        end(2);
-        return 0;
+        return end(2);
     }
     else {
-        end(3);
-        return 0;
+        return end(3);
     }
 }
 
-void gotoxy(int x, int y){
-    COORD pos = {x-1, y-1};
-    SetConsoleCursorPosition (GetStdHandle(STD_OUTPUT_HANDLE), pos);
-}
-
-void Setconsole() {
-    system ("title Stage - 3");
-    system ("mode con: cols=50 lines=100");
-    CONSOLE_CURSOR_INFO ConsoleCursor;
-    ConsoleCursor.bVisible = 1;
-    ConsoleCursor.dwSize = 1;
-}
 
 void textcolor (int color){
     SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), color);
+    return;
 }
 
 void stageprint () {
     for (int j = 0; j<stage3mapmaxx+2; j++) {
-            gotoxy (printx+j,printy);
+            stage3gotoxy (printx+j,printy);
             wprintf(L"■");
     }
     for (int i = 1; i<stage3mapmaxy+1; i++) {
         for (int j = 0; j<stage3mapmaxx+2; j++) {
-            gotoxy (printx+j,printy+i);
+            stage3gotoxy (printx+j,printy+i);
             if ( j== 0 || j == stage3mapmaxx+1) wprintf(L"■");
         }
     }
     for (int j = 0; j<stage3mapmaxx+2; j++) {
-            gotoxy (printx+j,printy+stage3mapmaxy+1);
+            stage3gotoxy (printx+j,printy+stage3mapmaxy+1);
             wprintf(L"■");
     }
+    return;
 };
 
 void clear (){
     for (int i = 1; i<=stage3mapmaxy; i++){
-        gotoxy(printx+1,printy+i);
+        stage3gotoxy(printx+1,printy+i);
         printf("%s",cleartring);
     }
+    return;
 };
 
 void phase1move (){
@@ -139,21 +109,23 @@ void phase1move (){
     }
     if (prestage3x != stage3x || prestage3y != stage3y){
         textcolor(15);
-        gotoxy(prestage3x,prestage3y);
+        stage3gotoxy(prestage3x,prestage3y);
         printf (" ");
-        gotoxy (stage3x,stage3y);
+        stage3gotoxy (stage3x,stage3y);
         printf ("@");
     }
     else {
         textcolor(15);
-        gotoxy (stage3x,stage3y);
+        stage3gotoxy (stage3x,stage3y);
         printf ("@");
     }
+    return;
 };
 
 void Setlife (){
-    gotoxy(printx + stage3mapmaxx +2 ,10);
+    stage3gotoxy(printx + stage3mapmaxx +2 ,10);
     printf ("Life = %d",life); 
+    return;
 };
 
 void makeclearstring () {
@@ -161,6 +133,7 @@ void makeclearstring () {
     for (int i = 1; i<stage3mapmaxx; i++){
         strcat(cleartring,smallstring);
     }
+    return;
 };
 
 int skill1 () {
@@ -168,15 +141,15 @@ int skill1 () {
         textcolor(3);
         int col = rand()%(stage3mapmaxy);
         for (int i = 0; i<stage3mapmaxx; i++){
-            gotoxy(printx+1+i,printy+1+col);
+            stage3gotoxy(printx+1+i,printy+1+col);
             printf("-");
         }
         int raw = rand()%(stage3mapmaxx);
         for (int i = 0; i<stage3mapmaxy; i++){
-            gotoxy(printx+1+raw,printy+1+i);
+            stage3gotoxy(printx+1+raw,printy+1+i);
             printf("|");
         }
-        gotoxy(printx+1+raw,printy+1+col);
+        stage3gotoxy(printx+1+raw,printy+1+col);
         printf ("+");
         skillstart = clock();
         while ((double)(clock() - skillstart) / CLOCKS_PER_SEC <=0.7){
@@ -208,15 +181,15 @@ int skill2(){
     {
     case 0:
         for (int i = 1; i<=stage3mapmaxy/2; i++){
-            gotoxy(printx+1,printy+i);
+            stage3gotoxy(printx+1,printy+i);
             wprintf(L"%s",skill2halfstring);
         }
         for (int i = stage3mapmaxy/2+1; i<=stage3mapmaxy; i++){
-            gotoxy(printx+1,printy+i);
+            stage3gotoxy(printx+1,printy+i);
             wprintf(L"%s",skill2string);
         }
         textcolor(15);
-        gotoxy(stage3x,stage3y);
+        stage3gotoxy(stage3x,stage3y);
         printf("@");
         skillstart = clock();
         while ((double)(clock() - skillstart) / CLOCKS_PER_SEC <=0.7){
@@ -230,15 +203,15 @@ int skill2(){
         break;
     case 2:
         for (int i = 1; i<=stage3mapmaxy/2; i++){
-            gotoxy(printx+1,printy+i);
+            stage3gotoxy(printx+1,printy+i);
             wprintf(L"%s",skill2string);
         }
         for (int i = stage3mapmaxy/2+1; i<=stage3mapmaxy; i++){
-            gotoxy(printx+1,printy+i);
+            stage3gotoxy(printx+1,printy+i);
             wprintf(L"%s",skill2halfstring);
         }
         textcolor(15);
-        gotoxy(stage3x,stage3y);
+        stage3gotoxy(stage3x,stage3y);
         printf("@");
         skillstart = clock();
         while ((double)(clock() - skillstart) / CLOCKS_PER_SEC <=0.7){
@@ -252,15 +225,15 @@ int skill2(){
         break;
     case 3:
         for (int i = 1; i<=stage3mapmaxy/2; i++){
-            gotoxy(printx+1+stage3mapmaxx/2,printy+i);
+            stage3gotoxy(printx+1+stage3mapmaxx/2,printy+i);
             wprintf(L"%s",skill2halfstring);
         }
         for (int i = stage3mapmaxy/2+1; i<=stage3mapmaxy; i++){
-            gotoxy(printx+1,printy+i);
+            stage3gotoxy(printx+1,printy+i);
             wprintf(L"%s",skill2string);
         }
         textcolor(15);
-        gotoxy(stage3x,stage3y);
+        stage3gotoxy(stage3x,stage3y);
         printf("@");
         skillstart = clock();
         while ((double)(clock() - skillstart) / CLOCKS_PER_SEC <=0.7){
@@ -274,15 +247,15 @@ int skill2(){
         break;
     case 4:
         for (int i = 1; i<=stage3mapmaxy/2; i++){
-            gotoxy(printx+1,printy+i);
+            stage3gotoxy(printx+1,printy+i);
             wprintf(L"%s",skill2string);
         }
         for (int i = stage3mapmaxy/2+1; i<=stage3mapmaxy; i++){
-            gotoxy(printx+1+stage3mapmaxx/2,printy+i);
+            stage3gotoxy(printx+1+stage3mapmaxx/2,printy+i);
             wprintf(L"%s",skill2halfstring);
         }
         textcolor(15);
-        gotoxy(stage3x,stage3y);
+        stage3gotoxy(stage3x,stage3y);
         printf("@");
         skillstart = clock();
         while ((double)(clock() - skillstart) / CLOCKS_PER_SEC <=0.7){
@@ -323,11 +296,11 @@ int skill3(){
             break;
     }
     for (int i = 1; i<=stage3mapmaxy; i++){
-        gotoxy(printx+1,printy+i);
+        stage3gotoxy(printx+1,printy+i);
         wprintf(L"%s",skill3string);
     }
     textcolor(15);
-    gotoxy(stage3x,stage3y);
+    stage3gotoxy(stage3x,stage3y);
     printf("@");
     int skill3x = stage3x;
     int skill3y = stage3y;
@@ -354,7 +327,7 @@ int skill3(){
 }
 
 void phase1(){
-    while ((double)(clock() - phasetime) / CLOCKS_PER_SEC <=30){
+    while ((double)(clock() - phasetime) / CLOCKS_PER_SEC <=10){
         phase1move();
         Sleep (20);
         if ((double)(clock() - start) / CLOCKS_PER_SEC >=1){
@@ -372,6 +345,7 @@ void phase1(){
             start = clock();
         }
     }
+    return;
 }
 
 void phase2() {
@@ -392,8 +366,9 @@ void phase2() {
     makeclearstring();
     stageprint ();
     Setlife();
-    gotoxy (stage3x,stage3y);
+    stage3gotoxy (stage3x,stage3y);
     printf ("@");
+    return;
 }
 
 void phase3 () {
@@ -407,11 +382,11 @@ void phase3 () {
     Setlife();
     stage3x = printx + stage3mapmaxx/2;
     stage3y = printy + stage3mapmaxy/2;
-    gotoxy (stage3x,stage3y);
+    stage3gotoxy (stage3x,stage3y);
     printf ("@");
     clock_t object = clock();
     clock_t stage3phase3start = clock();
-    while ((double)(clock() - stage3phase3start) / CLOCKS_PER_SEC <= 15){
+    while ((double)(clock() - stage3phase3start) / CLOCKS_PER_SEC <= 5){
         if ((double)(clock() - object) / CLOCKS_PER_SEC >1){
             srand(time(NULL));
             switch (rand()%2)
@@ -433,6 +408,7 @@ void phase3 () {
         if (life <= 0) return;
     }
     stage3phase = 1;
+    return;
 }
 
 void colobject (void * n) {
@@ -447,7 +423,7 @@ void colobject (void * n) {
     while (x>tmpprintx){
         while (1) if (threadId == 0) {
             threadId = 1;
-            gotoxy(x,y);
+            stage3gotoxy(x,y);
             printf("*");
             threadId = 0;
             break;
@@ -461,7 +437,7 @@ void colobject (void * n) {
         }
         while (1) if (threadId == 0) {
             threadId = 1;
-            gotoxy(x,y);
+            stage3gotoxy(x,y);
             printf(" ");
             threadId = 0;
             break;
@@ -469,7 +445,7 @@ void colobject (void * n) {
         if (stage3phase){
             while (1) if (threadId == 0) {
                 threadId = 1;
-                gotoxy(x,y);
+                stage3gotoxy(x,y);
                 printf(" ");
                 threadId = 0;
                 break;
@@ -493,7 +469,7 @@ void rawobject (void * n) {
     while (y>tmpprinty){
         while (1) if (threadId == 0) {
             threadId = 1;
-            gotoxy(x,y);
+            stage3gotoxy(x,y);
             printf("*");
             threadId = 0;
             break;
@@ -507,7 +483,7 @@ void rawobject (void * n) {
         }
         while (1) if (threadId == 0) {
             threadId = 1;
-            gotoxy(x,y);
+            stage3gotoxy(x,y);
             printf(" ");
             threadId = 0;
             break;
@@ -515,7 +491,7 @@ void rawobject (void * n) {
         if (stage3phase){
             while (1) if (threadId == 0) {
                 threadId = 1;
-                gotoxy(x,y);
+                stage3gotoxy(x,y);
                 printf(" ");
                 threadId = 0;
                 break;
@@ -528,22 +504,13 @@ void rawobject (void * n) {
     return;
 }
 
-void end(int phase){
+char *end(int phase){
     system ("cls");
-    gotoxy (50,15);
-    printf ("END");
-    Sleep(30);
-    gotoxy (44,17);
-    printf ("Press ESC to out");
-    gotoxy (47,19);
-    Achivement (phase);
-    for (int i = 0; i < 5; i++) printf("%c ",stage3achieve[i]);
-    while (1){
-        if (GetAsyncKeyState(VK_ESCAPE)) return;
-    }
+    setlocale( LC_ALL, "English" );
+    return Achivement (phase);
 }
 
-void Achivement (int phase){
+char *Achivement (int phase){
     if (phase >= 1){
         stage3achieve[0] = 'O';
     }
@@ -559,4 +526,10 @@ void Achivement (int phase){
     if (difficulty == 3 && phase >= 3) {
         stage3achieve[4] = 'O';
     }
+    return stage3achieve;
+}
+
+void stage3gotoxy(int x, int y){
+    COORD pos = {x-1, y-1};
+    SetConsoleCursorPosition (GetStdHandle(STD_OUTPUT_HANDLE), pos);
 }
