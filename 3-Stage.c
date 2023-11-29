@@ -219,7 +219,7 @@ int skill2(){
         gotoxy(stage3x,stage3y);
         printf("@");
         skillstart = clock();
-        while ((double)(clock() - skillstart) / CLOCKS_PER_SEC <=0.5){
+        while ((double)(clock() - skillstart) / CLOCKS_PER_SEC <=0.7){
             phase1move();
             Sleep (30);
         }
@@ -241,7 +241,7 @@ int skill2(){
         gotoxy(stage3x,stage3y);
         printf("@");
         skillstart = clock();
-        while ((double)(clock() - skillstart) / CLOCKS_PER_SEC <=1){
+        while ((double)(clock() - skillstart) / CLOCKS_PER_SEC <=0.7){
             phase1move();
             Sleep (30);
         }
@@ -263,7 +263,7 @@ int skill2(){
         gotoxy(stage3x,stage3y);
         printf("@");
         skillstart = clock();
-        while ((double)(clock() - skillstart) / CLOCKS_PER_SEC <=0.5){
+        while ((double)(clock() - skillstart) / CLOCKS_PER_SEC <=0.7){
             phase1move();
             Sleep (30);
         }
@@ -285,7 +285,7 @@ int skill2(){
         gotoxy(stage3x,stage3y);
         printf("@");
         skillstart = clock();
-        while ((double)(clock() - skillstart) / CLOCKS_PER_SEC <=0.5){
+        while ((double)(clock() - skillstart) / CLOCKS_PER_SEC <=0.7){
             phase1move();
             Sleep (30);
         }
@@ -309,6 +309,7 @@ int skill3(){
     for (int i = 1; i <stage3mapmaxx; i++){
         wcscat(skill3string,skill3smallstring);
     }
+    srand(time(NULL));
     moveorstop = rand()%2;
     switch (moveorstop){
         case 0 :
@@ -357,6 +358,7 @@ void phase1(){
         phase1move();
         Sleep (20);
         if ((double)(clock() - start) / CLOCKS_PER_SEC >=1){
+            srand(time(NULL));
             int num = rand()%3;
             if (num==0) {
                 if (skill1()) break;
