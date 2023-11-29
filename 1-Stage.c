@@ -71,7 +71,7 @@ int main(void) {
         num_ghosts = 3;
         break;
     default:
-        printf("잘못된 입력입니다. 1, 2, 3 중 하나를 선택하세요.\n");
+        printf("잘못된 입력\n");
         return 1;
     }
     fileopen();
@@ -119,11 +119,6 @@ int fileopen() {
     char fileName[20];
     sprintf(fileName, "maze_%d.txt", game_level);
     FILE* fp = fopen(fileName, "r");
-
-    if (fp == NULL) {
-        printf("파일을 열 수 없습니다.\n");
-        exit(1);
-    }
 
     for (int i = 0; i < MAX_SIZE; i++) {
         for (int j = 0; j < MAX_SIZE; j++) {
