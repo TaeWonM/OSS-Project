@@ -110,7 +110,50 @@ int main () {
                 mainstagegotoxy(80,7);
                 printf ("Press Down");
                 mainstagegotoxy(80,9);
-                for (int i = 0; i < 5; i++) printf("%c ",stage3achi[i]);
+                if (stage3achi[0]=='O'){
+                    printf("1 : Is it a start?");
+                    mainstagegotoxy(80,10);
+                    printf("Condition: Phase 1 passed");
+                }
+                else {
+                    printf("1 : ???");
+                }
+                mainstagegotoxy(80,11);
+                if (stage3achi[1]=='O'){
+                    printf("2 : An Unperturbed Heart");
+                    mainstagegotoxy(80,12);
+                    printf("Condition: Phase 2 passed");
+                }
+                else {
+                    printf("2 : ???");
+                }
+                mainstagegotoxy(80,13);
+                if (stage3achi[2]=='O'){
+                    printf("3 : Tough Bond");
+                    mainstagegotoxy(80,14);
+                    printf("Condition: Phase 3 passed");
+                }
+                else {
+                    printf("3 : ???");
+                }
+                mainstagegotoxy(80,15);
+                if (stage3achi[3]=='O'){
+                    printf("4 : Perfect Clear");
+                    mainstagegotoxy(80,16);
+                    printf("Condition: Pass phases 1,2,3 with 3 lives");
+                }
+                else {
+                    printf("4 : ???");
+                }
+                mainstagegotoxy(80,17);
+                if (stage3achi[4]=='O'){
+                    printf("5 : Master");
+                    mainstagegotoxy(80,18);
+                    printf("Condition: Clear with 3 difficulty levels");
+                }
+                else {
+                    printf("5 : ???");
+                }
             }
             check = 1;
         }
