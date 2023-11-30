@@ -192,7 +192,7 @@ int p_block(char maze[][MAX_SIZE3], int i, int j) {
         clear_count = 104;
         break;
     case 3:
-        clear_count = 200;
+        clear_count = 216;
         break;
     }
 
