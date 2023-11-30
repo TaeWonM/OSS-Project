@@ -18,7 +18,7 @@ int prestage3y;
 int stage3x = 29;
 int stage3y = 12;
 char cleartring[50];
-char stage3achieve[5] = {'X','X','X','X','X'};
+char stage3achieve[5] = {'X','X','X','X','X','\0'};
 int difficulty;
 short stage3phase;
 DWORD threadId;
