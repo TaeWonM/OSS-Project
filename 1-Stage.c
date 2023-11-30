@@ -177,7 +177,7 @@ void print_mazeGame(char maze[][MAX_SIZE3], int row) {
             else if (maze[i][j] == 'y')
                 printf("e");
             else if (maze[i][j] == '0' && flag[i][j] == 0)
-                printf("*");
+                printf(".");
             else if (maze[i][j] == '0' && flag[i][j] == 1)
                 printf(" ");
             else if (maze[i][j] == 'x')
