@@ -14,17 +14,20 @@ int starty = 0;
 float xv = 0;
 float yv = 0;
 int check = 0;
-char stage3achi [5] = {'X','X','X','X','X'};
-char stage2achi [4] = {'X','X','X','X'};
-char stage1achi [4] = {'X','X','X','X'};
+char stage3achi [6] = {'X','X','X','X','X','\0'};
+char stage2achi [5] = {'X','X','X','X','\0'};
+char stage1achi [5] = {'X','X','X','X','\0'};
 char character = 'W';
 
 void mainstagegotoxy(int x, int y);
 void Filescan ();
 int Choose_1to3 ();
+void save();
+void saveread();
 
 int main () {
     Filescan ();
+    saveread();
     int prex=startx,curx;
     int prey=starty,cury;
     for (int i = 0; i<CAMMAXY; i++) {
@@ -66,6 +69,7 @@ int main () {
                 break;
             }
             setlocale(LC_ALL,"C");
+            continue;
         }
         
         xv-=0.1*xv;
@@ -85,10 +89,12 @@ int main () {
             case 1:
                 system ("cls");
                 return 0;
-            default:
+            case 2: 
+                save();
+                break;
+            case 3:
                 break;
             };
-            setlocale( LC_ALL, ".ACP" );
         }
         Sleep(20);
         if (map[prey][prex-1+MOVE] != '=' && map[prey][prex-1+MOVE] != ' '){
@@ -213,6 +219,7 @@ int main () {
         prey = cury;
     }
 }
+
 void Filescan () {
     fp = fopen ("mainmap.txt","r");
     for (int i = 0; i<CAMMAXY; i++) fgets (map[i],sizeof(char)*101,fp);
@@ -247,4 +254,20 @@ int Choose_1to3 (){
             return 3;
         }
     }
+}
+
+void save(){
+    fp = fopen("save.txt","w");
+    fprintf (fp,"%s\n",stage1achi);
+    fprintf (fp,"%s\n",stage2achi);
+    fprintf (fp,"%s\n",stage3achi);
+    fclose(fp);
+}
+
+void saveread(){
+    fp = fopen("save.txt","r");
+    fscanf(fp,"%s",stage1achi);
+    fscanf(fp,"%s",stage2achi);
+    fscanf(fp,"%s",stage3achi);
+    fclose(fp);
 }
