@@ -24,6 +24,9 @@ void Filescan ();
 int Choose_1to3 ();
 void save();
 void saveread();
+void stage3Achievementprint ();
+void stage2Achievementprint ();
+void stage1Achievementprint ();
 
 int main () {
     Filescan ();
@@ -103,63 +106,22 @@ int main () {
                 printf ("Stage 1 : Pac-Man");
                 mainstagegotoxy(80,7);
                 printf ("Press Down");
+                stage1Achievementprint();
             }
             else if (map[prey][prex-1+MOVE] == '2'){
                 mainstagegotoxy(80,5);
                 printf ("Stage 2 : Tetris");
                 mainstagegotoxy(80,7);
                 printf ("Press Down");
+                stage2Achievementprint();
             }
             else if (map[prey][prex-1+MOVE] == '3'){
                 mainstagegotoxy(80,5);
                 printf ("Stage 3 : Untertail");
                 mainstagegotoxy(80,7);
                 printf ("Press Down");
-                mainstagegotoxy(80,9);
-                if (stage3achi[0]=='O'){
-                    printf("1 : Is it a start?");
-                    mainstagegotoxy(80,10);
-                    printf("Condition: Phase 1 passed");
-                }
-                else {
-                    printf("1 : ???");
-                }
-                mainstagegotoxy(80,11);
-                if (stage3achi[1]=='O'){
-                    printf("2 : An Unperturbed Heart");
-                    mainstagegotoxy(80,12);
-                    printf("Condition: Phase 2 passed");
-                }
-                else {
-                    printf("2 : ???");
-                }
-                mainstagegotoxy(80,13);
-                if (stage3achi[2]=='O'){
-                    printf("3 : Tough Bond");
-                    mainstagegotoxy(80,14);
-                    printf("Condition: Phase 3 passed");
-                }
-                else {
-                    printf("3 : ???");
-                }
-                mainstagegotoxy(80,15);
-                if (stage3achi[3]=='O'){
-                    printf("4 : Perfect Clear");
-                    mainstagegotoxy(80,16);
-                    printf("Condition: Pass phases 1,2,3 with 3 lives");
-                }
-                else {
-                    printf("4 : ???");
-                }
-                mainstagegotoxy(80,17);
-                if (stage3achi[4]=='O'){
-                    printf("5 : Master");
-                    mainstagegotoxy(80,18);
-                    printf("Condition: Clear with 3 difficulty levels");
-                }
-                else {
-                    printf("5 : ???");
-                }
+                stage3Achievementprint();
+                
             }
             check = 1;
         }
@@ -270,4 +232,129 @@ void saveread(){
     fscanf(fp,"%s",stage2achi);
     fscanf(fp,"%s",stage3achi);
     fclose(fp);
+}
+
+void stage3Achievementprint (){
+    mainstagegotoxy(80,9);
+    if (stage3achi[0]=='O'){
+        printf("1 : Is it a start?");
+        mainstagegotoxy(80,10);
+        printf("Condition: Phase 1 passed");
+    }
+    else {
+        printf("1 : ???");
+    }
+    mainstagegotoxy(80,11);
+    if (stage3achi[1]=='O'){
+        printf("2 : An Unperturbed Heart");
+        mainstagegotoxy(80,12);
+        printf("Condition: Phase 2 passed");
+    }
+    else {
+        printf("2 : ???");
+    }
+    mainstagegotoxy(80,13);
+    if (stage3achi[2]=='O'){
+        printf("3 : Tough Bond");
+        mainstagegotoxy(80,14);
+        printf("Condition: Phase 3 passed");
+    }
+    else {
+        printf("3 : ???");
+    }
+    mainstagegotoxy(80,15);
+    if (stage3achi[3]=='O'){
+        printf("4 : Perfect Clear");
+        mainstagegotoxy(80,16);
+        printf("Condition: Pass phases 1,2,3 with 3 lives");
+    }
+    else {
+       printf("4 : ???");
+    }
+    mainstagegotoxy(80,17);
+    if (stage3achi[4]=='O'){
+        printf("5 : Master");
+        mainstagegotoxy(80,18);
+        printf("Condition: Clear with 3 difficulty levels");
+    }
+    else {
+        printf("5 : ???");
+    }
+}
+
+void stage2Achievementprint (){
+    mainstagegotoxy(80,9);
+    if (stage3achi[0]=='O'){
+        printf("1 : Is it a start?");
+        mainstagegotoxy(80,10);
+        printf("Condition: Phase 1 passed");
+    }
+    else {
+        printf("1 : ???");
+    }
+    mainstagegotoxy(80,11);
+    if (stage3achi[1]=='O'){
+        printf("2 : An Unperturbed Heart");
+        mainstagegotoxy(80,12);
+        printf("Condition: Phase 2 passed");
+    }
+    else {
+        printf("2 : ???");
+    }
+    mainstagegotoxy(80,13);
+    if (stage3achi[2]=='O'){
+        printf("3 : Tough Bond");
+        mainstagegotoxy(80,14);
+        printf("Condition: Phase 3 passed");
+    }
+    else {
+        printf("3 : ???");
+    }
+    mainstagegotoxy(80,15);
+    if (stage3achi[3]=='O'){
+        printf("4 : Perfect Clear");
+        mainstagegotoxy(80,16);
+        printf("Condition: Pass phases 1,2,3 with 3 lives");
+    }
+    else {
+       printf("4 : ???");
+    }
+}
+void stage1Achievementprint (){
+    mainstagegotoxy(80,9);
+    if (stage3achi[0]=='O'){
+        printf("1 : Is it a start?");
+        mainstagegotoxy(80,10);
+        printf("Condition: Phase 1 passed");
+    }
+    else {
+        printf("1 : ???");
+    }
+    mainstagegotoxy(80,11);
+    if (stage3achi[1]=='O'){
+        printf("2 : An Unperturbed Heart");
+        mainstagegotoxy(80,12);
+        printf("Condition: Phase 2 passed");
+    }
+    else {
+        printf("2 : ???");
+    }
+    mainstagegotoxy(80,13);
+    if (stage3achi[2]=='O'){
+        printf("3 : Tough Bond");
+        mainstagegotoxy(80,14);
+        printf("Condition: Phase 3 passed");
+    }
+    else {
+        printf("3 : ???");
+    }
+    mainstagegotoxy(80,15);
+    if (stage3achi[3]=='O'){
+        printf("4 : Perfect Clear");
+        mainstagegotoxy(80,16);
+        printf("Condition: Pass phases 1,2,3 with 3 lives");
+    }
+    else {
+       printf("4 : ???");
+    }
 }
