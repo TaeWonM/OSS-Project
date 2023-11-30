@@ -24,6 +24,7 @@ int game_timer;
 int game_level = 0;
 time_t start_time;
 int num_ghosts;  // 유령의 수
+char achivemant[4] = {'X'}; //업적 개수
 
 typedef struct {
     int row;
@@ -87,12 +88,10 @@ int main(void) {
             for (int i = 0; i < num_ghosts; i++) {
                 if (game_level == 1)
                     moveGhost_player(row, col, i);
-                else if (game_level == 2) {
+                else if (game_level == 2) 
                     moveGhost_player(row, col, i);
-                }
-                else if (game_level == 3) {
+                else if (game_level == 3) 
                     moveGhost_player(row, col, i);
-                }
             }
         }
 
@@ -341,11 +340,30 @@ void printTimeElapsed() {
 }
 
 void initializeGhosts() {
-    for (int i = 0; i < num_ghosts; i++) {
-        ghosts[i].row = ghost_row;
-        ghosts[i].col = ghost_col;
-        ghosts[i].direction = 0;
-    }
+        if (game_level == 1) {
+            ghosts[0].row = ghost_row;
+            ghosts[0].col = ghost_col;
+            ghosts[0].direction = 0;
+        }
+        else if (game_level == 2) {
+            ghosts[0].row = ghost_row;
+            ghosts[0].col = ghost_col;
+            ghosts[0].direction = 0;
+            ghosts[1].row = 10;
+            ghosts[1].col = 10;
+            ghosts[1].direction = 1;
+        }
+        else if (game_level == 3) {
+            ghosts[0].row = ghost_row;
+            ghosts[0].col = ghost_col;
+            ghosts[0].direction = 0;
+            ghosts[1].row = 13;
+            ghosts[1].col = 13;
+            ghosts[1].direction = 1;
+            ghosts[2].row = 19;
+            ghosts[2].col = 19;
+            ghosts[2].direction = 2;
+        }
 }
 
 int checkGameOver(int player_row, int player_col) {
