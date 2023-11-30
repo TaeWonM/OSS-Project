@@ -34,7 +34,7 @@ int flag[MAX_SIZE3][MAX_SIZE3] = { 1 };
 char maze[MAX_SIZE3][MAX_SIZE3];
 int count = 0;
 int ghost_row = 7, ghost_col = 7;
-int game_timer = 60;
+int game_timer;
 int game_level = 0;
 time_t start_time;
 
@@ -54,24 +54,27 @@ void initializeGhosts();
 int main(void) {
     int row = 1, col = 1;
 
-    printf("맵을 선택하세요 (1, 2, 3): ");
+    printf("난이도 선택 (1, 2, 3): ");
     scanf("%d", &game_level);
 
     switch (game_level) {
     case 1:
         MAX_SIZE = MAX_SIZE1;
         num_ghosts = 1;
+        game_timer = 60;
         break;
     case 2:
         MAX_SIZE = MAX_SIZE2;
         num_ghosts = 2;
+        game_timer = 60;
         break;
     case 3:
         MAX_SIZE = MAX_SIZE3;
         num_ghosts = 3;
+        game_timer = 60;
         break;
     default:
-        printf("잘못된 입력\n");
+        printf("잘못된 입력.\n");
         return 1;
     }
     fileopen();
@@ -87,7 +90,7 @@ int main(void) {
         if (game_level >= 1) {
             for (int i = 0; i < num_ghosts; i++) {
                 if (game_level == 1)
-                    moveGhost_random(i);
+                    moveGhost_player(row, col);
                 else if (game_level == 2) {
                     moveGhost_random(i);
                     moveGhost_player(row, col);
@@ -119,6 +122,11 @@ int fileopen() {
     char fileName[20];
     sprintf(fileName, "maze_%d.txt", game_level);
     FILE* fp = fopen(fileName, "r");
+
+    if (fp == NULL) {
+        printf("파일을 열 수 없습니다.\n");
+        exit(1);
+    }
 
     for (int i = 0; i < MAX_SIZE; i++) {
         for (int j = 0; j < MAX_SIZE; j++) {
@@ -159,7 +167,7 @@ int GetKey() {
 
     return 0;
 }
-
+    
 void print_mazeGame(char maze[][MAX_SIZE3], int row) {
     for (int i = 0; i < row; i++) {
         GotoXY(XPOS, YPOS + i);
@@ -186,7 +194,7 @@ int p_block(char maze[][MAX_SIZE3], int i, int j) {
         clear_count = 63;
         break;
     case 2:
-        clear_count = 119;
+        clear_count = 104;
         break;
     case 3:
         clear_count = 3;
@@ -274,19 +282,13 @@ void move_maze(char maze[][MAX_SIZE3], int* row, int* col) {
             break;
         }
     }
-
-    for (int k = 0; k < num_ghosts; k++) {
-        if (i == ghosts[k].row && j == ghosts[k].col) {
-            GotoXY(XPOS - 3, YPOS - 2);
-            printf("게임 종료 : 유령");
-            exit(0);
-        }
-    }
 }
-
 
 void moveGhost_player(int player_row, int player_col) {
     int random_direction = rand() % 4;
+
+    int new_ghost_row = ghost_row;
+    int new_ghost_col = ghost_col;
 
     switch (random_direction) {
     case 0:
@@ -294,8 +296,15 @@ void moveGhost_player(int player_row, int player_col) {
             if (maze[ghost_row][ghost_col] != '*')
                 maze[ghost_row][ghost_col] = '0';
 
-            maze[ghost_row - 1][ghost_col] = 'y';
-            ghost_row--;
+            new_ghost_row--;
+
+            if (new_ghost_row == player_row && new_ghost_col == player_col) {
+                GotoXY(XPOS - 3, YPOS - 2);
+                printf("게임 종료: 유령과 충돌");
+                exit(0);
+            }
+            else if (maze[new_ghost_row][new_ghost_col] != 'x')
+                maze[new_ghost_row][new_ghost_col] = 'y';
         }
         break;
 
@@ -304,8 +313,15 @@ void moveGhost_player(int player_row, int player_col) {
             if (maze[ghost_row][ghost_col] != '*')
                 maze[ghost_row][ghost_col] = '0';
 
-            maze[ghost_row + 1][ghost_col] = 'y';
-            ghost_row++;
+            new_ghost_row++;
+
+            if (new_ghost_row == player_row && new_ghost_col == player_col) {
+                GotoXY(XPOS - 3, YPOS - 2);
+                printf("게임 종료: 유령과 충돌");
+                exit(0);
+            }
+            else if (maze[new_ghost_row][new_ghost_col] != 'x')
+                maze[new_ghost_row][new_ghost_col] = 'y';
         }
         break;
 
@@ -314,8 +330,15 @@ void moveGhost_player(int player_row, int player_col) {
             if (maze[ghost_row][ghost_col] != '*')
                 maze[ghost_row][ghost_col] = '0';
 
-            maze[ghost_row][ghost_col - 1] = 'y';
-            ghost_col--;
+            new_ghost_col--;
+
+            if (new_ghost_row == player_row && new_ghost_col == player_col) {
+                GotoXY(XPOS - 3, YPOS - 2);
+                printf("게임 종료: 유령과 충돌");
+                exit(0);
+            }
+            else if (maze[new_ghost_row][new_ghost_col] != 'x')
+                maze[new_ghost_row][new_ghost_col] = 'y';
         }
         break;
 
@@ -324,11 +347,21 @@ void moveGhost_player(int player_row, int player_col) {
             if (maze[ghost_row][ghost_col] != '*')
                 maze[ghost_row][ghost_col] = '0';
 
-            maze[ghost_row][ghost_col + 1] = 'y';
-            ghost_col++;
+            new_ghost_col++;
+
+            if (new_ghost_row == player_row && new_ghost_col == player_col) {
+                GotoXY(XPOS - 3, YPOS - 2);
+                printf("게임 종료: 유령과 충돌");
+                exit(0);
+            }
+            else if (maze[new_ghost_row][new_ghost_col] != 'x')
+                maze[new_ghost_row][new_ghost_col] = 'y';
         }
         break;
     }
+
+    ghost_row = new_ghost_row;
+    ghost_col = new_ghost_col;
 }
 
 void moveGhost_random(int ghost_index) {
@@ -343,8 +376,15 @@ void moveGhost_random(int ghost_index) {
             if (maze[current_ghost_row - 1][current_ghost_col] != '*')
                 maze[current_ghost_row][current_ghost_col] = '0';
 
-            maze[current_ghost_row - 1][current_ghost_col] = 'y';
             ghosts[ghost_index].row--;
+
+            if (ghosts[ghost_index].row == ghost_row && ghosts[ghost_index].col == ghost_col) {
+                GotoXY(XPOS - 3, YPOS - 2);
+                printf("게임 종료: 유령과 충돌");
+                exit(0);
+            }
+            else if (maze[ghosts[ghost_index].row][ghosts[ghost_index].col] != 'x')
+                maze[ghosts[ghost_index].row][ghosts[ghost_index].col] = 'y';
         }
         break;
 
@@ -353,8 +393,15 @@ void moveGhost_random(int ghost_index) {
             if (maze[current_ghost_row + 1][current_ghost_col] != '*')
                 maze[current_ghost_row][current_ghost_col] = '0';
 
-            maze[current_ghost_row + 1][current_ghost_col] = 'y';
             ghosts[ghost_index].row++;
+
+            if (ghosts[ghost_index].row == ghost_row && ghosts[ghost_index].col == ghost_col) {
+                GotoXY(XPOS - 3, YPOS - 2);
+                printf("게임 종료: 유령과 충돌");
+                exit(0);
+            }
+            else if (maze[ghosts[ghost_index].row][ghosts[ghost_index].col] != 'x')
+                maze[ghosts[ghost_index].row][ghosts[ghost_index].col] = 'y';
         }
         break;
 
@@ -363,8 +410,15 @@ void moveGhost_random(int ghost_index) {
             if (maze[current_ghost_row][current_ghost_col - 1] != '*')
                 maze[current_ghost_row][current_ghost_col] = '0';
 
-            maze[current_ghost_row][current_ghost_col - 1] = 'y';
             ghosts[ghost_index].col--;
+
+            if (ghosts[ghost_index].row == ghost_row && ghosts[ghost_index].col == ghost_col) {
+                GotoXY(XPOS - 3, YPOS - 2);
+                printf("게임 종료: 유령과 충돌");
+                exit(0);
+            }
+            else if (maze[ghosts[ghost_index].row][ghosts[ghost_index].col] != 'x')
+                maze[ghosts[ghost_index].row][ghosts[ghost_index].col] = 'y';
         }
         break;
 
@@ -373,8 +427,15 @@ void moveGhost_random(int ghost_index) {
             if (maze[current_ghost_row][current_ghost_col + 1] != '*')
                 maze[current_ghost_row][current_ghost_col] = '0';
 
-            maze[current_ghost_row][current_ghost_col + 1] = 'y';
             ghosts[ghost_index].col++;
+
+            if (ghosts[ghost_index].row == ghost_row && ghosts[ghost_index].col == ghost_col) {
+                GotoXY(XPOS - 3, YPOS - 2);
+                printf("게임 종료: 유령과 충돌");
+                exit(0);
+            }
+            else if (maze[ghosts[ghost_index].row][ghosts[ghost_index].col] != 'x')
+                maze[ghosts[ghost_index].row][ghosts[ghost_index].col] = 'y';
         }
         break;
     }
