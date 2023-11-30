@@ -43,6 +43,7 @@ void move_maze(char maze[][MAX_SIZE3], int* row, int* col);
 void CursorView(char show);
 void printTimeElapsed();
 int fileopen();
+int checkGameOver(int player_row, int player_col);
 void initializeGhosts();
 
 int main(void) {
@@ -93,6 +94,12 @@ int main(void) {
                     moveGhost_player(row, col, i);
                 }
             }
+        }
+
+        if (checkGameOver(row, col)) {
+            GotoXY(XPOS - 3, YPOS - 2);
+            printf("게임 오버: 유령과 부딪혔습니다.");
+            exit(0);
         }
 
         printTimeElapsed();
@@ -339,4 +346,15 @@ void initializeGhosts() {
         ghosts[i].col = ghost_col;
         ghosts[i].direction = 0;
     }
+}
+
+int checkGameOver(int player_row, int player_col) {
+
+    for (int i = 0; i < num_ghosts; i++) {
+        if (player_row == ghosts[i].row && player_col == ghosts[i].col) {
+            return 1;
+        }   
+    }
+
+    return 0;
 }
