@@ -24,7 +24,7 @@ int game_timer;
 int game_level = 0;
 time_t start_time;
 int num_ghosts;  // 유령의 수
-char achivemant[4] = {'X'}; //업적 개수
+char achivemant[4]; //업적 개수
 
 typedef struct {
     int row;
@@ -80,6 +80,9 @@ int main(void) {
 
     initializeGhosts();
 
+    for (int i = 0; i < 4; i++)
+        achivemant[i] = 'X';
+
     while (1) {
         print_mazeGame(maze, MAX_SIZE);
         move_maze(maze, &row, &col);
@@ -88,9 +91,9 @@ int main(void) {
             for (int i = 0; i < num_ghosts; i++) {
                 if (game_level == 1)
                     moveGhost_player(row, col, i);
-                else if (game_level == 2) 
+                else if (game_level == 2)
                     moveGhost_player(row, col, i);
-                else if (game_level == 3) 
+                else if (game_level == 3)
                     moveGhost_player(row, col, i);
             }
         }
@@ -113,6 +116,7 @@ int main(void) {
             exit(0);
         }
     }
+
     return 0;
 }
 
@@ -199,7 +203,11 @@ int p_block(char maze[][MAX_SIZE3], int i, int j) {
         return 1;
     else if (count == clear_count && maze[i][j] == '0' && flag[i][j] == 0) {
         GotoXY(XPOS - 3, YPOS - 2);
-        printf("game clear");
+        printf("game clear\n");
+        if (game_level == 3)
+            achivemant[3] = 'O';
+        for (int i = 0; i < 4; i++)
+            printf("%c ", achivemant[i]);
         exit(0);
     }
     else if (flag[i][j] == 0 && maze[i][j] == '0' && flag[i][j] != 1) {
