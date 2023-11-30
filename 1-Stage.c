@@ -60,12 +60,12 @@ int main(void) {
         break;
     case 2:
         MAX_SIZE = MAX_SIZE2;
-        game_timer = 60;
+        game_timer = 50;
         num_ghosts = 2;
         break;
     case 3:
         MAX_SIZE = MAX_SIZE3;
-        game_timer = 120;
+        game_timer = 80;
         num_ghosts = 3;
         break;
     default:
