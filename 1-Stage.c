@@ -22,9 +22,10 @@ int count = 0;
 int ghost_row = 7, ghost_col = 7;
 int game_timer;
 int game_level = 0;
+int clear_count = 99999;
 time_t start_time;
-int num_ghosts;  // 유령의 수
-char achivemant[4]; //업적 개수
+int num_ghosts;
+char achivemant[3]; //업적 개수
 
 typedef struct {
     int row;
@@ -50,7 +51,7 @@ void initializeGhosts();
 int main(void) {
     int row = 1, col = 1;
 
-    printf("난이도 선택 (1, 2, 3): ");
+    printf("난이도 선택: ");
     scanf("%d", &game_level);
 
     switch (game_level) {
@@ -58,19 +59,21 @@ int main(void) {
         MAX_SIZE = MAX_SIZE1;
         game_timer = 60;
         num_ghosts = 1;
+        clear_count = 63;
         break;
     case 2:
         MAX_SIZE = MAX_SIZE2;
-        game_timer = 50;
+        game_timer = 60;
         num_ghosts = 2;
+        clear_count = 104;
         break;
     case 3:
         MAX_SIZE = MAX_SIZE3;
-        game_timer = 80;
+        game_timer = 90;
         num_ghosts = 3;
+        clear_count = 216;
         break;
     default:
-        printf("잘못된 입력.\n");
         return 1;
     }
 
@@ -110,15 +113,16 @@ int main(void) {
 
         time_t current_time;
         time(&current_time);
+
         if (difftime(current_time, start_time) >= game_timer) {
             GotoXY(XPOS - 3, YPOS - 2);
             printf("게임 시간 초과");
             exit(0);
         }
     }
-
     return 0;
 }
+
 
 int fileopen() {
     char fileName[20];
@@ -186,27 +190,26 @@ void print_mazeGame(char maze[][MAX_SIZE3], int row) {
 }
 
 int p_block(char maze[][MAX_SIZE3], int i, int j) {
-    int clear_count = 0;
-    switch (game_level) {
-    case 1:
-        clear_count = 63;
-        break;
-    case 2:
-        clear_count = 104;
-        break;
-    case 3:
-        clear_count = 216;
-        break;
-    }
 
     if (maze[i][j] == '1')
         return 1;
     else if (count == clear_count && maze[i][j] == '0' && flag[i][j] == 0) {
         GotoXY(XPOS - 3, YPOS - 2);
         printf("game clear\n");
-        if (game_level == 3)
-            achivemant[3] = 'O';
-        for (int i = 0; i < 4; i++)
+
+        switch (game_level) {
+        case 1:
+            achivemant[game_level - 1] = 'O';
+            break;
+        case 2:
+            achivemant[game_level - 1] = 'O';
+            break;
+        case 3:
+            achivemant[game_level - 1] = 'O';
+            break;
+        }
+
+        for (int i = 0; i < 3; i++)
             printf("%c ", achivemant[i]);
         exit(0);
     }
@@ -217,15 +220,6 @@ int p_block(char maze[][MAX_SIZE3], int i, int j) {
     }
     else
         return 0;
-}
-
-int m_block_r(char maze[][MAX_SIZE3], int i, int j) {
-    if (i >= 0 && i < MAX_SIZE3 && j >= 0 && j < MAX_SIZE3) {
-        return (maze[i][j] == '1');
-    }
-    else {
-        return 1;
-    }
 }
 
 int m_block_p(char maze[][MAX_SIZE3], int i, int j) {
@@ -345,33 +339,34 @@ void printTimeElapsed() {
 
     GotoXY(XPOS - 3, YPOS - 4);
     printf("남은 시간: %.0lf초", game_timer - elapsed_time);
+
 }
 
 void initializeGhosts() {
-        if (game_level == 1) {
-            ghosts[0].row = ghost_row;
-            ghosts[0].col = ghost_col;
-            ghosts[0].direction = 0;
-        }
-        else if (game_level == 2) {
-            ghosts[0].row = ghost_row;
-            ghosts[0].col = ghost_col;
-            ghosts[0].direction = 0;
-            ghosts[1].row = 10;
-            ghosts[1].col = 10;
-            ghosts[1].direction = 1;
-        }
-        else if (game_level == 3) {
-            ghosts[0].row = ghost_row;
-            ghosts[0].col = ghost_col;
-            ghosts[0].direction = 0;
-            ghosts[1].row = 13;
-            ghosts[1].col = 13;
-            ghosts[1].direction = 1;
-            ghosts[2].row = 19;
-            ghosts[2].col = 19;
-            ghosts[2].direction = 2;
-        }
+    if (game_level == 1) {
+        ghosts[0].row = ghost_row;
+        ghosts[0].col = ghost_col;
+        ghosts[0].direction = 0;
+    }
+    else if (game_level == 2) {
+        ghosts[0].row = ghost_row;
+        ghosts[0].col = ghost_col;
+        ghosts[0].direction = 0;
+        ghosts[1].row = 10;
+        ghosts[1].col = 10;
+        ghosts[1].direction = 1;
+    }
+    else if (game_level == 3) {
+        ghosts[0].row = ghost_row;
+        ghosts[0].col = ghost_col;
+        ghosts[0].direction = 0;
+        ghosts[1].row = 13;
+        ghosts[1].col = 13;
+        ghosts[1].direction = 1;
+        ghosts[2].row = 19;
+        ghosts[2].col = 19;
+        ghosts[2].direction = 2;
+    }
 }
 
 int checkGameOver(int player_row, int player_col) {
@@ -379,7 +374,7 @@ int checkGameOver(int player_row, int player_col) {
     for (int i = 0; i < num_ghosts; i++) {
         if (player_row == ghosts[i].row && player_col == ghosts[i].col) {
             return 1;
-        }   
+        }
     }
 
     return 0;
