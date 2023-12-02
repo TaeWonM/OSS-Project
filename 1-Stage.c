@@ -4,6 +4,8 @@
 #include <stdlib.h>
 #include <time.h>
 #include <windows.h>
+#include <locale.h>
+#include <wchar.h>
 
 #define XPOS 50
 #define YPOS 5
@@ -25,7 +27,7 @@ int game_level = 0;
 int clear_count = 99999;
 time_t start_time;
 int num_ghosts;
-char achivemant[3]; //업적 개수
+char achivemant[4] =  {'X','X','X','\0' }; //업적 개수
 
 typedef struct {
     int row;
@@ -48,11 +50,10 @@ int fileopen();
 int checkGameOver(int player_row, int player_col);
 void initializeGhosts();
 
-int main(void) {
+char *main(int diffi) {
+    game_level = diffi;
     int row = 1, col = 1;
-
-    printf("난이도 선택: ");
-    scanf("%d", &game_level);
+    setlocale(LC_ALL,"");
 
     switch (game_level) {
     case 1:
@@ -102,9 +103,12 @@ int main(void) {
         }
 
         if (checkGameOver(row, col)) {
-            GotoXY(XPOS - 3, YPOS - 2);
-            printf("게임 오버: 유령과 부딪혔습니다.");
-            exit(0);
+                system("cls");
+                GotoXY(XPOS - 3, YPOS - 2);
+                wprintf(L"게임 오버: 유령과 부딪혔습니다.");
+                GotoXY(XPOS - 3, YPOS - 3);
+                printf("Press Enter To Return");
+                while (1) if (GetAsyncKeyState(VK_RETURN)) return achivemant;
         }
 
         printTimeElapsed();
@@ -115,9 +119,12 @@ int main(void) {
         time(&current_time);
 
         if (difftime(current_time, start_time) >= game_timer) {
-            GotoXY(XPOS - 3, YPOS - 2);
-            printf("게임 시간 초과");
-            exit(0);
+                system("cls");
+                GotoXY(XPOS - 3, YPOS - 2);
+                wprintf(L"게임 시간 초과");
+                GotoXY(XPOS - 3, YPOS - 3);
+                printf("Press Enter To Return");
+                while (1) if (GetAsyncKeyState(VK_RETURN)) return achivemant;
         }
     }
     return 0;
@@ -130,7 +137,7 @@ int fileopen() {
     FILE* fp = fopen(fileName, "r");
 
     if (fp == NULL) {
-        printf("파일을 열 수 없습니다.\n");
+        wprintf(L"파일을 열 수 없습니다.\n");
         exit(1);
     }
 
@@ -175,7 +182,7 @@ void print_mazeGame(char maze[][MAX_SIZE3], int row) {
         GotoXY(XPOS, YPOS + i);
         for (int j = 0; j < MAX_SIZE; j++) {
             if (maze[i][j] == '1')
-                printf("■");
+                wprintf(L"■");
             else if (maze[i][j] == 'y')
                 printf("e");
             else if (maze[i][j] == '0' && flag[i][j] == 0)
@@ -183,7 +190,7 @@ void print_mazeGame(char maze[][MAX_SIZE3], int row) {
             else if (maze[i][j] == '0' && flag[i][j] == 1)
                 printf(" ");
             else if (maze[i][j] == 'x')
-                printf("●");
+                wprintf(L"●");
         }
         puts("");
     }
@@ -194,9 +201,12 @@ int p_block(char maze[][MAX_SIZE3], int i, int j) {
     if (maze[i][j] == '1')
         return 1;
     else if (count == clear_count && maze[i][j] == '0' && flag[i][j] == 0) {
-        GotoXY(XPOS - 3, YPOS - 2);
-        printf("game clear\n");
-
+            system("cls");
+            GotoXY(XPOS - 3, YPOS - 2);
+            printf("game clear\n");
+            GotoXY(XPOS - 3, YPOS - 3);
+            printf("Press Enter To Return");
+            while (1) if (GetAsyncKeyState(VK_RETURN)) return achivemant;
         switch (game_level) {
         case 1:
             achivemant[game_level - 1] = 'O';
@@ -208,10 +218,7 @@ int p_block(char maze[][MAX_SIZE3], int i, int j) {
             achivemant[game_level - 1] = 'O';
             break;
         }
-
-        for (int i = 0; i < 3; i++)
-            printf("%c ", achivemant[i]);
-        exit(0);
+        return achivemant;
     }
     else if (flag[i][j] == 0 && maze[i][j] == '0' && flag[i][j] != 1) {
         flag[i][j] = 1;
@@ -338,7 +345,7 @@ void printTimeElapsed() {
     double elapsed_time = difftime(current_time, start_time);
 
     GotoXY(XPOS - 3, YPOS - 4);
-    printf("남은 시간: %.0lf초", game_timer - elapsed_time);
+    wprintf(L"남은 시간: %.0lf초", game_timer - elapsed_time);
 
 }
 
