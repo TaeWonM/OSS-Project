@@ -18,6 +18,8 @@ char stage3achi [6] = {'X','X','X','X','X','\0'};
 char stage2achi [5] = {'X','X','X','X','\0'};
 char stage1achi [4] = {'X','X','X','\0'};
 char character = 'W';
+int charactnum = 0;
+char characters[4] = {'W','e','L','I'};
 
 void mainstagegotoxy(int x, int y);
 void Filescan ();
@@ -27,6 +29,7 @@ void saveread();
 void stage3Achievementprint ();
 void stage2Achievementprint ();
 void stage1Achievementprint ();
+void characterselect ();
 
 int main () {
     Filescan ();
@@ -100,6 +103,7 @@ int main () {
                 save();
                 break;
             case 3:
+                characterselect();
                 break;
             };
         }
@@ -288,7 +292,7 @@ void stage3Achievementprint (){
 
 void stage2Achievementprint (){
     mainstagegotoxy(80,9);
-    if (stage3achi[0]=='O'){
+    if (stage2achi[0]=='O'){
         printf("1 : Is it a start?");
         mainstagegotoxy(80,10);
         printf("Condition: Phase 1 passed");
@@ -297,7 +301,7 @@ void stage2Achievementprint (){
         printf("1 : ???");
     }
     mainstagegotoxy(80,11);
-    if (stage3achi[1]=='O'){
+    if (stage2achi[1]=='O'){
         printf("2 : An Unperturbed Heart");
         mainstagegotoxy(80,12);
         printf("Condition: Phase 2 passed");
@@ -306,7 +310,7 @@ void stage2Achievementprint (){
         printf("2 : ???");
     }
     mainstagegotoxy(80,13);
-    if (stage3achi[2]=='O'){
+    if (stage2achi[2]=='O'){
         printf("3 : Tough Bond");
         mainstagegotoxy(80,14);
         printf("Condition: Phase 3 passed");
@@ -315,7 +319,7 @@ void stage2Achievementprint (){
         printf("3 : ???");
     }
     mainstagegotoxy(80,15);
-    if (stage3achi[3]=='O'){
+    if (stage2achi[3]=='O'){
         printf("4 : Perfect Clear");
         mainstagegotoxy(80,16);
         printf("Condition: Pass phases 1,2,3 with 3 lives");
@@ -351,5 +355,114 @@ void stage1Achievementprint (){
     }
     else {
         printf("3 : ???");
+    }
+}
+
+void characterselect(){
+    while(1){
+        system("cls");
+        mainstagegotoxy(42,5);
+        printf("===========");
+        mainstagegotoxy(47,7);
+        printf("%c",characters[charactnum]);
+        mainstagegotoxy(42,9);
+        printf("===========");
+        if (charactnum==0){
+            mainstagegotoxy(35,11);
+            printf ("Character : Original Character");
+            mainstagegotoxy(37,12);
+            printf ("Feature : Quite Practical");
+            mainstagegotoxy(36,14);
+            printf ("Condition : No Condition");
+            mainstagegotoxy(54,7);
+            printf(">");
+        }
+        else if (charactnum==1 && stage1achi[2] == 'O'){
+            mainstagegotoxy(35,11);
+            printf ("Character : Pac-man Character");
+            mainstagegotoxy(15,12);
+            printf ("Feature : It reminds me of a certain alphabet, but it's Pac-Man anyway");
+            mainstagegotoxy(28,14);
+            printf ("Condition : Passed Stage 1, Difficulty 3");
+            mainstagegotoxy(54,7);
+            printf(">");
+            mainstagegotoxy(37,7);
+            printf("<");
+        }
+        else if (charactnum==1 && stage1achi[2] != 'O'){
+            mainstagegotoxy(35,11);
+            printf ("Character : ???");
+            mainstagegotoxy(37,12);
+            printf ("Feature : ???");
+            mainstagegotoxy(54,7);
+            printf(">");
+            mainstagegotoxy(37,7);
+            printf("<");
+            mainstagegotoxy (47,7);
+            printf("?");
+        }
+        else if (charactnum==2 && stage2achi[3] == 'O'){
+            mainstagegotoxy(35,11);
+            printf ("Character : Tetreis Character");
+            mainstagegotoxy(15,12);
+            printf ("Feature : The block that reminds me of Tetris... No, it's a character.");
+            mainstagegotoxy(28,14);
+            printf ("Condition : Passed Stage 2, Difficulty 3");
+            mainstagegotoxy(54,7);
+            printf(">");
+            mainstagegotoxy(37,7);
+            printf("<");
+        }
+        else if (charactnum==2 && stage2achi[3] != 'O'){
+            mainstagegotoxy(35,11);
+            printf ("Character : ???");
+            mainstagegotoxy(37,12);
+            printf ("Feature : ???");
+            mainstagegotoxy(54,7);
+            printf(">");
+            mainstagegotoxy(37,7);
+            printf("<");
+            mainstagegotoxy (47,7);
+            printf("?");
+        }
+        else if (charactnum==3 && stage3achi[4] == 'O'){
+            mainstagegotoxy(35,11);
+            printf ("Character : Tetreis Character");
+            mainstagegotoxy(15,12);
+            printf ("Feature : A bone that reminds me of Sans... No, it's a character...");
+            mainstagegotoxy(28,14);
+            printf ("Condition : Passed Stage 3, Difficulty 5");
+            mainstagegotoxy(37,7);
+            printf("<");
+        }
+        else if (charactnum==3 && stage3achi[4] != 'O'){
+            mainstagegotoxy(35,11);
+            printf ("Character : ???");
+            mainstagegotoxy(37,12);
+            printf ("Feature : ???");
+            mainstagegotoxy(37,7);
+            printf("<");
+            mainstagegotoxy (47,7);
+            printf("?");
+        }
+        Sleep(500);
+        while (1){
+            if (GetAsyncKeyState(VK_RETURN)) {
+                if ((charactnum==3 && stage2achi[4] == 'O')||(charactnum==2 && stage2achi[3] == 'O')||(charactnum==1 && stage1achi[2] == 'O')||charactnum==0){
+                character = characters[charactnum];
+                system("cls");
+                return;
+                }
+                
+            }
+            else if (GetAsyncKeyState(VK_LEFT) && charactnum>0) {
+                charactnum--;
+                break;
+            }
+            else if (GetAsyncKeyState(VK_RIGHT) && charactnum<3) {
+                charactnum++;
+                break;
+            }
+        }
     }
 }
