@@ -2,7 +2,7 @@
 #include <windows.h>
 #include <string.h>
 #include <locale.h>
-#include "Stage3.h"
+#include "Stage.h"
 
 FILE *fp;
 char map[20][101];
@@ -16,7 +16,7 @@ float yv = 0;
 int check = 0;
 char stage3achi [6] = {'X','X','X','X','X','\0'};
 char stage2achi [5] = {'X','X','X','X','\0'};
-char stage1achi [5] = {'X','X','X','X','\0'};
+char stage1achi [4] = {'X','X','X','\0'};
 char character = 'W';
 
 void mainstagegotoxy(int x, int y);
@@ -61,7 +61,11 @@ int main () {
             switch (map[prey][prex-1+MOVE])
             {
             case '1':
-                
+                system("cls");
+                char tmp[4];
+                strcpy(tmp,stage1(diffi));
+                for (int i = 0; i < 3; i++) if (tmp[i]=='O') stage1achi[i] = 'O';
+                system("cls");
                 break;
             case '3':
                 system("cls");
@@ -322,8 +326,8 @@ void stage2Achievementprint (){
 }
 void stage1Achievementprint (){
     mainstagegotoxy(80,9);
-    if (stage3achi[0]=='O'){
-        printf("1 : Is it a start?");
+    if (stage1achi[0]=='O'){
+        printf("1 : First Start");
         mainstagegotoxy(80,10);
         printf("Condition: Phase 1 passed");
     }
@@ -331,8 +335,8 @@ void stage1Achievementprint (){
         printf("1 : ???");
     }
     mainstagegotoxy(80,11);
-    if (stage3achi[1]=='O'){
-        printf("2 : An Unperturbed Heart");
+    if (stage1achi[1]=='O'){
+        printf("2 : An Unexpected Move");
         mainstagegotoxy(80,12);
         printf("Condition: Phase 2 passed");
     }
@@ -340,21 +344,12 @@ void stage1Achievementprint (){
         printf("2 : ???");
     }
     mainstagegotoxy(80,13);
-    if (stage3achi[2]=='O'){
-        printf("3 : Tough Bond");
+    if (stage1achi[2]=='O'){
+        printf("3 : Busy. Busy. Modern society");
         mainstagegotoxy(80,14);
         printf("Condition: Phase 3 passed");
     }
     else {
         printf("3 : ???");
-    }
-    mainstagegotoxy(80,15);
-    if (stage3achi[3]=='O'){
-        printf("4 : Perfect Clear");
-        mainstagegotoxy(80,16);
-        printf("Condition: Pass phases 1,2,3 with 3 lives");
-    }
-    else {
-       printf("4 : ???");
     }
 }
