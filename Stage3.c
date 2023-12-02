@@ -5,7 +5,7 @@
 #include <locale.h>
 #include <wchar.h>
 #include <process.h>
-#include "Stage3.h"
+#include "Stage.h"
 
 int printx = 20, printy = 5;
 int stage3mapmaxx = 18, stage3mapmaxy = 14;
@@ -18,7 +18,7 @@ int prestage3y;
 int stage3x = 29;
 int stage3y = 12;
 char cleartring[50];
-char stage3achieve[5] = {'X','X','X','X','X','\0'};
+char stage3achieve[6] = {'X','X','X','X','X','\0'};
 int difficulty;
 short stage3phase;
 DWORD threadId;
