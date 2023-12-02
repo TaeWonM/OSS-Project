@@ -1,5 +1,9 @@
 #include <stdio.h>
 #include <windows.h>
+#include <string.h>
+#include <locale.h>
+#include "Stage3.h"
+
 FILE *fp;
 char map[20][101];
 int CAMMAXX = 60;
@@ -10,44 +14,14 @@ int starty = 0;
 float xv = 0;
 float yv = 0;
 int check = 0;
-char stage3 [6] = {'X','X','X','X','X','X'};
+char stage3achi [5] = {'X','X','X','X','X'};
+char stage2achi [4] = {'X','X','X','X'};
+char stage1achi [4] = {'X','X','X','X'};
 char character = 'W';
-void Filescan () {
-    fp = fopen ("mainmap.txt","r");
-    for (int i = 0; i<CAMMAXY; i++) fgets (map[i],sizeof(char)*101,fp);
-    fclose (fp);
-    MAPMAXX = strlen(map[0])-1;
-    for (int i = 0; i<CAMMAXY; i++){
-        for (int j = 0; j<CAMMAXX; j++){
-            if (map[i][j] == '*') {
-                startx = j+1;
-                starty = i+1;
-                map[i][j]=' ';
-                return;
-            }
-        }
-    }
-}
 
-void gotoxy(int x, int y){
-    COORD pos = {x-1, y-1};
-    SetConsoleCursorPosition (GetStdHandle(STD_OUTPUT_HANDLE), pos);
-}
-
-int Choose_1to3 (){
-    while (1){
-        int difficulty;
-        if (GetAsyncKeyState (0x31)){
-            return 1;
-        }
-        if (GetAsyncKeyState (0x32)){
-            return 2;
-        }
-        if (GetAsyncKeyState (0x33)){
-            return 3;
-        }
-    }
-}
+void mainstagegotoxy(int x, int y);
+void Filescan ();
+int Choose_1to3 ();
 
 int main () {
     Filescan ();
@@ -57,8 +31,8 @@ int main () {
             for (int j = 0; j<CAMMAXX; j++) printf ("%c",map[i][j]);
             printf("\n");
     }
-    gotoxy(prex,prey);
-    printf("W");
+    mainstagegotoxy(prex,prey);
+    printf("%c",character);
     while (1){
         if (GetAsyncKeyState(VK_LEFT)){
             if (xv >= -1.5){
@@ -75,30 +49,37 @@ int main () {
         }
         else if (GetAsyncKeyState(VK_DOWN) && map[prey][prex-1+MOVE]!=' ' && map[prey][prex-1+MOVE]!='='){
             system ("cls");
-            gotoxy(30,10);
+            mainstagegotoxy(30,10);
             printf ("Press dificulty 1~3");
-            Choose_1to3 ();
+            int diffi = Choose_1to3 ();
             switch (map[prey][prex-1+MOVE])
             {
             case '1':
                 
                 break;
-            
+            case '3':
+                system("cls");
+                strcpy(stage3achi,stage3(diffi));
+                system("cls");
+                break;
             default:
                 break;
             }
+            setlocale(LC_ALL,"C");
+            continue;
         }
+        
         xv-=0.1*xv;
         yv+=0.3;
         if (GetAsyncKeyState (VK_ESCAPE)){
             system ("cls");
-            gotoxy(30,10);
+            mainstagegotoxy(30,10);
             printf ("Press Option 1~3");
-            gotoxy(30,11);
+            mainstagegotoxy(30,11);
             printf(" 1 : EXIT");
-            gotoxy(30,12);
+            mainstagegotoxy(30,12);
             printf(" 2 : SAVE");
-            gotoxy(30,13);
+            mainstagegotoxy(30,13);
             printf(" 3 : Change Character");
             switch (Choose_1to3())
             {
@@ -112,22 +93,24 @@ int main () {
         Sleep(20);
         if (map[prey][prex-1+MOVE] != '=' && map[prey][prex-1+MOVE] != ' '){
             if (map[prey][prex-1+MOVE] == '1'){
-                gotoxy(80,5);
+                mainstagegotoxy(80,5);
                 printf ("Stage 1 : Pac-Man");
-                gotoxy(80,7);
+                mainstagegotoxy(80,7);
                 printf ("Press Down");
             }
             else if (map[prey][prex-1+MOVE] == '2'){
-                gotoxy(80,5);
+                mainstagegotoxy(80,5);
                 printf ("Stage 2 : Tetris");
-                gotoxy(80,7);
+                mainstagegotoxy(80,7);
                 printf ("Press Down");
             }
             else if (map[prey][prex-1+MOVE] == '3'){
-                gotoxy(80,5);
+                mainstagegotoxy(80,5);
                 printf ("Stage 3 : Untertail");
-                gotoxy(80,7);
+                mainstagegotoxy(80,7);
                 printf ("Press Down");
+                mainstagegotoxy(80,9);
+                for (int i = 0; i < 5; i++) printf("%c ",stage3achi[i]);
             }
             check = 1;
         }
@@ -168,22 +151,57 @@ int main () {
             MOVE-=1;
             curx++;
         }
-        gotoxy(1,1);
+        mainstagegotoxy(1,1);
         for (int i = 0; i<CAMMAXY; i++) {
             printf ("%.60s",&map[i][MOVE]);
             printf("\n");
         }
         if (prex != curx || prey!= cury){
-        gotoxy (prex,prey);
+        mainstagegotoxy (prex,prey);
         printf (" ");
-        gotoxy (curx,cury);
+        mainstagegotoxy (curx,cury);
         printf ("%c",character);
         }
         else {
-            gotoxy (curx,cury);
+            mainstagegotoxy (curx,cury);
             printf ("%c",character);
         }
         prex = curx;
         prey = cury;
+    }
+}
+void Filescan () {
+    fp = fopen ("mainmap.txt","r");
+    for (int i = 0; i<CAMMAXY; i++) fgets (map[i],sizeof(char)*101,fp);
+    fclose (fp);
+    MAPMAXX = strlen(map[0])-1;
+    for (int i = 0; i<CAMMAXY; i++){
+        for (int j = 0; j<CAMMAXX; j++){
+            if (map[i][j] == '*') {
+                startx = j+1;
+                starty = i+1;
+                map[i][j]=' ';
+                return;
+            }
+        }
+    }
+}
+
+void mainstagegotoxy(int x, int y){
+    COORD pos = {x-1, y-1};
+    SetConsoleCursorPosition (GetStdHandle(STD_OUTPUT_HANDLE), pos);
+}
+
+int Choose_1to3 (){
+    while (1){
+        if (GetAsyncKeyState (0x31)){
+            return 1;
+        }
+        if (GetAsyncKeyState (0x32)){
+            return 2;
+        }
+        if (GetAsyncKeyState (0x33)){
+            return 3;
+        }
     }
 }
