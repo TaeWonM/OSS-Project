@@ -15,7 +15,7 @@
 #define DOWN 80
 
 int MAX_SIZE;
-int flag[MAX_SIZE3][MAX_SIZE3] = { 1 };
+int flag[MAX_SIZE3][MAX_SIZE3];
 char maze[MAX_SIZE3][MAX_SIZE3];
 int count = 0;
 int ghost_row = 7, ghost_col = 7;
@@ -59,7 +59,7 @@ char *stage1(int diffi) {
         clear_count = 216;
         break;
     }
-    count;
+
     fileopen();
     CursorView(0);
     time(&start_time);
@@ -82,6 +82,14 @@ char *stage1(int diffi) {
                 achivemant[game_level - 1] = 'O';
                 break;
             }
+
+            count = 0;
+            for (int i = 0; i < MAX_SIZE3; i++) {
+                for (int j = 0; j < MAX_SIZE3; j++) {
+                    flag[i][j] = 0;
+                }
+            }
+
             GotoXY(XPOS - 3, YPOS - 1);
             printf("Press Enter To Return");
             while (1) if (GetAsyncKeyState(VK_RETURN)) return achivemant;
@@ -142,8 +150,10 @@ int fileopen() {
     for (int i = 0; i < MAX_SIZE; i++) {
         for (int j = 0; j < MAX_SIZE; j++) {
             fscanf(fp, " %c", &maze[i][j]);
-            if (maze[i][j] != '0')
+            if (maze[i][j] == '0')
                 flag[i][j] = 0;
+            else if(maze[i][j] != '0')
+                flag[i][j] = 1;
         }
     }
     fclose(fp);
