@@ -2,7 +2,7 @@
 #include <windows.h>
 #include <string.h>
 #include <locale.h>
-#include "Stage3.h"
+#include "Stage.h"
 
 FILE *fp;
 char map[20][101];
@@ -14,17 +14,23 @@ int starty = 0;
 float xv = 0;
 float yv = 0;
 int check = 0;
-char stage3achi [5] = {'X','X','X','X','X'};
-char stage2achi [4] = {'X','X','X','X'};
-char stage1achi [4] = {'X','X','X','X'};
+char stage3achi [6] = {'X','X','X','X','X','\0'};
+char stage2achi [5] = {'X','X','X','X','\0'};
+char stage1achi [4] = {'X','X','X','\0'};
 char character = 'W';
 
 void mainstagegotoxy(int x, int y);
 void Filescan ();
 int Choose_1to3 ();
+void save();
+void saveread();
+void stage3Achievementprint ();
+void stage2Achievementprint ();
+void stage1Achievementprint ();
 
 int main () {
     Filescan ();
+    saveread();
     int prex=startx,curx;
     int prey=starty,cury;
     for (int i = 0; i<CAMMAXY; i++) {
@@ -55,7 +61,11 @@ int main () {
             switch (map[prey][prex-1+MOVE])
             {
             case '1':
-                
+                system("cls");
+                char tmp[4];
+                strcpy(tmp,stage1(diffi));
+                for (int i = 0; i < 3; i++) if (tmp[i]=='O') stage1achi[i] = 'O';
+                system("cls");
                 break;
             case '3':
                 system("cls");
@@ -86,7 +96,10 @@ int main () {
             case 1:
                 system ("cls");
                 return 0;
-            default:
+            case 2: 
+                save();
+                break;
+            case 3:
                 break;
             };
         }
@@ -97,20 +110,22 @@ int main () {
                 printf ("Stage 1 : Pac-Man");
                 mainstagegotoxy(80,7);
                 printf ("Press Down");
+                stage1Achievementprint();
             }
             else if (map[prey][prex-1+MOVE] == '2'){
                 mainstagegotoxy(80,5);
                 printf ("Stage 2 : Tetris");
                 mainstagegotoxy(80,7);
                 printf ("Press Down");
+                stage2Achievementprint();
             }
             else if (map[prey][prex-1+MOVE] == '3'){
                 mainstagegotoxy(80,5);
                 printf ("Stage 3 : Untertail");
                 mainstagegotoxy(80,7);
                 printf ("Press Down");
-                mainstagegotoxy(80,9);
-                for (int i = 0; i < 5; i++) printf("%c ",stage3achi[i]);
+                stage3Achievementprint();
+                
             }
             check = 1;
         }
@@ -170,6 +185,7 @@ int main () {
         prey = cury;
     }
 }
+
 void Filescan () {
     fp = fopen ("mainmap.txt","r");
     for (int i = 0; i<CAMMAXY; i++) fgets (map[i],sizeof(char)*101,fp);
@@ -203,5 +219,137 @@ int Choose_1to3 (){
         if (GetAsyncKeyState (0x33)){
             return 3;
         }
+    }
+}
+
+void save(){
+    fp = fopen("save.txt","w");
+    fprintf (fp,"%s\n",stage1achi);
+    fprintf (fp,"%s\n",stage2achi);
+    fprintf (fp,"%s\n",stage3achi);
+    fclose(fp);
+}
+
+void saveread(){
+    fp = fopen("save.txt","r");
+    fscanf(fp,"%s",stage1achi);
+    fscanf(fp,"%s",stage2achi);
+    fscanf(fp,"%s",stage3achi);
+    fclose(fp);
+}
+
+void stage3Achievementprint (){
+    mainstagegotoxy(80,9);
+    if (stage3achi[0]=='O'){
+        printf("1 : Is it a start?");
+        mainstagegotoxy(80,10);
+        printf("Condition: Phase 1 passed");
+    }
+    else {
+        printf("1 : ???");
+    }
+    mainstagegotoxy(80,11);
+    if (stage3achi[1]=='O'){
+        printf("2 : An Unperturbed Heart");
+        mainstagegotoxy(80,12);
+        printf("Condition: Phase 2 passed");
+    }
+    else {
+        printf("2 : ???");
+    }
+    mainstagegotoxy(80,13);
+    if (stage3achi[2]=='O'){
+        printf("3 : Tough Bond");
+        mainstagegotoxy(80,14);
+        printf("Condition: Phase 3 passed");
+    }
+    else {
+        printf("3 : ???");
+    }
+    mainstagegotoxy(80,15);
+    if (stage3achi[3]=='O'){
+        printf("4 : Perfect Clear");
+        mainstagegotoxy(80,16);
+        printf("Condition: Pass phases 1,2,3 with 3 lives");
+    }
+    else {
+       printf("4 : ???");
+    }
+    mainstagegotoxy(80,17);
+    if (stage3achi[4]=='O'){
+        printf("5 : Master");
+        mainstagegotoxy(80,18);
+        printf("Condition: Clear with 3 difficulty levels");
+    }
+    else {
+        printf("5 : ???");
+    }
+}
+
+void stage2Achievementprint (){
+    mainstagegotoxy(80,9);
+    if (stage3achi[0]=='O'){
+        printf("1 : Is it a start?");
+        mainstagegotoxy(80,10);
+        printf("Condition: Phase 1 passed");
+    }
+    else {
+        printf("1 : ???");
+    }
+    mainstagegotoxy(80,11);
+    if (stage3achi[1]=='O'){
+        printf("2 : An Unperturbed Heart");
+        mainstagegotoxy(80,12);
+        printf("Condition: Phase 2 passed");
+    }
+    else {
+        printf("2 : ???");
+    }
+    mainstagegotoxy(80,13);
+    if (stage3achi[2]=='O'){
+        printf("3 : Tough Bond");
+        mainstagegotoxy(80,14);
+        printf("Condition: Phase 3 passed");
+    }
+    else {
+        printf("3 : ???");
+    }
+    mainstagegotoxy(80,15);
+    if (stage3achi[3]=='O'){
+        printf("4 : Perfect Clear");
+        mainstagegotoxy(80,16);
+        printf("Condition: Pass phases 1,2,3 with 3 lives");
+    }
+    else {
+       printf("4 : ???");
+    }
+}
+void stage1Achievementprint (){
+    mainstagegotoxy(80,9);
+    if (stage1achi[0]=='O'){
+        printf("1 : First Start");
+        mainstagegotoxy(80,10);
+        printf("Condition: Phase 1 passed");
+    }
+    else {
+        printf("1 : ???");
+    }
+    mainstagegotoxy(80,11);
+    if (stage1achi[1]=='O'){
+        printf("2 : An Unexpected Move");
+        mainstagegotoxy(80,12);
+        printf("Condition: Phase 2 passed");
+    }
+    else {
+        printf("2 : ???");
+    }
+    mainstagegotoxy(80,13);
+    if (stage1achi[2]=='O'){
+        printf("3 : Busy. Busy. Modern society");
+        mainstagegotoxy(80,14);
+        printf("Condition: Phase 3 passed");
+    }
+    else {
+        printf("3 : ???");
     }
 }
