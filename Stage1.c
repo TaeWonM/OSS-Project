@@ -38,7 +38,7 @@ char *stage1(int diffi) {
     game_level = diffi;
     int row = 1, col = 1;
     setlocale(LC_ALL,"");
-
+    count = 0;
     switch (game_level) {
     case 1:
         MAX_SIZE = MAX_SIZE1;
@@ -82,8 +82,6 @@ char *stage1(int diffi) {
                 achivemant[game_level - 1] = 'O';
                 break;
             }
-
-            count = 0;
             for (int i = 0; i < MAX_SIZE3; i++) {
                 for (int j = 0; j < MAX_SIZE3; j++) {
                     flag[i][j] = 0;
@@ -94,6 +92,8 @@ char *stage1(int diffi) {
             printf("Press Enter To Return");
             while (1) if (GetAsyncKeyState(VK_RETURN)) return achivemant;
         }
+        GotoXY(80, 10);
+        printf ("%d",count);
         print_mazeGame(maze, MAX_SIZE);
         move_maze(maze, &row, &col);
 
