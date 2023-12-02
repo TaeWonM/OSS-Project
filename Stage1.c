@@ -1,4 +1,3 @@
-#define _CRT_SECURE_NO_WARNINGS
 #include <conio.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -6,6 +5,7 @@
 #include <windows.h>
 #include <locale.h>
 #include <wchar.h>
+#include "Stage.h"
 
 #define XPOS 50
 #define YPOS 5
@@ -13,9 +13,6 @@
 #define RIGHT 77
 #define UP 72
 #define DOWN 80
-#define MAX_SIZE1 12
-#define MAX_SIZE2 15
-#define MAX_SIZE3 21
 
 int MAX_SIZE;
 int flag[MAX_SIZE3][MAX_SIZE3] = { 1 };
@@ -27,7 +24,7 @@ int game_level = 0;
 int clear_count = 99999;
 time_t start_time;
 int num_ghosts;
-char achivemant[4] =  {'X','X','X','\0' }; //업적 개수
+char achivemant[4] =  {'X','X','X','\0'}; //업적 개수
 
 typedef struct {
     int row;
@@ -37,20 +34,7 @@ typedef struct {
 
 Ghost ghosts[MAX_SIZE3 * MAX_SIZE3];
 
-void moveGhost_player(int player_row, int player_col, int ghost_index);
-void GotoXY(int x, int y);
-void print_mazeGame(char maze[][MAX_SIZE3], int row);
-int p_block(char maze[][MAX_SIZE3], int row, int col);
-int m_block_r(char maze[][MAX_SIZE3], int row, int col);
-int m_block_p(char maze[][MAX_SIZE3], int row, int col);
-void move_maze(char maze[][MAX_SIZE3], int* row, int* col);
-void CursorView(char show);
-void printTimeElapsed();
-int fileopen();
-int checkGameOver(int player_row, int player_col);
-void initializeGhosts();
-
-char *main(int diffi) {
+char *stage1(int diffi) {
     game_level = diffi;
     int row = 1, col = 1;
     setlocale(LC_ALL,"");
@@ -74,20 +58,34 @@ char *main(int diffi) {
         num_ghosts = 3;
         clear_count = 216;
         break;
-    default:
-        return 1;
     }
-
+    count;
     fileopen();
     CursorView(0);
     time(&start_time);
 
     initializeGhosts();
 
-    for (int i = 0; i < 4; i++)
-        achivemant[i] = 'X';
-
     while (1) {
+        if (count == clear_count) {
+            system("cls");
+            GotoXY(XPOS - 3, YPOS - 2);
+            printf("game clear\n");
+            switch (game_level) {
+            case 1:
+                achivemant[game_level - 1] = 'O';
+                break;
+            case 2:
+                achivemant[game_level - 1] = 'O';
+                break;
+            case 3:
+                achivemant[game_level - 1] = 'O';
+                break;
+            }
+            GotoXY(XPOS - 3, YPOS - 1);
+            printf("Press Enter To Return");
+            while (1) if (GetAsyncKeyState(VK_RETURN)) return achivemant;
+        }
         print_mazeGame(maze, MAX_SIZE);
         move_maze(maze, &row, &col);
 
@@ -106,7 +104,7 @@ char *main(int diffi) {
                 system("cls");
                 GotoXY(XPOS - 3, YPOS - 2);
                 wprintf(L"게임 오버: 유령과 부딪혔습니다.");
-                GotoXY(XPOS - 3, YPOS - 3);
+                GotoXY(XPOS - 3, YPOS - 1);
                 printf("Press Enter To Return");
                 while (1) if (GetAsyncKeyState(VK_RETURN)) return achivemant;
         }
@@ -122,7 +120,7 @@ char *main(int diffi) {
                 system("cls");
                 GotoXY(XPOS - 3, YPOS - 2);
                 wprintf(L"게임 시간 초과");
-                GotoXY(XPOS - 3, YPOS - 3);
+                GotoXY(XPOS - 3, YPOS - 1);
                 printf("Press Enter To Return");
                 while (1) if (GetAsyncKeyState(VK_RETURN)) return achivemant;
         }
@@ -200,26 +198,7 @@ int p_block(char maze[][MAX_SIZE3], int i, int j) {
 
     if (maze[i][j] == '1')
         return 1;
-    else if (count == clear_count && maze[i][j] == '0' && flag[i][j] == 0) {
-            system("cls");
-            GotoXY(XPOS - 3, YPOS - 2);
-            printf("game clear\n");
-            GotoXY(XPOS - 3, YPOS - 3);
-            printf("Press Enter To Return");
-            while (1) if (GetAsyncKeyState(VK_RETURN)) return achivemant;
-        switch (game_level) {
-        case 1:
-            achivemant[game_level - 1] = 'O';
-            break;
-        case 2:
-            achivemant[game_level - 1] = 'O';
-            break;
-        case 3:
-            achivemant[game_level - 1] = 'O';
-            break;
-        }
-        return achivemant;
-    }
+    
     else if (flag[i][j] == 0 && maze[i][j] == '0' && flag[i][j] != 1) {
         flag[i][j] = 1;
         count++;
@@ -243,48 +222,39 @@ void move_maze(char maze[][MAX_SIZE3], int* row, int* col) {
     int i = *row;
     int j = *col;
 
-    chr = GetKey();
-
-    if (chr == 0 || chr == 0xe0) {
-        chr = GetKey();
-        switch (chr) {
-        case UP:
+        if(GetAsyncKeyState(VK_UP)){
             i--;
             if (!(p_block(maze, i, j))) {
                 maze[*row][j] = '0';
                 maze[i][j] = 'x';
                 *row -= 1;
             }
-            break;
-
-        case DOWN:
+        }
+        else if (GetAsyncKeyState(VK_DOWN)){
             i++;
             if (!(p_block(maze, i, j))) {
                 maze[*row][j] = '0';
                 maze[i][j] = 'x';
                 *row += 1;
             }
-            break;
-
-        case LEFT:
+        }
+        else if (GetAsyncKeyState(VK_LEFT)){
             j--;
             if (!(p_block(maze, i, j))) {
                 maze[i][*col] = '0';
                 maze[i][j] = 'x';
                 *col -= 1;
             }
-            break;
-
-        case RIGHT:
+        }
+        else if (GetAsyncKeyState(VK_RIGHT)){
             j++;
             if (!(p_block(maze, i, j))) {
                 maze[i][*col] = '0';
                 maze[i][j] = 'x';
                 *col += 1;
             }
-            break;
         }
-    }
+            
 }
 
 void moveGhost_player(int player_row, int player_col, int ghost_index)
@@ -383,6 +353,5 @@ int checkGameOver(int player_row, int player_col) {
             return 1;
         }
     }
-
     return 0;
 }
