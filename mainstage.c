@@ -30,10 +30,15 @@ void stage3Achievementprint ();
 void stage2Achievementprint ();
 void stage1Achievementprint ();
 void characterselect ();
+void startscreen();
 
 int main () {
     Filescan ();
     saveread();
+    setlocale(LC_ALL,"");
+    startscreen();
+    setlocale(LC_ALL,"C");
+    system("cls");
     int prex=startx,curx;
     int prey=starty,cury;
     for (int i = 0; i<CAMMAXY; i++) {
@@ -465,4 +470,28 @@ void characterselect(){
             }
         }
     }
+}
+
+void startscreen(){
+    for (int i = 20; i<=70; i++){
+        mainstagegotoxy(i,5);
+        wprintf(L"■");
+    }
+    for (int i = 6; i<=16; i++){
+        mainstagegotoxy(20,i);
+        wprintf(L"■");
+        mainstagegotoxy(70,i);
+        wprintf(L"■");
+    }
+    for (int i = 20; i<=70; i++){
+        mainstagegotoxy(i,17);
+        wprintf(L"■");
+    }
+    mainstagegotoxy(40,10);
+    wprintf(L"오락실 게임");
+    mainstagegotoxy(35,11);
+    printf("Press Enter to start");
+    mainstagegotoxy(34,12);
+    printf("Made by CBNU OSS class");
+    while (1) if (GetAsyncKeyState(VK_RETURN)) break;
 }
