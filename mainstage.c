@@ -3,6 +3,7 @@
 #include <string.h>
 #include <locale.h>
 #include "Stage.h"
+#include <process.h>
 
 FILE *fp;
 char map[20][101];
@@ -14,12 +15,19 @@ int starty = 0;
 float xv = 0;
 float yv = 0;
 int check = 0;
+int watchend = 1;
+int cooldown = 1;
 char stage3achi [6] = {'X','X','X','X','X','\0'};
 char stage2achi [5] = {'X','X','X','X','\0'};
 char stage1achi [4] = {'X','X','X','\0'};
+char clearstage3achi [6] = {'O','O','O','O','O','\0'};
+char clearstage2achi [5] = {'O','O','O','O','\0'};
+char clearstage1achi [4] = {'O','O','O','\0'};
 char character = 'W';
 int charactnum = 0;
 char characters[4] = {'W','e','L','I'};
+HANDLE starthThread;
+DWORD startthreadId;
 
 void mainstagegotoxy(int x, int y);
 void Filescan ();
@@ -31,6 +39,9 @@ void stage2Achievementprint ();
 void stage1Achievementprint ();
 void characterselect ();
 void startscreen();
+void endscreen();
+void Enterscreen(void *);
+void Cooldownset(void *);
 
 int main () {
     Filescan ();
@@ -61,7 +72,7 @@ int main () {
         if (GetAsyncKeyState(VK_UP) && prey>1 && map[prey-2][prex-1+MOVE]==' ' && map[prey][prex-1+MOVE] == '='){
             yv-=2;
         }
-        else if (GetAsyncKeyState(VK_DOWN) && map[prey][prex-1+MOVE]!=' ' && map[prey][prex-1+MOVE]!='='){
+        else if (GetAsyncKeyState(VK_DOWN) && map[prey][prex-1+MOVE]!=' ' && map[prey][prex-1+MOVE]!='=' && cooldown == 1){
             system ("cls");
             mainstagegotoxy(30,10);
             printf ("Press dificulty 1~3");
@@ -70,21 +81,33 @@ int main () {
             {
             case '1':
                 system("cls");
-                char tmp[4];
-                strcpy(tmp,stage1(diffi));
-                for (int i = 0; i < 3; i++) if (tmp[i]=='O') stage1achi[i] = 'O';
+                char stage1tmp[4];
+                strcpy(stage1tmp,stage1(diffi));
+                for (int i = 0; i < 3; i++) if (stage1tmp[i]=='O') stage1achi[i] = 'O';
                 system("cls");
                 break;
             case '3':
                 system("cls");
-                strcpy(stage3achi,stage3(diffi));
+                char stage3tmp[6];
+                strcpy(stage3tmp,stage1(diffi));
+                for (int i = 0; i < 5; i++) if (stage3tmp[i]=='O') stage1achi[i] = 'O';
                 system("cls");
                 break;
             default:
                 break;
             }
             setlocale(LC_ALL,"C");
-            continue;
+            if (watchend == 1 && strcmp(stage1achi,clearstage1achi) == 0 && strcmp(stage2achi,clearstage2achi) == 0 && strcmp(stage3achi,clearstage3achi) == 0 ){
+                setlocale(LC_ALL,"");
+                Sleep(50);
+                endscreen();
+                Sleep(3000);
+                setlocale(LC_ALL,"C");
+                watchend = 0;
+                system("cls");
+            }
+            _beginthread(Cooldownset, 0,(void *)1);
+            Sleep(100);
         }
         
         xv-=0.1*xv;
@@ -489,9 +512,55 @@ void startscreen(){
     }
     mainstagegotoxy(40,10);
     wprintf(L"오락실 게임");
-    mainstagegotoxy(35,11);
-    printf("Press Enter to start");
+    starthThread = _beginthread(Enterscreen, 0,(void *)1);
+    Sleep(50);
     mainstagegotoxy(34,12);
     printf("Made by CBNU OSS class");
-    while (1) if (GetAsyncKeyState(VK_RETURN)) break;
+    while (1) {
+        if (GetAsyncKeyState(VK_RETURN)) break;
+    }
+    TerminateThread(starthThread,startthreadId);
+    return;
+}
+
+void Enterscreen(void * n){
+    while (1){
+    mainstagegotoxy(35,11);
+    printf("Press Enter to start");
+    Sleep(500);
+    mainstagegotoxy(35,11);
+    printf("                       ");
+    Sleep(500);
+    }
+}
+
+void endscreen(){
+    for (int i = 20; i<=70; i++){
+        mainstagegotoxy(i,5);
+        wprintf(L"■");
+    }
+    for (int i = 6; i<=16; i++){
+        mainstagegotoxy(20,i);
+        wprintf(L"■");
+        mainstagegotoxy(70,i);
+        wprintf(L"■");
+    }
+    for (int i = 20; i<=70; i++){
+        mainstagegotoxy(i,17);
+        wprintf(L"■");
+    }
+    mainstagegotoxy(37,10);
+    wprintf(L"클리어를 축하합니다");
+    mainstagegotoxy(33,11);
+    wprintf(L"플레이를 해주셔서 감사합니다");
+    mainstagegotoxy(37,12);
+    wprintf(L"-수원서 조 드림-");
+    return;
+}
+
+void Cooldownset(void * n){
+    cooldown = 0;
+    Sleep(1500);
+    cooldown = 1;
+    return;
 }
