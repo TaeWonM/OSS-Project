@@ -89,8 +89,8 @@ int main () {
             case '3':
                 system("cls");
                 char stage3tmp[6];
-                strcpy(stage3tmp,stage1(diffi));
-                for (int i = 0; i < 5; i++) if (stage3tmp[i]=='O') stage1achi[i] = 'O';
+                strcpy(stage3tmp,stage3(diffi));
+                for (int i = 0; i < 5; i++) if (stage3tmp[i]=='O') stage3achi[i] = 'O';
                 system("cls");
                 break;
             default:

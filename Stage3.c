@@ -21,7 +21,7 @@ char cleartring[50];
 char stage3achieve[6] = {'X','X','X','X','X','\0'};
 int difficulty;
 short stage3phase;
-DWORD threadId;
+HANDLE threadId;
 char * oldsetting;
 
 char *stage3(int Difficulty) {
@@ -39,7 +39,7 @@ char *stage3(int Difficulty) {
     start = clock();
     phasetime = start;
     srand(time(NULL));
-    phase1();
+    phase1(1);
     if (life<=0){
         return end(0);
     }
@@ -47,7 +47,7 @@ char *stage3(int Difficulty) {
     start = clock();
     phasetime = start;
     phase2();
-    phase1();
+    phase1(2);
     if (life<=0){
         return end(1);
     }
@@ -136,15 +136,18 @@ void makeclearstring () {
     return;
 };
 
-int skill1 () {
+int skill1 (int ph) {
         phase1move();
         textcolor(3);
-        int col = rand()%(stage3mapmaxy);
+        int col,raw;
+        if (ph==1) col = rand()%(stage3mapmaxy);
+        else if (ph==2) col = stage3y-printy-1;
+        if (ph==1) raw = rand()%(stage3mapmaxx);
+        else if (ph==2) raw = stage3x-printx-1;
         for (int i = 0; i<stage3mapmaxx; i++){
             stage3gotoxy(printx+1+i,printy+1+col);
             printf("-");
         }
-        int raw = rand()%(stage3mapmaxx);
         for (int i = 0; i<stage3mapmaxy; i++){
             stage3gotoxy(printx+1+raw,printy+1+i);
             printf("|");
@@ -326,15 +329,15 @@ int skill3(){
     return 0;
 }
 
-void phase1(){
-    while ((double)(clock() - phasetime) / CLOCKS_PER_SEC <=10){
+void phase1(int dif){
+    while ((double)(clock() - phasetime) / CLOCKS_PER_SEC <=10 + 20 * difficulty){
         phase1move();
         Sleep (20);
-        if ((double)(clock() - start) / CLOCKS_PER_SEC >=1){
+        if ((double)(clock() - start) / CLOCKS_PER_SEC >=(float)2/difficulty){
             srand(time(NULL));
             int num = rand()%3;
             if (num==0) {
-                if (skill1()) break;
+                if (skill1(dif)) break;
             }
             else if (num==1) {
                 if (skill2()) break;
@@ -386,7 +389,7 @@ void phase3 () {
     printf ("@");
     clock_t object = clock();
     clock_t stage3phase3start = clock();
-    while ((double)(clock() - stage3phase3start) / CLOCKS_PER_SEC <= 5){
+    while ((double)(clock() - stage3phase3start) / CLOCKS_PER_SEC <= 10 + 15 * difficulty){
         if ((double)(clock() - object) / CLOCKS_PER_SEC >1){
             srand(time(NULL));
             switch (rand()%2)
