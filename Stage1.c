@@ -9,10 +9,6 @@
 
 #define XPOS 50
 #define YPOS 5
-#define LEFT 75
-#define RIGHT 77
-#define UP 72
-#define DOWN 80
 
 int MAX_SIZE;
 int flag[MAX_SIZE3][MAX_SIZE3];
