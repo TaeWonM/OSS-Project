@@ -42,7 +42,7 @@ void reset_main_cpy(void);
 void draw_map(void);  
 void draw_main(void); 
 void new_block(void);  
-void check_key(void);  
+int check_key(void);  
 void drop_block(void);  
 int check_crush(int bx, int by, int rotation);  
 void move_block(int dir);

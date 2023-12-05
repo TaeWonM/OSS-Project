@@ -117,7 +117,7 @@ char *stage2(int diffi){
     
     while(1){
         for(i=0;i<5;i++){  
-            check_key(); 
+            if (check_key())return stage2achievement; 
             draw_main(); 
             Sleep(speed); 
             if(crush_on&&check_crush(bx,by+1, b_rotation)==false) Sleep(100);
@@ -357,7 +357,7 @@ void new_block(void){
     };
 }
  
-void check_key(void){
+int check_key(void){
     key=0;   
     if (GetAsyncKeyState(VK_LEFT) && check_crush(bx-1,by,b_rotation)==true)move_block(LEFT); 
     else if (GetAsyncKeyState(VK_RIGHT) && check_crush(bx+1,by,b_rotation)==true)move_block(RIGHT);
@@ -377,8 +377,9 @@ void check_key(void){
     else if (GetAsyncKeyState(0x50))pause(); 
     else if (GetAsyncKeyState(VK_ESCAPE)) {
         system("cls");  
-        exit(0);
+        return 1;
     }
+    return 0;
 }
  
 void drop_block(void){

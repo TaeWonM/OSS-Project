@@ -111,8 +111,13 @@ int main () {
                 watchend = 0;
                 system("cls");
             }
+            mainstagegotoxy(1,1);
+            for (int i = 0; i<CAMMAXY; i++) {
+                printf ("%.60s",&map[i][MOVE]);
+                printf("\n");
+            }
             _beginthread(Cooldownset, 0,(void *)1);
-            Sleep(100);
+            
         }
         
         xv-=0.1*xv;
@@ -141,7 +146,7 @@ int main () {
             };
         }
         Sleep(20);
-        if (map[prey][prex-1+MOVE] != '=' && map[prey][prex-1+MOVE] != ' '){
+        if (map[prey][prex-1+MOVE] != '=' && map[prey][prex-1+MOVE] != ' ' && check = 0){
             if (map[prey][prex-1+MOVE] == '1'){
                 mainstagegotoxy(80,5);
                 printf ("Stage 1 : Pac-Man");
@@ -198,15 +203,20 @@ int main () {
         if (prex>CAMMAXX*0.8 && MOVE+CAMMAXX != MAPMAXX) {
             MOVE+=1;
             curx--;
+            mainstagegotoxy(1,1);
+            for (int i = 0; i<CAMMAXY; i++) {
+                printf ("%.60s",&map[i][MOVE]);
+                printf("\n");
+            }
         }
         if (prex<CAMMAXX*0.2 && MOVE != 0) {
             MOVE-=1;
             curx++;
-        }
-        mainstagegotoxy(1,1);
-        for (int i = 0; i<CAMMAXY; i++) {
-            printf ("%.60s",&map[i][MOVE]);
-            printf("\n");
+            mainstagegotoxy(1,1);
+            for (int i = 0; i<CAMMAXY; i++) {
+                printf ("%.60s",&map[i][MOVE]);
+                printf("\n");
+            }
         }
         if (prex != curx || prey!= cury){
         mainstagegotoxy (prex,prey);
