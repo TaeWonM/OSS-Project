@@ -607,7 +607,7 @@ void pause(void){
         for(j=0;j<4;j++){
             if(blocks[b_type_next][0][i][j]==1) {
                 gotoxy(MAIN_X+MAIN_X_ADJ+3+j,i+6);
-                printf("��");
+                wprintf(L"■");
             }
             else{
                 gotoxy(MAIN_X+MAIN_X_ADJ+3+j,i+6);
