@@ -69,7 +69,7 @@ int main () {
                 xv+=0.3;
             }
         }
-        if (GetAsyncKeyState(VK_UP) && prey>1 && map[prey-2][prex-1+MOVE]==' ' && map[prey][prex-1+MOVE] == '='){
+        if (GetAsyncKeyState(VK_UP) && prey>1 && map[prey][prex-1+MOVE] != ' '){
             yv-=2;
         }
         else if (GetAsyncKeyState(VK_DOWN) && map[prey][prex-1+MOVE]!=' ' && map[prey][prex-1+MOVE]!='=' && cooldown == 1){
