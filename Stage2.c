@@ -3,6 +3,7 @@
 #include <conio.h>
 #include <time.h>
 #include <stdlib.h>
+#include <locale.h>
  
 #define LEFT 75 
 #define RIGHT 77
@@ -118,7 +119,7 @@ void setcursortype(CURSOR_TYPE c){
  
 int main(){
     int i;
-    
+    setlocale(LC_ALL,"");
     srand((unsigned)time(NULL)); 
     setcursortype(NOCURSOR); 
     title(); 
@@ -150,18 +151,15 @@ int cnt;
     
     gotoxy(x+5,y+2);printf("T E T R I S");Sleep(100);
     gotoxy(x,y+7);printf("Please Enter Any Key to Start..");
-    gotoxy(x,y+9); printf("  △   : Shift");     
-    gotoxy(x,y+10); printf("◁  ▷ : Left / Right");     
-    gotoxy(x,y+11); printf("  ▽   : Soft Drop");
+    gotoxy(x,y+9); wprintf(L"  △   : Shift");     
+    gotoxy(x,y+10); wprintf(L"◁  ▷ : Left / Right");     
+    gotoxy(x,y+11); wprintf(L"  ▽   : Soft Drop");
     gotoxy(x,y+12); printf(" SPACE : Hard Drop"); 
     gotoxy(x,y+13); printf("   P   : Pause"); 
     gotoxy(x,y+14); printf("  ESC  : Quit");  
     gotoxy(x,y+16); printf("BONUS FOR HARD DROPS / COMBOS"); 
 
-    for(cnt=0;;cnt++){  
-        if(kbhit()) break;
-    }
-    while (kbhit()) getch(); 
+    while (1) if (GetAsyncKeyState(VK_RETURN)) break;
  
 }
  
@@ -240,9 +238,9 @@ int y=3;
     gotoxy(STATUS_X_ADJ, y+11); printf("        %6d", last_score);     
     gotoxy(STATUS_X_ADJ, y+12); printf(" BEST SCORE :");     
     gotoxy(STATUS_X_ADJ, y+13); printf("        %6d", best_score);     
-    gotoxy(STATUS_X_ADJ, y+15); printf("  △   : Shift        SPACE : Hard Drop");     
-    gotoxy(STATUS_X_ADJ, y+16); printf("◁  ▷ : Left / Right   P   : Pause");     
-    gotoxy(STATUS_X_ADJ, y+17); printf("  ▽   : Soft Drop     ESC  : Quit");
+    gotoxy(STATUS_X_ADJ, y+15); wprintf(L"  △   : Shift        SPACE : Hard Drop");     
+    gotoxy(STATUS_X_ADJ, y+16); wprintf(L"◁  ▷ : Left / Right   P   : Pause");     
+    gotoxy(STATUS_X_ADJ, y+17); wprintf(L"  ▽   : Soft Drop     ESC  : Quit");
 }
  
 void draw_main(void){ 
@@ -264,13 +262,13 @@ void draw_main(void){
                         printf(". ");
                         break;
                     case WALL:  
-                        printf("▩"); 
+                        wprintf(L"▩"); 
                         break;
                     case INACTIVE_BLOCK:   
-                        printf("□");
+                        wprintf(L"□");
                         break;
                     case ACTIVE_BLOCK:   
-                        printf("■");
+                        wprintf(L"■");
                         break;    
                 }    
             }
@@ -303,7 +301,7 @@ void new_block(void){
         for(j=0;j<4;j++){
             if(blocks[b_type_next][0][i][j]==1) {
                 gotoxy(STATUS_X_ADJ+2+j,i+6);
-                printf("■");
+                wprintf(L"■");
             }
             else{
                 gotoxy(STATUS_X_ADJ+2+j,i+6);
@@ -315,48 +313,26 @@ void new_block(void){
  
 void check_key(void){
     key=0;   
-    
-    if(kbhit()){  
-        key=getch(); 
-        if(key==224){ 
-            do{key=getch();} while(key==224); 
-            switch(key){
-                case LEFT:   
-                    if(check_crush(bx-1,by,b_rotation)==true) move_block(LEFT); 
-                    break;                           
-                case RIGHT:  
-                    if(check_crush(bx+1,by,b_rotation)==true) move_block(RIGHT);
-                    break;
-                case DOWN:  
-                    if(check_crush(bx,by+1,b_rotation)==true) move_block(DOWN);
-                    break;
-                case UP:  
-                    if(check_crush(bx,by,(b_rotation+1)%4)==true) move_block(UP); 
-                                                        
-                    else if(crush_on==1&&check_crush(bx,by-1,(b_rotation+1)%4)==true) move_block(100);     
-            }                    
-        }
-        else{ 
-            switch(key){
-                case SPACE:
-                    space_key_on=1; 
-                    while(crush_on==0){  
-                        drop_block();
-                        score+=level;
-                        gotoxy(STATUS_X_ADJ, STATUS_Y_SCORE); printf("        %6d", score);   
-                    }
-                    break;
-                case P:  
-                case p:  
-                    pause();  
-                    break;
-                case ESC:  
-                    system("cls");  
-                    exit(0);  
-            }
+    if (GetAsyncKeyState(VK_LEFT) && check_crush(bx-1,by,b_rotation)==true)move_block(LEFT); 
+    else if (GetAsyncKeyState(VK_RIGHT) && check_crush(bx+1,by,b_rotation)==true)move_block(RIGHT);
+    else if (GetAsyncKeyState(VK_DOWN) && check_crush(bx,by+1,b_rotation)==true)move_block(DOWN);
+    else if (GetAsyncKeyState(VK_UP)){
+        if(check_crush(bx,by,(b_rotation+1)%4)==true) move_block(UP);             
+        else if(crush_on==1&&check_crush(bx,by-1,(b_rotation+1)%4)==true) move_block(100);   
+    }
+    else if (GetAsyncKeyState(VK_SPACE)){
+        space_key_on=1; 
+        while(crush_on==0){  
+            drop_block();
+            score+=level;
+            gotoxy(STATUS_X_ADJ, STATUS_Y_SCORE); printf("        %6d", score);   
         }
     }
-    while (kbhit()) getch();  
+    else if (GetAsyncKeyState(0x50))pause(); 
+    else if (GetAsyncKeyState(VK_ESCAPE)) {
+        system("cls");  
+        exit(0);
+    }
 }
  
 void drop_block(void){
@@ -522,9 +498,9 @@ void check_level_up(void){
             Sleep(200);
             
             gotoxy(MAIN_X_ADJ+(MAIN_X/2)-3,MAIN_Y_ADJ+4);
-            printf("☆LEVEL UP!☆");
+            wprintf(L"☆LEVEL UP!☆");
             gotoxy(MAIN_X_ADJ+(MAIN_X/2)-2,MAIN_Y_ADJ+6);
-            printf("☆SPEED UP!☆");
+            wprintf(L"☆SPEED UP!☆");
             Sleep(200);
         }
         reset_main_cpy(); 
@@ -574,22 +550,22 @@ void check_game_over(void){
     
     for(i=1;i<MAIN_X-2;i++){
         if(main_org[3][i]>0){ 
-            gotoxy(x,y+0); printf("▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤");   
-            gotoxy(x,y+1); printf("▤                              ▤");
-            gotoxy(x,y+2); printf("▤  +-----------------------+   ▤");
-            gotoxy(x,y+3); printf("▤  |  G A M E  O V E R..   |   ▤");
-            gotoxy(x,y+4); printf("▤  +-----------------------+   ▤");
-            gotoxy(x,y+5); printf("▤   YOUR SCORE: %6d         ▤",score);
-            gotoxy(x,y+6); printf("▤                              ▤");
-            gotoxy(x,y+7); printf("▤  Press any key to restart..  ▤");
-            gotoxy(x,y+8); printf("▤                              ▤");
-            gotoxy(x,y+9); printf("�▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤");
+            gotoxy(x,y+0); wprintf(L"▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤");   
+            gotoxy(x,y+1); wprintf(L"▤                              ▤");
+            gotoxy(x,y+2); wprintf(L"▤  +-----------------------+   ▤");
+            gotoxy(x,y+3); wprintf(L"▤  |  G A M E  O V E R..   |   ▤");
+            gotoxy(x,y+4); wprintf(L"▤  +-----------------------+   ▤");
+            gotoxy(x,y+5); wprintf(L"▤   YOUR SCORE: %6d         ▤",score);
+            gotoxy(x,y+6); wprintf(L"▤                              ▤");
+            gotoxy(x,y+7); wprintf(L"▤  Press any key to restart..  ▤");
+            gotoxy(x,y+8); wprintf(L"▤                              ▤");
+            gotoxy(x,y+9); wprintf(L"�▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤");
             last_score=score;  
             
             if(score>best_score){ 
                 FILE* file=fopen("score.dat", "wt");                 
                 
-                gotoxy(x,y+6); printf("▤  ★★★ BEST SCORE! ★★★   ▤  ");
+                gotoxy(x,y+6); wprintf(L"▤  ★★★ BEST SCORE! ★★★   ▤  ");
  
                 if(file==0){  
                     gotoxy(0,0); 
@@ -600,32 +576,28 @@ void check_game_over(void){
                     fclose(file);
                 }
             }
-            Sleep(1000);
-            while (kbhit()) getch();
-            key=getch();
-            reset();
+            while (1) if(GetAsyncKeyState(VK_RETURN)) exit(1);
         }
     }
 }
  
 void pause(void){ 
     int i,j;
-    
+    system("cls");
     int x=5;
     int y=5;
     
     for(i=1;i<MAIN_X-2;i++){ 
-            gotoxy(x,y+0); printf("▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤");
-            gotoxy(x,y+1); printf("▤                              ▤");
-            gotoxy(x,y+2); printf("▤  +-----------------------+   ▤");
-            gotoxy(x,y+3); printf("▤  |       P A U S E       |   ▤");
-            gotoxy(x,y+4); printf("▤  +-----------------------+   ▤");
-            gotoxy(x,y+5); printf("▤  Press any key to resume..   ▤");
-            gotoxy(x,y+6); printf("▤                              ▤");
-            gotoxy(x,y+7); printf("▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤");
+            gotoxy(x,y+0); wprintf(L"▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤");
+            gotoxy(x,y+1); wprintf(L"▤                              ▤");
+            gotoxy(x,y+2); wprintf(L"▤  +-----------------------+   ▤");
+            gotoxy(x,y+3); wprintf(L"▤  |       P A U S E       |   ▤");
+            gotoxy(x,y+4); wprintf(L"▤  +-----------------------+   ▤");
+            gotoxy(x,y+5); wprintf(L"▤  Press any key to resume..   ▤");
+            gotoxy(x,y+6); wprintf(L"▤                              ▤");
+            gotoxy(x,y+7); wprintf(L"▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤");
             }
-    getch(); 
-    
+    while (1) if (GetAsyncKeyState(VK_RETURN))break;
     system("cls"); 
     reset_main_cpy();  
     draw_main();
