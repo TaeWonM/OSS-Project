@@ -69,7 +69,7 @@ char *stage1(int diffi) {
     while (1) {
         if (count == clear_count) {
             system("cls");
-            GotoXY(XPOS - 3, YPOS - 2);
+            GotoXY(35, 10);
             printf("game clear\n");
             switch (game_level) {
             case 1:
@@ -88,7 +88,7 @@ char *stage1(int diffi) {
                 }
             }
 
-            GotoXY(XPOS - 3, YPOS - 1);
+            GotoXY(32, 11);
             printf("Press Enter To Return");
             while (1) if (GetAsyncKeyState(VK_RETURN)) return achivemant;
         }
@@ -110,9 +110,9 @@ char *stage1(int diffi) {
 
         if (checkGameOver(row, col)) {
                 system("cls");
-                GotoXY(XPOS - 3, YPOS - 2);
+                GotoXY(32, 10);
                 wprintf(L"게임 오버: 유령과 부딪혔습니다.");
-                GotoXY(XPOS - 3, YPOS - 1);
+                GotoXY(32, 11);
                 printf("Press Enter To Return");
                 while (1) if (GetAsyncKeyState(VK_RETURN)) return achivemant;
         }
@@ -126,9 +126,9 @@ char *stage1(int diffi) {
 
         if (difftime(current_time, start_time) >= game_timer) {
                 system("cls");
-                GotoXY(XPOS - 3, YPOS - 2);
+                GotoXY(35, 10);
                 wprintf(L"게임 시간 초과");
-                GotoXY(XPOS - 3, YPOS - 1);
+                GotoXY(32, 11);
                 printf("Press Enter To Return");
                 while (1) if (GetAsyncKeyState(VK_RETURN)) return achivemant;
         }

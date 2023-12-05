@@ -29,19 +29,19 @@ char characters[4] = {'W','e','L','I'};
 HANDLE starthThread;
 DWORD startthreadId;
 
-void mainstagegotoxy(int x, int y);
-void Filescan ();
-int Choose_1to3 ();
-void save();
-void saveread();
-void stage3Achievementprint ();
-void stage2Achievementprint ();
-void stage1Achievementprint ();
-void characterselect ();
-void startscreen();
-void endscreen();
-void Enterscreen(void *);
-void Cooldownset(void *);
+void mainstagegotoxy(int x, int y); // 커서 이동 함수
+void Filescan (); // 메인 스테이지 맵 읽기 함수
+int Choose_1to3 (); // 1-3의 입력을 받는 함수
+void save(); // save.txt 파일 출력 함수
+void saveread(); // save.txt 파일 읽기 함수
+void stage3Achievementprint (); // stage 3 업적 출력 함수
+void stage2Achievementprint (); // stage 2 업적 출력 함수
+void stage1Achievementprint (); // stage 1 업적 출력 함수
+void characterselect (); // 캐릭터 변경 화면 출력
+void startscreen(); // 시작 화면 출력 함수
+void endscreen(); // 엔딩 크레딧 출력 함수
+void Enterscreen(void *); // 깜빡이는 스크린
+void Cooldownset(void *); // stage 들어가는 쿨타임 설정
 
 int main () {
     Filescan ();
@@ -389,6 +389,8 @@ void stage1Achievementprint (){
 void characterselect(){
     while(1){
         system("cls");
+        mainstagegotoxy(47,4);
+        printf("%d",charactnum+1);
         mainstagegotoxy(42,5);
         printf("===========");
         mainstagegotoxy(47,7);
