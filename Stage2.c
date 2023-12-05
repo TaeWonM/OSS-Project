@@ -56,6 +56,7 @@ int blocks[7][4][4][4]={
 int b_type; 
 int b_rotation;  
 int b_type_next; 
+int b_dummy;
  
 int main_org[MAIN_Y][MAIN_X];  
 int main_cpy[MAIN_Y][MAIN_X];  
@@ -117,7 +118,7 @@ char *stage2(int diffi){
     
     while(1){
         for(i=0;i<5;i++){  
-            if (check_key())return stage2achievement; 
+            check_key(); 
             draw_main(); 
             Sleep(speed); 
             if(crush_on&&check_crush(bx,by+1, b_rotation)==false) Sleep(100);
@@ -139,17 +140,22 @@ int x=5;
 int y=4; 
 int cnt;   
     
-    gotoxy(x+5,y+2);printf("T E T R I S");Sleep(100);
-    gotoxy(x,y+7);printf("Press Enter to Start..");
-    gotoxy(x,y+9); wprintf(L"  △   : Shift");     
-    gotoxy(x,y+10); wprintf(L"◁  ▷ : Left / Right");     
-    gotoxy(x,y+11); wprintf(L"  ▽   : Soft Drop");
-    gotoxy(x,y+12); printf(" SPACE : Hard Drop"); 
-    gotoxy(x,y+13); printf("   P   : Pause"); 
-    gotoxy(x,y+14); printf("  ESC  : Quit");  
-    gotoxy(x,y+16); printf("BONUS FOR HARD DROPS / COMBOS"); 
+    gotoxy(x+10,y+2);printf("T   E   T   R   I   S");
+    gotoxy(x+10,y+7);printf("Press Enter to Start.");
+    gotoxy(x+10,y+9); wprintf(L"  △   : Shift");     
+    gotoxy(x+10,y+10); wprintf(L"◁  ▷ : Left / Right");     
+    gotoxy(x+10,y+11); wprintf(L"  ▽   : Soft Drop");
+    gotoxy(x+10,y+12); printf(" SPACE : Hard Drop"); 
+    gotoxy(x+10,y+13); printf("   P   : Pause"); 
+    gotoxy(x+10,y+14); printf("  ESC  : Quit");  
+    gotoxy(x+10,y+16); printf("BONUS FOR HARD DROPS / COMBOS"); 
 
-    while (1) if (GetAsyncKeyState(VK_RETURN)) break;
+    while (1) {
+        if (GetAsyncKeyState(VK_RETURN)) {
+            Sleep(100);
+            break;
+        }
+    }
  
 }
  
@@ -219,12 +225,12 @@ int y=3;
 
     switch (step) {
         case 2 :
-            gotoxy(STATUS_X_ADJ, y+2); printf("+--------  N E X T  -------+ ");
-            gotoxy(STATUS_X_ADJ, y+3); printf("|                          | ");
-            gotoxy(STATUS_X_ADJ, y+4); printf("|                          | ");
-            gotoxy(STATUS_X_ADJ, y+5); printf("|                          | ");
-            gotoxy(STATUS_X_ADJ, y+6); printf("|                          | ");
-            gotoxy(STATUS_X_ADJ, y+7); printf("+--------  -  -  -  -------+ "); 
+            gotoxy(STATUS_X_ADJ, y+2); printf("+--------  N E X T  --------+ ");
+            gotoxy(STATUS_X_ADJ, y+3); printf("|                           | ");
+            gotoxy(STATUS_X_ADJ, y+4); printf("|                           | ");
+            gotoxy(STATUS_X_ADJ, y+5); printf("|                           | ");
+            gotoxy(STATUS_X_ADJ, y+6); printf("|                           | ");
+            gotoxy(STATUS_X_ADJ, y+7); printf("+--------  -  -  -  --------+ "); 
             break;
         default :
             gotoxy(STATUS_X_ADJ, y+2); printf("+-  N E X T  -+ ");
@@ -321,43 +327,77 @@ void new_block(void){
             SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 7);
             break;
         case 2:
-            SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), b_type_next + 1);
-            for(i=1;i<3;i++){ 
-                for(j=0;j<4;j++){
-                    if(blocks[b_type_next][0][i][j]==1) {
-                        gotoxy(STATUS_X_ADJ+2+j,i+6);
-                        wprintf(L"■");
-                    }
-                    else{
-                        gotoxy(STATUS_X_ADJ+2+j,i+6);
-                        printf("  ");
-                    }
-                }
-            }
-            SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 7);
-
-            int b_dummy=rand()%7; 
-            SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), b_dummy + 1);
-            for(i=1;i<3;i++){ 
-                for(j=0;j<4;j++){
-                    if(blocks[b_dummy][0][i][j]==1) {
-                        gotoxy(STATUS_X_ADJ+6+j,i+6);
-                        wprintf(L"■");
-                    }
-                    else{
-                        gotoxy(STATUS_X_ADJ+6+j,i+6);
-                        printf("  ");
+            b_dummy=rand()%7;
+   
+            if (b_type_next > b_dummy) {
+                SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), b_type_next + 1);
+                for(i=1;i<3;i++){ 
+                    for(j=0;j<4;j++){
+                        if(blocks[b_type_next][0][i][j]==1) {
+                            gotoxy(STATUS_X_ADJ+2+j,i+6);
+                            wprintf(L"■");
+                        }
+                        else{
+                            gotoxy(STATUS_X_ADJ+2+j,i+6);
+                            printf("  ");
+                        }
                     }
                 }
+                SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 7);
+     
+                SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), b_dummy + 1);
+                for(i=1;i<3;i++){ 
+                    for(j=0;j<4;j++){
+                        if(blocks[b_dummy][0][i][j]==1) {
+                            gotoxy(STATUS_X_ADJ+10+j,i+6);
+                            wprintf(L"■");
+                        }
+                        else{
+                            gotoxy(STATUS_X_ADJ+10+j,i+6);
+                            printf("  ");
+                        }
+                    }
+                }
+                SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 7);
             }
-            SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 7);
+            else {
+                SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), b_type_next + 1);
+                for(i=1;i<3;i++){ 
+                    for(j=0;j<4;j++){
+                        if(blocks[b_type_next][0][i][j]==1) {
+                            gotoxy(STATUS_X_ADJ+10+j,i+6);
+                            wprintf(L"■");
+                        }
+                        else{
+                            gotoxy(STATUS_X_ADJ+10+j,i+6);
+                            printf("  ");
+                        }
+                    }
+                }
+                SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 7);
+     
+                SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), b_dummy + 1);
+                for(i=1;i<3;i++){ 
+                    for(j=0;j<4;j++){
+                        if(blocks[b_dummy][0][i][j]==1) {
+                            gotoxy(STATUS_X_ADJ+2+j,i+6);
+                            wprintf(L"■");
+                        }
+                        else{
+                            gotoxy(STATUS_X_ADJ+2+j,i+6);
+                            printf("  ");
+                        }
+                    }
+                }
+                SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 7);
+            }
             break;
         case 3:
             break;
     };
 }
  
-int check_key(void){
+void check_key(void){
     key=0;   
     if (GetAsyncKeyState(VK_LEFT) && check_crush(bx-1,by,b_rotation)==true)move_block(LEFT); 
     else if (GetAsyncKeyState(VK_RIGHT) && check_crush(bx+1,by,b_rotation)==true)move_block(RIGHT);
@@ -377,9 +417,8 @@ int check_key(void){
     else if (GetAsyncKeyState(0x50))pause(); 
     else if (GetAsyncKeyState(VK_ESCAPE)) {
         system("cls");  
-        return 1;
+        exit(0);
     }
-    return 0;
 }
  
 void drop_block(void){
@@ -604,7 +643,7 @@ int check_game_over(void){
             gotoxy(x,y+4); wprintf(L"▤  +-----------------------+   ▤");
             gotoxy(x,y+5); wprintf(L"▤   YOUR SCORE: %6d         ▤",score);
             gotoxy(x,y+6); wprintf(L"▤                              ▤");
-            gotoxy(x,y+7); wprintf(L"▤  Press any key to restart..  ▤");
+            gotoxy(x,y+7); wprintf(L"▤  Press Enter to restart..    ▤");
             gotoxy(x,y+8); wprintf(L"▤                              ▤");
             gotoxy(x,y+9); wprintf(L"▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤");
             last_score=score;  
@@ -623,7 +662,12 @@ int check_game_over(void){
                     fclose(file);
                 }
             }
-            while (1) if(GetAsyncKeyState(VK_RETURN)) return 1;
+            while (1) {
+                if (GetAsyncKeyState(VK_RETURN)) {
+                    Sleep(100);
+                    return 1;
+                }
+            }
         }
     }
     return 0;
@@ -635,33 +679,90 @@ void pause(void){
     int x=5;
     int y=5;
     
-    for(i=1;i<MAIN_X-2;i++){ 
+    for(i=1;i<MAIN_X-2;i++) { 
             gotoxy(x,y+0); wprintf(L"▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤");
             gotoxy(x,y+1); wprintf(L"▤                              ▤");
             gotoxy(x,y+2); wprintf(L"▤  +-----------------------+   ▤");
             gotoxy(x,y+3); wprintf(L"▤  |       P A U S E       |   ▤");
             gotoxy(x,y+4); wprintf(L"▤  +-----------------------+   ▤");
-            gotoxy(x,y+5); wprintf(L"▤  Press any key to resume..   ▤");
+            gotoxy(x,y+5); wprintf(L"▤  Press Enter to resume..     ▤");
             gotoxy(x,y+6); wprintf(L"▤                              ▤");
             gotoxy(x,y+7); wprintf(L"▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤");
-            }
-    while (1) if (GetAsyncKeyState(VK_RETURN))break;
+    }
+
+    while (1) {
+        if (GetAsyncKeyState(VK_RETURN)) {
+            Sleep(100);
+            break;
+        }
+    }
+
     system("cls"); 
     reset_main_cpy();  
     draw_main();
     draw_map(); 
  
-    for(i=1;i<3;i++){  
-        for(j=0;j<4;j++){
-            if(blocks[b_type_next][0][i][j]==1) {
-                gotoxy(MAIN_X+MAIN_X_ADJ+3+j,i+6);
-                wprintf(L"■");
-            }
-            else{
-                gotoxy(MAIN_X+MAIN_X_ADJ+3+j,i+6);
-                printf("  ");
+    if (b_type_next > b_dummy) {
+        SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), b_type_next + 1);
+        for(i=1;i<3;i++){ 
+            for(j=0;j<4;j++){
+                if(blocks[b_type_next][0][i][j]==1) {
+                    gotoxy(STATUS_X_ADJ+2+j,i+6);
+                    wprintf(L"■");
+                }
+                else{
+                    gotoxy(STATUS_X_ADJ+2+j,i+6);
+                    printf("  ");
+                }
             }
         }
-    }    
+        SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 7);
+     
+        SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), b_dummy + 1);
+        for(i=1;i<3;i++){ 
+            for(j=0;j<4;j++){
+                if(blocks[b_dummy][0][i][j]==1) {
+                    gotoxy(STATUS_X_ADJ+10+j,i+6);
+                    wprintf(L"■");
+                }
+                else{
+                    gotoxy(STATUS_X_ADJ+10+j,i+6);
+                    printf("  ");
+                }
+            }
+        }
+        SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 7);
+    }
+    else {
+        SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), b_type_next + 1);
+        for(i=1;i<3;i++){ 
+            for(j=0;j<4;j++){
+                if(blocks[b_type_next][0][i][j]==1) {
+                    gotoxy(STATUS_X_ADJ+10+j,i+6);
+                    wprintf(L"■");
+                }
+                else{
+                    gotoxy(STATUS_X_ADJ+10+j,i+6);
+                    printf("  ");
+                }
+            }
+        }
+        SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 7);
+     
+        SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), b_dummy + 1);
+        for(i=1;i<3;i++){ 
+            for(j=0;j<4;j++){
+                if(blocks[b_dummy][0][i][j]==1) {
+                    gotoxy(STATUS_X_ADJ+2+j,i+6);
+                    wprintf(L"■");
+                }
+                else{
+                    gotoxy(STATUS_X_ADJ+2+j,i+6);
+                    printf("  ");
+                }
+            }
+        }
+        SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 7);   
+    }
 }
 
