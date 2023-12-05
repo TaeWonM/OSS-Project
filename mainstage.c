@@ -43,10 +43,32 @@ void endscreen(); // 엔딩 크레딧 출력 함수
 void Enterscreen(void *); // 깜빡이는 스크린
 void Cooldownset(void *); // stage 들어가는 쿨타임 설정
 
+typedef enum { NOCURSOR, SOLIDCURSOR, NORMALCURSOR } CURSOR_TYPE; 
+void setcursortype(CURSOR_TYPE c){  
+     CONSOLE_CURSOR_INFO CurInfo;
+ 
+     switch (c) {
+     case NOCURSOR:
+          CurInfo.dwSize=1;
+          CurInfo.bVisible=FALSE;
+          break;
+     case SOLIDCURSOR:
+          CurInfo.dwSize=100;
+          CurInfo.bVisible=TRUE;
+          break;
+     case NORMALCURSOR:
+          CurInfo.dwSize=20;
+          CurInfo.bVisible=TRUE;
+          break;
+     }
+     SetConsoleCursorInfo(GetStdHandle(STD_OUTPUT_HANDLE),&CurInfo);
+}
+
 int main () {
     Filescan ();
     saveread();
     setlocale(LC_ALL,"");
+    setcursortype(NOCURSOR);
     startscreen();
     setlocale(LC_ALL,"C");
     system("cls");
