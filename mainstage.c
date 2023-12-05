@@ -146,7 +146,7 @@ int main () {
             };
         }
         Sleep(20);
-        if (map[prey][prex-1+MOVE] != '=' && map[prey][prex-1+MOVE] != ' ' && check = 0){
+        if (map[prey][prex-1+MOVE] != '=' && map[prey][prex-1+MOVE] != ' ' && check == 0){
             if (map[prey][prex-1+MOVE] == '1'){
                 mainstagegotoxy(80,5);
                 printf ("Stage 1 : Pac-Man");
