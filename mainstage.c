@@ -144,6 +144,11 @@ int main () {
                 characterselect();
                 break;
             };
+            mainstagegotoxy(1,1);
+            for (int i = 0; i<CAMMAXY; i++) {
+                printf ("%.60s",&map[i][MOVE]);
+                printf("\n");
+            }
         }
         Sleep(20);
         if (map[prey][prex-1+MOVE] != '=' && map[prey][prex-1+MOVE] != ' ' && check == 0){
@@ -171,9 +176,14 @@ int main () {
             }
             check = 1;
         }
-        else if (check) {
+        else if ((map[prey][prex-1+MOVE] == '=' || map[prey][prex-1+MOVE] == ' ') && check == 1) {
             system ("cls");
             check = 0;
+            mainstagegotoxy(1,1);
+            for (int i = 0; i<CAMMAXY; i++) {
+                printf ("%.60s",&map[i][MOVE]);
+                printf("\n");
+            }
         }
         curx = prex + (int)xv;
         if (map[prey-1][curx-1 + MOVE] != ' '){
@@ -184,17 +194,15 @@ int main () {
             for (int i = prey; i <= cury; i++) {
                 if (map[i-1][curx-1 + MOVE] != ' ') {
                     cury = i-1;
-                    prey = i-1;
                     yv = 0;
                     break;
                 }
             }
         }
-        if (cury < prey){
+        else if (cury < prey){
             for (int i = cury; i <= prey; i++) {
                 if (map[i-1][curx-1 + MOVE] != ' ') {
                     cury = i-1;
-                    prey = i-1;
                     yv = 0;
                     break;
                 }
