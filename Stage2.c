@@ -559,7 +559,7 @@ void check_game_over(void){
             gotoxy(x,y+6); wprintf(L"▤                              ▤");
             gotoxy(x,y+7); wprintf(L"▤  Press any key to restart..  ▤");
             gotoxy(x,y+8); wprintf(L"▤                              ▤");
-            gotoxy(x,y+9); wprintf(L"�▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤");
+            gotoxy(x,y+9); wprintf(L"▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤");
             last_score=score;  
             
             if(score>best_score){ 
