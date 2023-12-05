@@ -427,7 +427,7 @@ void characterselect(){
             mainstagegotoxy (47,7);
             printf("?");
         }
-        else if (charactnum==2 && stage2achi[3] == 'O'){
+        else if (charactnum==2 && stage2achi[2] == 'O'){
             mainstagegotoxy(35,11);
             printf ("Character : Tetreis Character");
             mainstagegotoxy(15,12);
@@ -439,7 +439,7 @@ void characterselect(){
             mainstagegotoxy(37,7);
             printf("<");
         }
-        else if (charactnum==2 && stage2achi[3] != 'O'){
+        else if (charactnum==2 && stage2achi[2] != 'O'){
             mainstagegotoxy(35,11);
             printf ("Character : ???");
             mainstagegotoxy(37,12);
