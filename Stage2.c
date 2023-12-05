@@ -583,7 +583,7 @@ void check_game_over(void){
             gotoxy(x,y+6); printf("▤                              ▤");
             gotoxy(x,y+7); printf("▤  Press any key to restart..  ▤");
             gotoxy(x,y+8); printf("▤                              ▤");
-            gotoxy(x,y+9); printf("�▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤");
+            gotoxy(x,y+9); printf("▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤");
             last_score=score;  
             
             if(score>best_score){ 
@@ -635,7 +635,7 @@ void pause(void){
         for(j=0;j<4;j++){
             if(blocks[b_type_next][0][i][j]==1) {
                 gotoxy(MAIN_X+MAIN_X_ADJ+3+j,i+6);
-                printf("��");
+                printf("■");
             }
             else{
                 gotoxy(MAIN_X+MAIN_X_ADJ+3+j,i+6);
