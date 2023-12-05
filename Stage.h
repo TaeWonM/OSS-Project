@@ -33,3 +33,22 @@ void colobject (void *);
 void rawobject (void *);
 char * Achivement (int);
 void stage3gotoxy(int x, int y);
+
+
+void title(void); 
+void reset(void); 
+void reset_main(void); 
+void reset_main_cpy(void); 
+void draw_map(void);  
+void draw_main(void); 
+void new_block(void);  
+void check_key(void);  
+void drop_block(void);  
+int check_crush(int bx, int by, int rotation);  
+void move_block(int dir);
+void check_line(void);  
+void check_level_up(void);  
+int check_game_over(void); 
+void pause(void);
+int stage2();
+void gotoxy(int x,int y);

@@ -86,6 +86,11 @@ int main () {
                 for (int i = 0; i < 3; i++) if (stage1tmp[i]=='O') stage1achi[i] = 'O';
                 system("cls");
                 break;
+            case '2':
+                system("cls");
+                stage2();
+                system("cls");
+                break;
             case '3':
                 system("cls");
                 char stage3tmp[6];

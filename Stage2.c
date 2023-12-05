@@ -4,6 +4,7 @@
 #include <time.h>
 #include <stdlib.h>
 #include <locale.h>
+#include "Stage.h"
  
 #define LEFT 75 
 #define RIGHT 77
@@ -74,22 +75,7 @@ int new_block_on=0;
 int crush_on=0;
 int level_up_on=0; 
 int space_key_on=0; 
- 
-void title(void); 
-void reset(void); 
-void reset_main(void); 
-void reset_main_cpy(void); 
-void draw_map(void);  
-void draw_main(void); 
-void new_block(void);  
-void check_key(void);  
-void drop_block(void);  
-int check_crush(int bx, int by, int rotation);  
-void move_block(int dir);
-void check_line(void);  
-void check_level_up(void);  
-void check_game_over(void); 
-void pause(void);
+
  
 void gotoxy(int x,int y) { 
     COORD pos={2*x,y};
@@ -117,7 +103,7 @@ void setcursortype(CURSOR_TYPE c){
      SetConsoleCursorInfo(GetStdHandle(STD_OUTPUT_HANDLE),&CurInfo);
 }
  
-int main(){
+int stage2(){
     int i;
     setlocale(LC_ALL,"");
     srand((unsigned)time(NULL)); 
@@ -139,7 +125,7 @@ int main(){
         }
         drop_block(); 
         check_level_up(); 
-        check_game_over();
+        if (check_game_over()) return 5;
         if(new_block_on==1) new_block(); 
     }
 }
@@ -542,7 +528,7 @@ void check_level_up(void){
     }
 }
  
-void check_game_over(void){ 
+int check_game_over(void){ 
     int i;
     
     int x=5;
@@ -550,7 +536,7 @@ void check_game_over(void){
     
     for(i=1;i<MAIN_X-2;i++){
         if(main_org[3][i]>0){ 
-            gotoxy(x,y+0); wprintf(L"▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤");   
+            gotoxy(x,y+0); wprintf(L"▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤");   
             gotoxy(x,y+1); wprintf(L"▤                              ▤");
             gotoxy(x,y+2); wprintf(L"▤  +-----------------------+   ▤");
             gotoxy(x,y+3); wprintf(L"▤  |  G A M E  O V E R..   |   ▤");
@@ -559,7 +545,7 @@ void check_game_over(void){
             gotoxy(x,y+6); wprintf(L"▤                              ▤");
             gotoxy(x,y+7); wprintf(L"▤  Press any key to restart..  ▤");
             gotoxy(x,y+8); wprintf(L"▤                              ▤");
-            gotoxy(x,y+9); wprintf(L"▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤");
+            gotoxy(x,y+9); wprintf(L"▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤");
             last_score=score;  
             
             if(score>best_score){ 
@@ -576,9 +562,10 @@ void check_game_over(void){
                     fclose(file);
                 }
             }
-            while (1) if(GetAsyncKeyState(VK_RETURN)) exit(1);
+            while (1) if(GetAsyncKeyState(VK_RETURN)) return 1;
         }
     }
+    return 0;
 }
  
 void pause(void){ 
@@ -588,14 +575,14 @@ void pause(void){
     int y=5;
     
     for(i=1;i<MAIN_X-2;i++){ 
-            gotoxy(x,y+0); wprintf(L"▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤");
+            gotoxy(x,y+0); wprintf(L"▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤");
             gotoxy(x,y+1); wprintf(L"▤                              ▤");
             gotoxy(x,y+2); wprintf(L"▤  +-----------------------+   ▤");
             gotoxy(x,y+3); wprintf(L"▤  |       P A U S E       |   ▤");
             gotoxy(x,y+4); wprintf(L"▤  +-----------------------+   ▤");
             gotoxy(x,y+5); wprintf(L"▤  Press any key to resume..   ▤");
             gotoxy(x,y+6); wprintf(L"▤                              ▤");
-            gotoxy(x,y+7); wprintf(L"▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤");
+            gotoxy(x,y+7); wprintf(L"▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤");
             }
     while (1) if (GetAsyncKeyState(VK_RETURN))break;
     system("cls"); 
