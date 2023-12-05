@@ -34,6 +34,7 @@
 int STATUS_Y_GOAL;  
 int STATUS_Y_LEVEL; 
 int STATUS_Y_SCORE; 
+char stage2achievement [4] = {'X','X','X','\0'};
  
 int blocks[7][4][4][4]={
 {{0,0,0,0,0,1,1,0,0,1,1,0,0,0,0,0},{0,0,0,0,0,1,1,0,0,1,1,0,0,0,0,0},
@@ -128,7 +129,7 @@ char *stage2(int diffi){
         }
         drop_block(); 
         check_level_up(); 
-        if (check_game_over()) return 5;
+        if (check_game_over()) return stage2achievement;
         if(new_block_on==1) new_block(); 
     }
 }
@@ -224,7 +225,7 @@ int y=3;
             gotoxy(STATUS_X_ADJ, y+5); printf("|                          | ");
             gotoxy(STATUS_X_ADJ, y+6); printf("|                          | ");
             gotoxy(STATUS_X_ADJ, y+7); printf("+--------  -  -  -  -------+ "); 
-
+            break;
         default :
             gotoxy(STATUS_X_ADJ, y+2); printf("+-  N E X T  -+ ");
             gotoxy(STATUS_X_ADJ, y+3); printf("|             | ");
@@ -232,6 +233,7 @@ int y=3;
             gotoxy(STATUS_X_ADJ, y+5); printf("|             | ");
             gotoxy(STATUS_X_ADJ, y+6); printf("|             | ");
             gotoxy(STATUS_X_ADJ, y+7); printf("+-- -  -  - --+ "); 
+            break;
     };
 
     gotoxy(STATUS_X_ADJ, y+8); printf(" YOUR SCORE :");     

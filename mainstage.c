@@ -18,7 +18,7 @@ int check = 0;
 int watchend = 1;
 int cooldown = 1;
 char stage3achi [6] = {'X','X','X','X','X','\0'};
-char stage2achi [5] = {'X','X','X','\0'};
+char stage2achi [4] = {'X','X','X','\0'};
 char stage1achi [4] = {'X','X','X','\0'};
 char clearstage3achi [6] = {'O','O','O','O','O','\0'};
 char clearstage2achi [5] = {'O','O','O','\0'};
@@ -88,7 +88,7 @@ int main () {
                 break;
             case '2':
                 system("cls");
-                stage2();
+                stage2(diffi);
                 system("cls");
                 break;
             case '3':

@@ -50,5 +50,5 @@ void check_line(void);
 void check_level_up(void);  
 int check_game_over(void); 
 void pause(void);
-int stage2();
+char * stage2(int);
 void gotoxy(int x,int y);
