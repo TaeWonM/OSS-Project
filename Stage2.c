@@ -615,7 +615,7 @@ int check_game_over(void){
     
     for(i=1;i<MAIN_X-2;i++){
         if(main_org[3][i]>0){ 
-            gotoxy(x,y+0); wprintf(L"▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤");   
+            gotoxy(x,y+0); wprintf(L"▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤");   
             gotoxy(x,y+1); wprintf(L"▤                              ▤");
             gotoxy(x,y+2); wprintf(L"▤  +-----------------------+   ▤");
             gotoxy(x,y+3); wprintf(L"▤  |  G A M E  O V E R..   |   ▤");
@@ -624,7 +624,7 @@ int check_game_over(void){
             gotoxy(x,y+6); wprintf(L"▤                              ▤");
             gotoxy(x,y+7); wprintf(L"▤  Press Enter to restart..    ▤");
             gotoxy(x,y+8); wprintf(L"▤                              ▤");
-            gotoxy(x,y+9); wprintf(L"▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤");
+            gotoxy(x,y+9); wprintf(L"▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤");
             last_score=score;  
             
             if(score>best_score){ 
@@ -659,14 +659,14 @@ void pause(void){
     int y=5;
     
     for(i=1;i<MAIN_X-2;i++) { 
-            gotoxy(x,y+0); wprintf(L"▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤");
+            gotoxy(x,y+0); wprintf(L"▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤");
             gotoxy(x,y+1); wprintf(L"▤                              ▤");
             gotoxy(x,y+2); wprintf(L"▤  +-----------------------+   ▤");
             gotoxy(x,y+3); wprintf(L"▤  |       P A U S E       |   ▤");
             gotoxy(x,y+4); wprintf(L"▤  +-----------------------+   ▤");
             gotoxy(x,y+5); wprintf(L"▤  Press Enter to resume..     ▤");
             gotoxy(x,y+6); wprintf(L"▤                              ▤");
-            gotoxy(x,y+7); wprintf(L"▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤");
+            gotoxy(x,y+7); wprintf(L"▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤");
     }
 
     while (1) {
