@@ -200,7 +200,7 @@ void print_mazeGame(char maze[][MAX_SIZE3], int row) {
     }
 }
 
-int p_block(char maze[][MAX_SIZE3], int i, int j) {
+int p_block(char maze[][MAX_SIZE3], int i, int j) { //플레이어 벽 확인
 
     if (maze[i][j] == '1')
         return 1;
@@ -214,7 +214,7 @@ int p_block(char maze[][MAX_SIZE3], int i, int j) {
         return 0;
 }
 
-int m_block_p(char maze[][MAX_SIZE3], int i, int j) {
+int m_block_p(char maze[][MAX_SIZE3], int i, int j) { //유령 벽 확인
     if (i >= 0 && i < MAX_SIZE3 && j >= 0 && j < MAX_SIZE3) {
         return (maze[i][j] == '1');
     }
