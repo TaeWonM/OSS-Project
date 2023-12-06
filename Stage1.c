@@ -339,7 +339,7 @@ void initializeGhosts() {
         ghosts[1].col = 10;
         ghosts[1].direction = 1;
     }
-    else if (game_level == 3) {
+    else if (game_level == 3) { //난이도 3 유령 위치
         ghosts[0].row = ghost_row;
         ghosts[0].col = ghost_col;
         ghosts[0].direction = 0;
