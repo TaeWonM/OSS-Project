@@ -13,11 +13,11 @@
 int MAX_SIZE;
 int flag[MAX_SIZE3][MAX_SIZE3];
 char maze[MAX_SIZE3][MAX_SIZE3];
-int count = 0;
+int count = 0; //현재 먹은 먹이 개수
 int ghost_row = 7, ghost_col = 7;
 int game_timer;
 int game_level = 0;
-int clear_count = 99999;
+int clear_count = 99999; //게임 종료 먹이 조건
 time_t start_time;
 int num_ghosts;
 char achivemant[4] =  {'X','X','X','\0'}; //업적 개수
@@ -36,19 +36,19 @@ char *stage1(int diffi) {
     setlocale(LC_ALL,"");
     count = 0;
     switch (game_level) {
-    case 1:
+    case 1: //난이도 1
         MAX_SIZE = MAX_SIZE1;
         game_timer = 60;
         num_ghosts = 1;
         clear_count = 63;
         break;
-    case 2:
+    case 2: //난이도 2
         MAX_SIZE = MAX_SIZE2;
         game_timer = 60;
         num_ghosts = 2;
         clear_count = 104;
         break;
-    case 3:
+    case 3: //난이도 3
         MAX_SIZE = MAX_SIZE3;
         game_timer = 90;
         num_ghosts = 3;
@@ -60,10 +60,10 @@ char *stage1(int diffi) {
     CursorView(0);
     time(&start_time);
 
-    initializeGhosts();
+    initializeGhosts(); 
 
     while (1) {
-        if (count == clear_count) {
+        if (count == clear_count) { //게임 종료 조건
             system("cls");
             GotoXY(35, 10);
             printf("game clear\n");
@@ -89,7 +89,7 @@ char *stage1(int diffi) {
             while (1) if (GetAsyncKeyState(VK_RETURN)) return achivemant;
         }
         GotoXY(80, 10);
-        printf ("먹은 개수 : %d", count);
+        printf ("%d", count);
         print_mazeGame(maze, MAX_SIZE);
         move_maze(maze, &row, &col);
 
@@ -104,10 +104,10 @@ char *stage1(int diffi) {
             }
         }
 
-        if (checkGameOver(row, col)) {
+        if (checkGameOver(row, col)) { //유령 접촉
                 system("cls");
                 GotoXY(32, 10);
-                wprintf(L"게임 오버: 유령과 부딪혔습니다.");
+                wprintf(L"게임 오버: 유령과 접촉");
                 GotoXY(32, 11);
                 printf("Press Enter To Return");
                 while (1) if (GetAsyncKeyState(VK_RETURN)) return achivemant;
@@ -133,7 +133,7 @@ char *stage1(int diffi) {
 }
 
 
-int fileopen() {
+int fileopen() { //파일 오픈
     char fileName[20];
     sprintf(fileName, "maze_%d.txt", game_level);
     FILE* fp = fopen(fileName, "r");
@@ -143,7 +143,7 @@ int fileopen() {
         exit(1);
     }
 
-    for (int i = 0; i < MAX_SIZE; i++) {
+    for (int i = 0; i < MAX_SIZE; i++) { //방문 확인 배열 초기화
         for (int j = 0; j < MAX_SIZE; j++) {
             fscanf(fp, " %c", &maze[i][j]);
             if (maze[i][j] == '0')
@@ -200,7 +200,7 @@ void print_mazeGame(char maze[][MAX_SIZE3], int row) {
     }
 }
 
-int p_block(char maze[][MAX_SIZE3], int i, int j) {
+int p_block(char maze[][MAX_SIZE3], int i, int j) { //플레이어 벽 확인
 
     if (maze[i][j] == '1')
         return 1;
@@ -214,7 +214,7 @@ int p_block(char maze[][MAX_SIZE3], int i, int j) {
         return 0;
 }
 
-int m_block_p(char maze[][MAX_SIZE3], int i, int j) {
+int m_block_p(char maze[][MAX_SIZE3], int i, int j) { //유령 벽 확인
     if (i >= 0 && i < MAX_SIZE3 && j >= 0 && j < MAX_SIZE3) {
         return (maze[i][j] == '1');
     }
@@ -326,33 +326,33 @@ void printTimeElapsed() {
 }
 
 void initializeGhosts() {
-    if (game_level == 1) {
+    if (game_level == 1) { //난이도 1 유령 위치
         ghosts[0].row = ghost_row;
         ghosts[0].col = ghost_col;
         ghosts[0].direction = 0;
     }
-    else if (game_level == 2) {
-        ghosts[0].row = ghost_row;
+    else if (game_level == 2) { //난이도 2 유령 위치
+        ghosts[0].row = ghost_row; //유령1 위치
         ghosts[0].col = ghost_col;
         ghosts[0].direction = 0;
-        ghosts[1].row = 10;
+        ghosts[1].row = 10; //유령2 위치
         ghosts[1].col = 10;
         ghosts[1].direction = 1;
     }
-    else if (game_level == 3) {
-        ghosts[0].row = ghost_row;
+    else if (game_level == 3) { //난이도 3 유령 위치
+        ghosts[0].row = ghost_row; //유령1 위치
         ghosts[0].col = ghost_col;
         ghosts[0].direction = 0;
-        ghosts[1].row = 13;
+        ghosts[1].row = 13; //유령2 위치
         ghosts[1].col = 13;
         ghosts[1].direction = 1;
-        ghosts[2].row = 19;
+        ghosts[2].row = 19; //유령3 위치
         ghosts[2].col = 19;
         ghosts[2].direction = 2;
     }
 }
 
-int checkGameOver(int player_row, int player_col) {
+int checkGameOver(int player_row, int player_col) { //유령 접촉 여부 확인
 
     for (int i = 0; i < num_ghosts; i++) {
         if (player_row == ghosts[i].row && player_col == ghosts[i].col) {
