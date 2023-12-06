@@ -60,10 +60,10 @@ char *stage1(int diffi) {
     CursorView(0);
     time(&start_time);
 
-    initializeGhosts();
+    initializeGhosts(); 
 
     while (1) {
-        if (count == clear_count) {
+        if (count == clear_count) { //게임 종료 조건
             system("cls");
             GotoXY(35, 10);
             printf("game clear\n");
@@ -104,7 +104,7 @@ char *stage1(int diffi) {
             }
         }
 
-        if (checkGameOver(row, col)) {
+        if (checkGameOver(row, col)) { //유령 접촉
                 system("cls");
                 GotoXY(32, 10);
                 wprintf(L"게임 오버: 유령과 접촉");
