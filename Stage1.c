@@ -107,7 +107,7 @@ char *stage1(int diffi) {
         if (checkGameOver(row, col)) {
                 system("cls");
                 GotoXY(32, 10);
-                wprintf(L"게임 오버: 유령과 부딪혔습니다.");
+                wprintf(L"게임 오버: 유령과 접촉");
                 GotoXY(32, 11);
                 printf("Press Enter To Return");
                 while (1) if (GetAsyncKeyState(VK_RETURN)) return achivemant;
