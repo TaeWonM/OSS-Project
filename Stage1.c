@@ -48,7 +48,7 @@ char *stage1(int diffi) {
         num_ghosts = 2;
         clear_count = 104;
         break;
-    case 3:
+    case 3: //난이도 3
         MAX_SIZE = MAX_SIZE3;
         game_timer = 90;
         num_ghosts = 3;
