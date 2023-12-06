@@ -352,7 +352,7 @@ void initializeGhosts() {
     }
 }
 
-int checkGameOver(int player_row, int player_col) {
+int checkGameOver(int player_row, int player_col) { //유령 접촉 여부 확인
 
     for (int i = 0; i < num_ghosts; i++) {
         if (player_row == ghosts[i].row && player_col == ghosts[i].col) {
