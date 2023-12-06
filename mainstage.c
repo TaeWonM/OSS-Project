@@ -514,7 +514,7 @@ void characterselect(){
         Sleep(500);
         while (1){
             if (GetAsyncKeyState(VK_RETURN)) {
-                if ((charactnum==3 && stage2achi[4] == 'O')||(charactnum==2 && stage2achi[3] == 'O')||(charactnum==1 && stage1achi[2] == 'O')||charactnum==0){
+                if ((charactnum==3 && stage2achi[4] == 'O')||(charactnum==2 && stage2achi[2] == 'O')||(charactnum==1 && stage1achi[2] == 'O')||charactnum==0){
                 character = characters[charactnum];
                 system("cls");
                 return;
