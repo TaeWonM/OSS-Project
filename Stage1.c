@@ -332,10 +332,10 @@ void initializeGhosts() {
         ghosts[0].direction = 0;
     }
     else if (game_level == 2) { //난이도 2 유령 위치
-        ghosts[0].row = ghost_row;
+        ghosts[0].row = ghost_row; //유령1 위치
         ghosts[0].col = ghost_col;
         ghosts[0].direction = 0;
-        ghosts[1].row = 10;
+        ghosts[1].row = 10; //유령2 위치
         ghosts[1].col = 10;
         ghosts[1].direction = 1;
     }
