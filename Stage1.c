@@ -36,7 +36,7 @@ char *stage1(int diffi) {
     setlocale(LC_ALL,"");
     count = 0;
     switch (game_level) {
-    case 1:
+    case 1: //난이도 1
         MAX_SIZE = MAX_SIZE1;
         game_timer = 60;
         num_ghosts = 1;
