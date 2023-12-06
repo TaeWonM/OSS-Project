@@ -408,7 +408,10 @@ void phase3 () {
         WaitForSingleObject(threadId,INFINITE);
         threadId = 0;
         Sleep(50);
-        if (life <= 0) return;
+        if (life <= 0) {
+            stage3phase = 1;
+            return;
+        }
     }
     stage3phase = 1;
     return;
