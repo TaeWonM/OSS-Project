@@ -13,11 +13,11 @@
 int MAX_SIZE;
 int flag[MAX_SIZE3][MAX_SIZE3];
 char maze[MAX_SIZE3][MAX_SIZE3];
-int count = 0;
+int count = 0; //현재 먹은 먹이 개수
 int ghost_row = 7, ghost_col = 7;
 int game_timer;
 int game_level = 0;
-int clear_count = 99999; //게임 종료 조건
+int clear_count = 99999; //게임 종료 먹이 조건
 time_t start_time;
 int num_ghosts;
 char achivemant[4] =  {'X','X','X','\0'}; //업적 개수
