@@ -133,7 +133,7 @@ char *stage1(int diffi) {
 }
 
 
-int fileopen() {
+int fileopen() { //파일 오픈
     char fileName[20];
     sprintf(fileName, "maze_%d.txt", game_level);
     FILE* fp = fopen(fileName, "r");
@@ -143,7 +143,7 @@ int fileopen() {
         exit(1);
     }
 
-    for (int i = 0; i < MAX_SIZE; i++) {
+    for (int i = 0; i < MAX_SIZE; i++) { //방문 확인 배열 초기화
         for (int j = 0; j < MAX_SIZE; j++) {
             fscanf(fp, " %c", &maze[i][j]);
             if (maze[i][j] == '0')
