@@ -326,7 +326,7 @@ void printTimeElapsed() {
 }
 
 void initializeGhosts() {
-    if (game_level == 1) {
+    if (game_level == 1) { //난이도 1 유령 위치
         ghosts[0].row = ghost_row;
         ghosts[0].col = ghost_col;
         ghosts[0].direction = 0;
