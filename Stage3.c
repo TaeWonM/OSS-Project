@@ -404,9 +404,11 @@ void phase3 () {
             }
             object = clock();
         }
-        threadId = _beginthread(phase1move, 0,(void *)1);
-        WaitForSingleObject(threadId,INFINITE);
-        threadId = 0;
+        if (threadId == 0) {
+            threadId = _beginthread(phase1move, 0,(void *)1);
+            WaitForSingleObject(threadId,INFINITE);
+            threadId = 0;
+        }
         Sleep(50);
         if (life <= 0) {
             stage3phase = 1;
@@ -515,8 +517,12 @@ char *end(int phase){
     stage3gotoxy(30,10);
     if (phase == 3) printf("Game Clear");
     else printf("Game End");
-    
+    stage3gotoxy(30,11);
+    printf ("Press Enter to Return");
     setlocale( LC_ALL, "English" );
+    while (1) {
+        if (GetAsyncKeyState(VK_RETURN)) break;
+    }
     return Achivement (phase);
 }
 
