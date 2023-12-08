@@ -6,14 +6,14 @@
 #include <locale.h>
 #include "Stage.h"
  
-#define LEFT 75 
-#define RIGHT 77
-#define UP 72 
-#define DOWN 80 
-#define SPACE 32 
-#define p 112 
-#define P 80 
-#define ESC 27
+#define LEFT 75 // 좌측 이동
+#define RIGHT 77 // 우측 이동
+#define UP 72 // 회전 (블록 방향)
+#define DOWN 80 // 약한 하강
+#define SPACE 32 // 강한 하강
+#define p 112 // 일시 정지
+#define P 80 // 일시 정지
+#define ESC 27 // 게임 종료
  
 #define false 0
 #define true 1
