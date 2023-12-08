@@ -75,10 +75,10 @@ int score; // 현재 점수
 int last_score=0; // 마지막으로 플레이한 게임 점수
 int best_score=0; // 최고 점수
  
-int new_block_on=0; 
-int crush_on=0;
-int level_up_on=0; 
-int space_key_on=0; 
+int new_block_on=0; // 새로운 블록 생성 flag
+int crush_on=0; // 블록 이동 시 충돌 판단 flag
+int level_up_on=0; // 다음 Lv 진행 flag (현재 Lv 목표 완료되었는 지)
+int space_key_on=0; // 강한 하강 상태 flag (추가 점수)
 
  
 void gotoxy(int x,int y) { 
