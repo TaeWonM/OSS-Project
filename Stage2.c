@@ -190,9 +190,9 @@ void reset_main_cpy(void){
     for(i=0;i<MAIN_Y;i++){          
         for(j=0;j<MAIN_X;j++){   
             main_cpy[i][j]=100;
-        }
+        } // 배열 초기화 (main_org 와 겹치지 않도록)
     }    
-}
+} // main_cpy 초기화 함수
  
 void draw_map(void){ 
 int y=3;             
