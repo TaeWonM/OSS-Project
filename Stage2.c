@@ -138,11 +138,11 @@ int y=4; // 타이틀 화면 기준 Y 좌표
  
 void reset(void){
  
-    FILE *file=fopen("score.dat", "rt");  
-    if(file==0){best_score=0;} 
+    FILE *file=fopen("score.dat", "rt"); // score.dat 호출 
+    if(file==0){best_score=0;} // 파일 X -> 최고 점수 0
     else {
-        fscanf(file,"%d", &best_score); 
-        fclose(file);  
+        fscanf(file,"%d", &best_score); // 파일 O -> 최고 점수 불러오기
+        fclose(file); // 파일 종료 
     }
         
     level=1; 
@@ -151,17 +151,17 @@ void reset(void){
     key=0;
     crush_on=0;
     cnt=0;
-    speed=100;
+    speed=100; // 변수 초기화
     
-    system("cls"); 
-    reset_main();  
-    draw_map(); 
-    draw_main(); 
+    system("cls"); // 화면 비움
+    reset_main(); // main_org 초기화 
+    draw_map(); // status 출력
+    draw_main(); // board 출력
  
-    b_type_next=rand()%7;  
-    new_block();   
+    b_type_next=rand()%7; // 다음 블록 종류 랜덤 생성  
+    new_block(); // 다음 블록 출력 (status)  
     
-}
+} // 게임 시작 전 준비 작업 reset 함수
  
 void reset_main(void){  
     int i,j;
