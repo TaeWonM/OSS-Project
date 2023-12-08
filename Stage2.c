@@ -69,7 +69,7 @@ int step; // 난이도 (메인 스테이지에서 입력 받은 숫자 - 1, 2, 3
  
 int speed; // 블록 하강 속도
 int level; // 현재 Lv
-int level_goal; // 다음 레벨로 넘어가기 위한 조건 
+int level_goal; // 다음 Lv로 넘어가기 위한 조건 
 int cnt; // 현재 Lv 에서 제거한 줄 수 
 int score; // 현재 점수
 int last_score=0; // 마지막으로 플레이한 게임 점수
@@ -84,34 +84,34 @@ int space_key_on=0; // 강한 하강 상태 flag (추가 점수)
 void gotoxy(int x,int y) { 
     COORD pos={2*x,y};
     SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE),pos);
-}
+} // 좌표 이동 함수
  
 char *stage2(int diffi){
-    step = diffi;
+    step = diffi; // 난이도 저장
     int i;
     setlocale(LC_ALL,"");
     srand((unsigned)time(NULL)); 
-    title(); 
-    reset(); 
+    title(); // 게임 입장 직전 화면 출력 (조작법 안내 등)
+    reset(); // 점수 파일 관련 함수
     
     while(1){
         for(i=0;i<5;i++){  
-            if (check_key()) return stage2achievement; 
-            draw_main(); 
-            Sleep(speed); 
-            if(crush_on&&check_crush(bx,by+1, b_rotation)==false) Sleep(100);
+            if (check_key()) return stage2achievement; // 업적 확인
+            draw_main(); // board, status, block 출력
+            Sleep(speed); // 블록 하강 속도 (Lv 오를수록 빈도 감소 -> 속도 빨라짐)
+            if(crush_on&&check_crush(bx,by+1, b_rotation)==false) Sleep(100); // 좌우 이동, 회전 시 충돌 판정 (벽, 바닥, 블록)
                                                  
             if(space_key_on==1) { 
                 space_key_on=0;
                 break;
-            }
+            } // 강한 하강 (한 번에 바닥까지 블록 하강)
         }
-        drop_block(); 
-        check_level_up(); 
-        if (check_game_over()) return stage2achievement;
-        if(new_block_on==1) new_block(); 
+        drop_block(); // 블록 하강 check
+        check_level_up(); // 다음 Lv 넘어가기 위한 조건 달성 check
+        if (check_game_over()) return stage2achievement; // 게임 종료 시 업적 달성 여부
+        if(new_block_on==1) new_block(); // 
     }
-}
+} // main 함수 (매개변수 : 메인 스테이지에서 입력 받은 난이도)
  
 void title(void){
 int x=5;  
