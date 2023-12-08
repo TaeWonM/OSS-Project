@@ -58,14 +58,14 @@ int b_rotation; // 블록 회전 (에 따른 모양 저장)
 int b_type_next; // 다음 블록 저장
 int b_dummy; // 가짜 다음 블록 (난이도 2)
  
-int main_org[MAIN_Y][MAIN_X];  
-int main_cpy[MAIN_Y][MAIN_X];  
+int main_org[MAIN_Y][MAIN_X]; // 게임판 정보 저장  
+int main_cpy[MAIN_Y][MAIN_X]; // 출력되기 전의 게임판 정보 (org 과 비교하여 변경점만 출력하도록 설정) 
                               
-int bx,by; 
+int bx,by; // 조작하는 블록의 X, Y 좌표
  
-int key; 
+int key; // 입력 받은 값 저장
 
-int step;
+int step; // 난이도 (메인 스테이지에서 입력 받은 숫자 - 1, 2, 3 저장)
  
 int speed; 
 int level; 
