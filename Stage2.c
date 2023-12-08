@@ -171,18 +171,18 @@ void reset_main(void){
             main_org[i][j]=0;
             main_cpy[i][j]=100;
         }
-    }    
+    } // board 초기화   
     for(j=1;j<MAIN_X;j++){  
         main_org[3][j]=CEILLING;
-    }
+    } // 천장 (보드 생성 위치) 생성 
     for(i=1;i<MAIN_Y-1;i++){   
         main_org[i][0]=WALL;
         main_org[i][MAIN_X-1]=WALL;
-    }
+    } // 좌우 벽 생성
     for(j=0;j<MAIN_X;j++){  
         main_org[MAIN_Y-1][j]=WALL;
-    }
-}
+    } // 바닥 (벽) 생성
+} // board 초기화 함수
  
 void reset_main_cpy(void){  
     int i, j;
