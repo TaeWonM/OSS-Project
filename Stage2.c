@@ -27,14 +27,14 @@
 #define MAIN_X 11 // 보드 수평 길이 
 #define MAIN_Y 23 // 보드 수직 길이
 #define MAIN_X_ADJ 3 // 보드 위치 고정 X 좌표 
-#define MAIN_Y_ADJ 1 // 보드 위치 고정 Y whkvy
+#define MAIN_Y_ADJ 1 // 보드 위치 고정 Y 좌표
  
-#define STATUS_X_ADJ MAIN_X_ADJ+MAIN_X+1  
+#define STATUS_X_ADJ MAIN_X_ADJ+MAIN_X+1 // 정보 표시 구역 위치 좌표 
  
-int STATUS_Y_GOAL;  
-int STATUS_Y_LEVEL; 
-int STATUS_Y_SCORE; 
-char stage2achievement [4] = {'X','X','X','\0'};
+int STATUS_Y_GOAL; // Goal (다음 Lv 로 넘어가기까지 남은 조건) 표시 위치 Y 좌표 
+int STATUS_Y_LEVEL; // Lv 표시 위치 Y 좌표
+int STATUS_Y_SCORE; // Score 표시 위치 Y 좌표
+char stage2achievement [4] = {'X','X','X','\0'}; // 업적 상태 저장 배열
  
 int blocks[7][4][4][4]={
 {{0,0,0,0,0,1,1,0,0,1,1,0,0,0,0,0},{0,0,0,0,0,1,1,0,0,1,1,0,0,0,0,0},
