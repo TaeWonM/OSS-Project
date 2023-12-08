@@ -91,7 +91,7 @@ char *stage2(int diffi){
     int i;
     setlocale(LC_ALL,"");
     srand((unsigned)time(NULL)); 
-    title(); // 게임 입장 직전 화면 출력 (조작법 안내 등)
+    title(); // 게임 입장 직전 타이틀 화면 출력 (조작법 안내 등)
     reset(); // 점수 파일 관련 함수
     
     while(1){
@@ -114,9 +114,8 @@ char *stage2(int diffi){
 } // main 함수 (매개변수 : 메인 스테이지에서 입력 받은 난이도)
  
 void title(void){
-int x=5;  
-int y=4; 
-int cnt;   
+int x=5; // 타이틀 화면 기준 X 좌표 
+int y=4; // 타이틀 화면 기준 Y 좌표  
     
     gotoxy(x+10,y+2);printf("T   E   T   R   I   S");
     gotoxy(x+10,y+7);printf("Press Enter to Start.");
@@ -132,10 +131,10 @@ int cnt;
         if (GetAsyncKeyState(VK_RETURN)) {
             Sleep(100);
             break;
-        }
+        } // Enter 키 입력까지 대기 (게임 진행)
     }
  
-}
+} // 타이틀 화면 출력 함수
  
 void reset(void){
  
