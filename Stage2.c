@@ -67,13 +67,13 @@ int key; // 입력 받은 값 저장
 
 int step; // 난이도 (메인 스테이지에서 입력 받은 숫자 - 1, 2, 3 저장)
  
-int speed; 
-int level; 
-int level_goal;  
-int cnt; 
-int score;
-int last_score=0; 
-int best_score=0; 
+int speed; // 블록 하강 속도
+int level; // 현재 Lv
+int level_goal; // 다음 레벨로 넘어가기 위한 조건 
+int cnt; // 현재 Lv 에서 제거한 줄 수 
+int score; // 현재 점수
+int last_score=0; // 마지막으로 플레이한 게임 점수
+int best_score=0; // 최고 점수
  
 int new_block_on=0; 
 int crush_on=0;
