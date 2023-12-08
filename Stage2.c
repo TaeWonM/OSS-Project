@@ -11,18 +11,18 @@
 #define UP 72 // 회전 (블록 방향)
 #define DOWN 80 // 약한 하강
 #define SPACE 32 // 강한 하강
-#define p 112 // 일시 정지
-#define P 80 // 일시 정지
+#define p 112 // 일시 정지 
+#define P 80 // 일시 정지 
 #define ESC 27 // 게임 종료
  
 #define false 0
 #define true 1
  
-#define ACTIVE_BLOCK -2  
-#define CEILLING -1      
-#define EMPTY 0          
-#define WALL 1
-#define INACTIVE_BLOCK 2  
+#define ACTIVE_BLOCK -2 // 블록 상태 (회전에 따른 분류)
+#define CEILLING -1 // 블록이 움직일 수 없는 공간 (천장)    
+#define EMPTY 0 // 블록이 움직일 수 있는 공간        
+#define WALL 1 // 블록이 움직일 수 없는 공간 (벽)
+#define INACTIVE_BLOCK 2 // 고정된 블록 (바닥에 쌓여 조작 불가능한 블록) 
  
 #define MAIN_X 11  
 #define MAIN_Y 23 
