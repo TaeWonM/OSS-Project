@@ -24,10 +24,10 @@
 #define WALL 1 // 블록이 움직일 수 없는 공간 (벽)
 #define INACTIVE_BLOCK 2 // 고정된 블록 (바닥에 쌓여 조작 불가능한 블록) 
  
-#define MAIN_X 11  
-#define MAIN_Y 23 
-#define MAIN_X_ADJ 3  
-#define MAIN_Y_ADJ 1 
+#define MAIN_X 11 // 보드 수평 길이 
+#define MAIN_Y 23 // 보드 수직 길이
+#define MAIN_X_ADJ 3 // 보드 위치 고정 X 좌표 
+#define MAIN_Y_ADJ 1 // 보드 위치 고정 Y whkvy
  
 #define STATUS_X_ADJ MAIN_X_ADJ+MAIN_X+1  
  
