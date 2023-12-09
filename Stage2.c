@@ -537,12 +537,12 @@ void check_line(void){
         }
         else i--;
     }
-    if(combo){   
+    if(combo){ // 줄 삭제가 이루어졌을 경우 점수 & 레벨 목표 갱신  
         if(combo>1){ 
             gotoxy(MAIN_X_ADJ+(MAIN_X/2)-1,MAIN_Y_ADJ+by-2);printf("%d COMBO!",combo);
             Sleep(500);
             score+=(combo*level*100);
-            reset_main_cpy();  
+            reset_main_cpy(); // 출력된 문구 삭제 위해 main_cpy 초기화 
         }
         gotoxy(STATUS_X_ADJ, STATUS_Y_GOAL); printf(" GOAL  : %5d", (cnt<=10)?10-cnt:0);
         gotoxy(STATUS_X_ADJ, STATUS_Y_SCORE); printf("        %6d", score);    
