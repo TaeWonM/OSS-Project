@@ -378,8 +378,7 @@ void new_block(void){
     }; // status 의 다음 플록 표시 구역에 다음 블록 출력
 } // 새로운 블록 생성 & 다음 블록 표시칸에 출력 함수
  
-int check_key(void){
-    key=0;   
+int check_key(void){  
 
     if (GetAsyncKeyState(VK_LEFT) && check_crush(bx-1,by,b_rotation)==true)move_block(LEFT); // 좌측 이동
     else if (GetAsyncKeyState(VK_RIGHT) && check_crush(bx+1,by,b_rotation)==true)move_block(RIGHT); // 우측 이동
@@ -421,7 +420,7 @@ void drop_block(void){
     }
     if(check_crush(bx,by+1, b_rotation)==true) move_block(DOWN);  
     if(check_crush(bx,by+1, b_rotation)==false) crush_on++; 
-}
+} // hard drop 처리 함수
  
 int check_crush(int bx, int by, int b_rotation){  
     int i,j;
