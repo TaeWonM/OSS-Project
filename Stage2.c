@@ -374,7 +374,7 @@ void new_block(void){
         case 3:
             break;
     };
-}
+} // 새로운 블록 생성 & 다음 블록 표시칸에 출력 함수
  
 int check_key(void){
     key=0;   
