@@ -448,7 +448,7 @@ void move_block(int dir){
                     if(blocks[b_type][b_rotation][i][j]==1) main_org[by+i][bx+j-1]=ACTIVE_BLOCK;
                 }
             }
-            bx--; // 좌표값 변경 (-1 : 좌측 이동) 
+            bx--; // X 좌표값 변경 (-1 : 좌측 이동) 
             break;
         
         case RIGHT: // 우측 이동    
@@ -462,21 +462,21 @@ void move_block(int dir){
                     if(blocks[b_type][b_rotation][i][j]==1) main_org[by+i][bx+j+1]=ACTIVE_BLOCK;
                 }
             }
-            bx++; // 좌표값 변경 (+1 : 우측 이동)       
+            bx++; // X 좌표값 변경 (+1 : 우측 이동)       
             break;
         
-        case DOWN:    
-            for(i=0;i<4;i++){
+        case DOWN: // 하강   
+            for(i=0;i<4;i++){ // 현재 좌표의 블록 삭제
                 for(j=0;j<4;j++){
                     if(blocks[b_type][b_rotation][i][j]==1) main_org[by+i][bx+j]=EMPTY;
                 }
             }
-            for(i=0;i<4;i++){
+            for(i=0;i<4;i++){ // 아래쪽으로 한 칸 이동 후 블록 출력
                 for(j=0;j<4;j++){
                     if(blocks[b_type][b_rotation][i][j]==1) main_org[by+i+1][bx+j]=ACTIVE_BLOCK;
                 }
             }
-            by++;        
+            by++; // Y 좌표값 변경 (+1 : 하강)       
             break;
         
         case UP:  
