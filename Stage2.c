@@ -493,19 +493,19 @@ void move_block(int dir){
             }
             break;
             
-        case 100:  
-            for(i=0;i<4;i++){
+        case 100: // 회전 특수 (블록 회전 시도 -> 충돌 -> 한 칸 위로 올려 회전 가능 시) 
+            for(i=0;i<4;i++){ // 현재 좌표의 블록 삭제
                 for(j=0;j<4;j++){
                     if(blocks[b_type][b_rotation][i][j]==1) main_org[by+i][bx+j]=EMPTY;
                 }
             }
-            b_rotation=(b_rotation+1)%4;
-            for(i=0;i<4;i++){
+            b_rotation=(b_rotation+1)%4; // 회전값 +1
+            for(i=0;i<4;i++){ // 회전한 블록 출력
                 for(j=0;j<4;j++){
                     if(blocks[b_type][b_rotation][i][j]==1) main_org[by+i-1][bx+j]=ACTIVE_BLOCK;
                 }
             }
-            by--;
+            by--; // Y 좌표값 변경 (-1 : 상승)
             break;
     }
 } // 블록 이동 함수
