@@ -554,11 +554,11 @@ void check_level_up(void){
     
     if(cnt>=10){ // 레벨 당 목표 (10줄 삭제) 달성 시 
         draw_main();
-        level_up_on=1; 
-        level+=1; 
-        cnt=0;    
+        level_up_on=1; // level_up flag on
+        level+=1; // 레벨 +1
+        cnt=0; // 삭제한 줄 수 초기화   
     
-        for(i=0;i<4;i++){
+        for(i=0;i<4;i++){ // 다음 Lv 넘어간 걸 알려줌
             gotoxy(MAIN_X_ADJ+(MAIN_X/2)-3,MAIN_Y_ADJ+4);
             printf("             ");
             gotoxy(MAIN_X_ADJ+(MAIN_X/2)-2,MAIN_Y_ADJ+6);
@@ -571,7 +571,7 @@ void check_level_up(void){
             wprintf(L"☆SPEED UP!☆");
             Sleep(200);
         }
-        reset_main_cpy(); 
+        reset_main_cpy(); // 출력한 문구 삭제 위해 main_cpy 초기화
        
         switch(level){  
             case 2:
