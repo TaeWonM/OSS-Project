@@ -108,7 +108,7 @@ char *stage2(int diffi){
         }
         drop_block(); // 블록 하강 check
         check_level_up(); // 다음 Lv 넘어가기 위한 조건 달성 check
-        if (level == 10) return stage2achievement; // 게임 클리어 시 업적 달성 여부
+        if (level == 11) return stage2achievement; // 게임 클리어 시 업적 달성 여부
         if (check_game_over()) return stage2achievement; // 게임 종료 시 업적 달성 여부
         if(new_block_on==1) new_block(); // 다음 블록 출력
     }
@@ -554,6 +554,7 @@ void check_level_up(void){
     int i, j;
 
     if (level == 10) { // Lv 10 에서 목표 전부 달성 시 게임 클리어
+        level++;
         if (step == 1) stage2achievement[0] = 'O'; // 난이도 1 클리어 업적
         else if (step == 2) stage2achievement[1] = 'O'; // 난이도 2 클리어 업적
         else if (step == 3) stage2achievement[2] == 'O'; // 난이도 3 클리어 업적
@@ -625,7 +626,7 @@ int check_game_over(void){
     int y=5;
     
     for(i=1;i<MAIN_X-2;i++){ // 천장에 부딪치면 (inactive 발생) 게임 오버
-        if(main_org[3][i]>0){ 
+        if(main_org[3][i]>0){ // 게임 오버 문구
             gotoxy(x,y+0); wprintf(L"▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤");   
             gotoxy(x,y+1); wprintf(L"▤                              ▤");
             gotoxy(x,y+2); wprintf(L"▤  +-----------------------+   ▤");
