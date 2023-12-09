@@ -437,18 +437,18 @@ void move_block(int dir){
     int i,j;
  
     switch(dir){
-        case LEFT:  
-            for(i=0;i<4;i++){  
+        case LEFT: // 좌측 이동 
+            for(i=0;i<4;i++){ // 현재 좌표의 블록 삭제 
                 for(j=0;j<4;j++){
                     if(blocks[b_type][b_rotation][i][j]==1) main_org[by+i][bx+j]=EMPTY;
                 }
             }
-            for(i=0;i<4;i++){  
+            for(i=0;i<4;i++){ // 좌측으로 한 칸 이동 후 블록 출력 
                 for(j=0;j<4;j++){
                     if(blocks[b_type][b_rotation][i][j]==1) main_org[by+i][bx+j-1]=ACTIVE_BLOCK;
                 }
             }
-            bx--;  
+            bx--; // 좌표값 변경 (-1 : 좌측 이동) 
             break;
         
         case RIGHT:    
