@@ -624,7 +624,7 @@ int check_game_over(void){
     int x=5;
     int y=5;
     
-    for(i=1;i<MAIN_X-2;i++){
+    for(i=1;i<MAIN_X-2;i++){ // 천장에 부딪치면 (inactive 발생) 게임 오버
         if(main_org[3][i]>0){ 
             gotoxy(x,y+0); wprintf(L"▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤");   
             gotoxy(x,y+1); wprintf(L"▤                              ▤");
