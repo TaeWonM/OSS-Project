@@ -401,7 +401,7 @@ int check_key(void){
         return 1;
     }
     return 0;
-}
+} // 사용자로부터 입력 받은 키 값 관련 함수
  
 void drop_block(void){
     int i,j;
