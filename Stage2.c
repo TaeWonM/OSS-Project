@@ -516,7 +516,7 @@ void check_line(void){
     int block_amount; // 한 줄의 채워진 블록 개수 저장
     int combo=0; // 콤보 횟수 저장 
     
-    for(i=MAIN_Y-2;i>3;){  
+    for(i=MAIN_Y-2;i>3;){ // 바닥 (MAIN_Y) 부터 천장 (3) 까지 check 
         block_amount=0;
         for(j=1;j<MAIN_X-1;j++){ 
             if(main_org[i][j]>0) block_amount++;
