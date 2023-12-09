@@ -235,40 +235,42 @@ void draw_main(void){
     
     for(j=1;j<MAIN_X-1;j++){  
         if(main_org[3][j]==EMPTY) main_org[3][j]=CEILLING;
-    }
+    } // 새로운 블럭이 생성된 후 하강 시 천장을 새로 출력
+
     for(i=0;i<MAIN_Y;i++){
         for(j=0;j<MAIN_X;j++){
-            if(main_cpy[i][j]!=main_org[i][j]){ 
+            if(main_cpy[i][j]!=main_org[i][j]){ // main_org 에서 변경된 값만 출력
                                                 
-            gotoxy(MAIN_X_ADJ+j,MAIN_Y_ADJ+i); 
+                gotoxy(MAIN_X_ADJ+j,MAIN_Y_ADJ+i); 
                 switch(main_org[i][j]){
-                    case EMPTY:  
+                    case EMPTY: // 공백
                         printf("  ");
                         break;
-                    case CEILLING: 
+                    case CEILLING: // 천장
                         printf(". ");
                         break;
-                    case WALL:  
+                    case WALL: // 벽 
                         wprintf(L"▩"); 
                         break;
-                    case INACTIVE_BLOCK:   
+                    case INACTIVE_BLOCK: // 조작 완료 블록  
                         wprintf(L"□");
                         break;
-                    case ACTIVE_BLOCK:
-                        SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), b_type + 1);  
+                    case ACTIVE_BLOCK: // 현재 조작 중인 블록
+                        SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), b_type + 1); // 블록 종류에 따라 고유색 부여 
                         wprintf(L"■");
-                        SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 7);
+                        SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 7); // 콘솔 출력 글자 색 원상복구 (흰색)
                         break;    
                 }    
             }
         }
     }
+
     for(i=0;i<MAIN_Y;i++){   
         for(j=0;j<MAIN_X;j++){
             main_cpy[i][j]=main_org[i][j];
         }
-    }
-}
+    } // 게임판 출력 후 main_cpy 로 복사
+} // board 출력 함수
  
 void new_block(void){   
     int i, j;    
