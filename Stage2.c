@@ -380,14 +380,15 @@ void new_block(void){
  
 int check_key(void){
     key=0;   
-    if (GetAsyncKeyState(VK_LEFT) && check_crush(bx-1,by,b_rotation)==true)move_block(LEFT); 
-    else if (GetAsyncKeyState(VK_RIGHT) && check_crush(bx+1,by,b_rotation)==true)move_block(RIGHT);
-    else if (GetAsyncKeyState(VK_DOWN) && check_crush(bx,by+1,b_rotation)==true)move_block(DOWN);
-    else if (GetAsyncKeyState(VK_UP)){
+
+    if (GetAsyncKeyState(VK_LEFT) && check_crush(bx-1,by,b_rotation)==true)move_block(LEFT); // 좌측 이동
+    else if (GetAsyncKeyState(VK_RIGHT) && check_crush(bx+1,by,b_rotation)==true)move_block(RIGHT); // 우측 이동
+    else if (GetAsyncKeyState(VK_DOWN) && check_crush(bx,by+1,b_rotation)==true)move_block(DOWN); // 약한 하강
+    else if (GetAsyncKeyState(VK_UP)){ // 회전
         if(check_crush(bx,by,(b_rotation+1)%4)==true) move_block(UP);             
         else if(crush_on==1&&check_crush(bx,by-1,(b_rotation+1)%4)==true) move_block(100);   
     }
-    else if (GetAsyncKeyState(VK_SPACE)){
+    else if (GetAsyncKeyState(VK_SPACE)){ // 강한 하강
         space_key_on=1; 
         while(crush_on==0){  
             drop_block();
@@ -395,8 +396,8 @@ int check_key(void){
             gotoxy(STATUS_X_ADJ, STATUS_Y_SCORE); printf("        %6d", score);   
         }
     }
-    else if (GetAsyncKeyState(0x50))pause(); 
-    else if (GetAsyncKeyState(VK_ESCAPE)) {
+    else if (GetAsyncKeyState(0x50))pause(); // 일시정지
+    else if (GetAsyncKeyState(VK_ESCAPE)) { // ESC 
         system("cls");  
         return 1;
     }
