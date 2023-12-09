@@ -275,13 +275,13 @@ void draw_main(void){
 void new_block(void){   
     int i, j;    
     
-    bx=(MAIN_X/2)-1; 
-    by=0;   
-    b_type=b_type_next;  
-    b_type_next=rand()%7;  
-    b_rotation=0;   
+    bx=(MAIN_X/2)-1; // 블록 생성 위치 X 좌표
+    by=0; // 블록 생성 위치 Y 좌표  
+    b_type=b_type_next; // 다음 블록 값을 가져옴 
+    b_type_next=rand()%7; // 다음 블록 생성 
+    b_rotation=0; // 회전 종류 0번 (기본)   
     
-    new_block_on=0;   
+    new_block_on=0; // new_block flag 종료  
     
     for(i=0;i<4;i++){   
         for(j=0;j<4;j++){
