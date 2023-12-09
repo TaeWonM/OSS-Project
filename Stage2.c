@@ -389,11 +389,11 @@ int check_key(void){
         else if(crush_on==1&&check_crush(bx,by-1,(b_rotation+1)%4)==true) move_block(100);   
     }
     else if (GetAsyncKeyState(VK_SPACE)){ // 강한 하강
-        space_key_on=1; 
+        space_key_on=1; // space_key flag 
         while(crush_on==0){  
             drop_block();
-            score+=level;
-            gotoxy(STATUS_X_ADJ, STATUS_Y_SCORE); printf("        %6d", score);   
+            score+=level; // 강한 하강 점수 보너스
+            gotoxy(STATUS_X_ADJ, STATUS_Y_SCORE); printf("        %6d", score); // 변경된 점수 출력   
         }
     }
     else if (GetAsyncKeyState(0x50))pause(); // 일시정지
