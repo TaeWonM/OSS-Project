@@ -426,11 +426,11 @@ int check_crush(int bx, int by, int b_rotation){
     int i,j;
     
     for(i=0;i<4;i++){
-        for(j=0;j<4;j++){ 
+        for(j=0;j<4;j++){ // 지정된 위치의 board 와 블록 비교해서 겹치면 false
             if(blocks[b_type][b_rotation][i][j]==1&&main_org[by+i][bx+j]>0) return false;
         }
     }    
-    return true;  
+    return true; // 겹치지 않으면 true 
 }; // 이동 & 회전 시 충돌 검사 함수
  
 void move_block(int dir){ 
