@@ -406,20 +406,20 @@ int check_key(void){
 void drop_block(void){
     int i,j;
     
-    if(crush_on&&check_crush(bx,by+1, b_rotation)==true) crush_on=0;  
-    if(crush_on&&check_crush(bx,by+1, b_rotation)==false){ 
-        for(i=0;i<MAIN_Y;i++){  
+    if(crush_on&&check_crush(bx,by+1, b_rotation)==true) crush_on=0; // 하단이 비었을 시 crush flag off 
+    if(crush_on&&check_crush(bx,by+1, b_rotation)==false){ // 하단이 비어있지 않고 crush flag on 일 때
+        for(i=0;i<MAIN_Y;i++){  // 현재 조작 중인 블록 굳힘 (속이 빈, 흰 색)
             for(j=0;j<MAIN_X;j++){
                 if(main_org[i][j]==ACTIVE_BLOCK) main_org[i][j]=INACTIVE_BLOCK;
             }
         }
-        crush_on=0; 
-        check_line();  
-        new_block_on=1;    
+        crush_on=0; // crush flag off
+        check_line(); // 완성된 줄 있는 지 check 
+        new_block_on=1; // 새로운 블록 생성 flag on   
         return; 
     }
-    if(check_crush(bx,by+1, b_rotation)==true) move_block(DOWN);  
-    if(check_crush(bx,by+1, b_rotation)==false) crush_on++; 
+    if(check_crush(bx,by+1, b_rotation)==true) move_block(DOWN); // 하단 비었으면 밑으로 한 칸 이동 
+    if(check_crush(bx,by+1, b_rotation)==false) crush_on++; // 이동이 안 될 경우 crush flag on
 } // hard drop 처리 함수
  
 int check_crush(int bx, int by, int b_rotation){  
