@@ -195,13 +195,13 @@ void reset_main_cpy(void){
 } // main_cpy 초기화 함수
  
 void draw_map(void){ 
-int y=3;             
+int y=3; // level, goal, score 값 변경할 때 필요한 기준 Y 좌표            
                     
     gotoxy(STATUS_X_ADJ, STATUS_Y_LEVEL=y); printf(" LEVEL : %5d", level); 
     gotoxy(STATUS_X_ADJ, STATUS_Y_GOAL=y+1); printf(" GOAL  : %5d", 10-cnt);
 
     switch (step) {
-        case 2 :
+        case 2 : // 난이도 2 : 다음 블록 2개 표시
             gotoxy(STATUS_X_ADJ, y+2); printf("+--------  N E X T  --------+ ");
             gotoxy(STATUS_X_ADJ, y+3); printf("|                           | ");
             gotoxy(STATUS_X_ADJ, y+4); printf("|                           | ");
@@ -228,7 +228,7 @@ int y=3;
     gotoxy(STATUS_X_ADJ, y+15); wprintf(L"  △   : Shift        SPACE : Hard Drop");     
     gotoxy(STATUS_X_ADJ, y+16); wprintf(L"◁  ▷ : Left / Right   P   : Pause");     
     gotoxy(STATUS_X_ADJ, y+17); wprintf(L"  ▽   : Soft Drop     ESC  : Quit");
-}
+} // status 출력 함수
  
 void draw_main(void){ 
     int i, j;    
