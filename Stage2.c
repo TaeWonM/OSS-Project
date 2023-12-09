@@ -109,7 +109,7 @@ char *stage2(int diffi){
         drop_block(); // 블록 하강 check
         check_level_up(); // 다음 Lv 넘어가기 위한 조건 달성 check
         if (check_game_over()) return stage2achievement; // 게임 종료 시 업적 달성 여부
-        if(new_block_on==1) new_block(); // 
+        if(new_block_on==1) new_block(); // 다음 블록 출력
     }
 } // main 함수 (매개변수 : 메인 스테이지에서 입력 받은 난이도)
  
