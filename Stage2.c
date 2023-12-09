@@ -574,7 +574,7 @@ void check_level_up(void){
         reset_main_cpy(); // 출력한 문구 삭제 위해 main_cpy 초기화
         check_line() // 줄 완성 check 
        
-        switch(level){  
+        switch(level){ // 레벨 별 하강 속도 변화 
             case 2:
                 speed=50;
                 break;
@@ -603,7 +603,7 @@ void check_level_up(void){
                 speed=0;
                 break;
         }    
-        level_up_on=0; 
+        level_up_on=0; // level_up flag off
         
         gotoxy(STATUS_X_ADJ, STATUS_Y_LEVEL); printf(" LEVEL : %5d", level); 
         gotoxy(STATUS_X_ADJ, STATUS_Y_GOAL); printf(" GOAL  : %5d", 10-cnt); 
