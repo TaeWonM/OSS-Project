@@ -608,7 +608,7 @@ void check_level_up(void){
         gotoxy(STATUS_X_ADJ, STATUS_Y_GOAL); printf(" GOAL  : %5d", 10-cnt); 
     
     }
-}
+} // 다음 단계 넘어가는 동작 구현 함수
  
 int check_game_over(void){ 
     int i;
