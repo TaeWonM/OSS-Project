@@ -572,6 +572,7 @@ void check_level_up(void){
             Sleep(200);
         }
         reset_main_cpy(); // 출력한 문구 삭제 위해 main_cpy 초기화
+        check_line() // 줄 완성 check 
        
         switch(level){  
             case 2:
