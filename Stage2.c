@@ -547,7 +547,7 @@ void check_line(void){
         gotoxy(STATUS_X_ADJ, STATUS_Y_GOAL); printf(" GOAL  : %5d", (cnt<=10)?10-cnt:0);
         gotoxy(STATUS_X_ADJ, STATUS_Y_SCORE); printf("        %6d", score);    
     }
-}
+} // 줄 완성 check 함수 (점수)
  
 void check_level_up(void){
     int i, j;
