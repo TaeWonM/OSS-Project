@@ -552,7 +552,7 @@ void check_line(void){
 void check_level_up(void){
     int i, j;
     
-    if(cnt>=10){  
+    if(cnt>=10){ // 레벨 당 목표 (10줄 삭제) 달성 시 
         draw_main();
         level_up_on=1; 
         level+=1; 
