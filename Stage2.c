@@ -290,7 +290,7 @@ void new_block(void){
     } // bx, by 위치에 블록 출력
 
     switch (step) {
-        case 1:
+        case 1: // 난이도 1 : 다음 블록 1개
             SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), b_type_next + 1);
             for(i=1;i<3;i++){ 
                 for(j=0;j<4;j++){
@@ -306,7 +306,8 @@ void new_block(void){
             }
             SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 7);
             break;
-        case 2:
+
+        case 2: 
             b_dummy=rand()%7;
    
             if (b_type_next > b_dummy) {
