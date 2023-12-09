@@ -287,7 +287,8 @@ void new_block(void){
         for(j=0;j<4;j++){
             if(blocks[b_type][b_rotation][i][j]==1) main_org[by+i][bx+j]=ACTIVE_BLOCK;
         }
-    }
+    } // bx, by 위치에 블록 출력
+
     switch (step) {
         case 1:
             SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), b_type_next + 1);
@@ -373,7 +374,7 @@ void new_block(void){
             break;
         case 3:
             break;
-    };
+    }; // status 의 다음 플록 표시 구역에 다음 블록 출력
 } // 새로운 블록 생성 & 다음 블록 표시칸에 출력 함수
  
 int check_key(void){
