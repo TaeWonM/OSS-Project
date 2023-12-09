@@ -605,8 +605,8 @@ void check_level_up(void){
         }    
         level_up_on=0; // level_up flag off
         
-        gotoxy(STATUS_X_ADJ, STATUS_Y_LEVEL); printf(" LEVEL : %5d", level); 
-        gotoxy(STATUS_X_ADJ, STATUS_Y_GOAL); printf(" GOAL  : %5d", 10-cnt); 
+        gotoxy(STATUS_X_ADJ, STATUS_Y_LEVEL); printf(" LEVEL : %5d", level); // 레벨 출력
+        gotoxy(STATUS_X_ADJ, STATUS_Y_GOAL); printf(" GOAL  : %5d", 10-cnt); // 목표 출력
     
     }
 } // 다음 단계 넘어가는 동작 구현 함수
