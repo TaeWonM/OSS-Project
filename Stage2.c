@@ -108,6 +108,7 @@ char *stage2(int diffi){
         }
         drop_block(); // 블록 하강 check
         check_level_up(); // 다음 Lv 넘어가기 위한 조건 달성 check
+        if (level == 10) return stage2achievement; // 게임 클리어 시 업적 달성 여부
         if (check_game_over()) return stage2achievement; // 게임 종료 시 업적 달성 여부
         if(new_block_on==1) new_block(); // 다음 블록 출력
     }
@@ -551,63 +552,69 @@ void check_line(void){
  
 void check_level_up(void){
     int i, j;
+
+    if (level == 10) { // Lv 10 에서 목표 전부 달성 시 게임 클리어
+        if (step == 1) stage2achievement[0] = 'O'; // 난이도 1 클리어 업적
+        else if (step == 2) stage2achievement[1] = 'O'; // 난이도 2 클리어 업적
+        else if (step == 3) stage2achievement[2] == 'O'; // 난이도 3 클리어 업적
+    }
+    else {
+        if(cnt>=10){ // 레벨 당 목표 (10줄 삭제) 달성 시 
+            draw_main();
+            level_up_on=1; // level_up flag on
+            level+=1; // 레벨 +1
+            cnt=0; // 삭제한 줄 수 초기화   
     
-    if(cnt>=10){ // 레벨 당 목표 (10줄 삭제) 달성 시 
-        draw_main();
-        level_up_on=1; // level_up flag on
-        level+=1; // 레벨 +1
-        cnt=0; // 삭제한 줄 수 초기화   
-    
-        for(i=0;i<4;i++){ // 다음 Lv 넘어간 걸 알려줌
-            gotoxy(MAIN_X_ADJ+(MAIN_X/2)-3,MAIN_Y_ADJ+4);
-            printf("             ");
-            gotoxy(MAIN_X_ADJ+(MAIN_X/2)-2,MAIN_Y_ADJ+6);
-            printf("             ");
-            Sleep(200);
+            for(i=0;i<4;i++){ // 다음 Lv 넘어간 걸 알려줌
+                gotoxy(MAIN_X_ADJ+(MAIN_X/2)-3,MAIN_Y_ADJ+4);
+                printf("             ");
+                gotoxy(MAIN_X_ADJ+(MAIN_X/2)-2,MAIN_Y_ADJ+6);
+                printf("             ");
+                Sleep(200);
             
-            gotoxy(MAIN_X_ADJ+(MAIN_X/2)-3,MAIN_Y_ADJ+4);
-            wprintf(L"☆LEVEL UP!☆");
-            gotoxy(MAIN_X_ADJ+(MAIN_X/2)-2,MAIN_Y_ADJ+6);
-            wprintf(L"☆SPEED UP!☆");
-            Sleep(200);
-        }
-        reset_main_cpy(); // 출력한 문구 삭제 위해 main_cpy 초기화
-        check_line() // 줄 완성 check 
+                gotoxy(MAIN_X_ADJ+(MAIN_X/2)-3,MAIN_Y_ADJ+4);
+                wprintf(L"☆LEVEL UP!☆");
+                gotoxy(MAIN_X_ADJ+(MAIN_X/2)-2,MAIN_Y_ADJ+6);
+                wprintf(L"☆SPEED UP!☆");
+                Sleep(200);
+            }
+            reset_main_cpy(); // 출력한 문구 삭제 위해 main_cpy 초기화
+            check_line() // 줄 완성 check 
        
-        switch(level){ // 레벨 별 하강 속도 변화 
-            case 2:
-                speed=50;
-                break;
-            case 3:
-                speed=25;
-                break;
-            case 4:
-                speed=10;
-                break;
-            case 5:
-                speed=5;
-                break;
-            case 6:
-                speed=4;
-                break;
-            case 7:
-                speed=3;
-                break;
-            case 8:
-                speed=2;
-                break;
-            case 9:
-                speed=1;
-                break;
-            case 10:
-                speed=0;
-                break;
-        }    
-        level_up_on=0; // level_up flag off
+            switch(level){ // 레벨 별 하강 속도 변화 
+                case 2:
+                    speed=50;
+                   break;
+                case 3:
+                    speed=25;
+                    break;
+                case 4:
+                    speed=10;
+                    break;
+                case 5:
+                    speed=5;
+                    break;
+                case 6:
+                    speed=4;
+                    break;
+                case 7:
+                    speed=3;
+                    break;
+                case 8:
+                    speed=2;
+                    break;
+                case 9:
+                    speed=1;
+                    break;
+                case 10:
+                    speed=0;
+                    break;
+            }    
+            level_up_on=0; // level_up flag off
         
-        gotoxy(STATUS_X_ADJ, STATUS_Y_LEVEL); printf(" LEVEL : %5d", level); // 레벨 출력
-        gotoxy(STATUS_X_ADJ, STATUS_Y_GOAL); printf(" GOAL  : %5d", 10-cnt); // 목표 출력
-    
+            gotoxy(STATUS_X_ADJ, STATUS_Y_LEVEL); printf(" LEVEL : %5d", level); // 레벨 출력
+            gotoxy(STATUS_X_ADJ, STATUS_Y_GOAL); printf(" GOAL  : %5d", 10-cnt); // 목표 출력
+        }
     }
 } // 다음 단계 넘어가는 동작 구현 함수
  
@@ -654,7 +661,7 @@ int check_game_over(void){
         }
     }
     return 0;
-}
+} // 
  
 void pause(void){ 
     int i,j;
