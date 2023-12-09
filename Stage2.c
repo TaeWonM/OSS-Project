@@ -479,14 +479,14 @@ void move_block(int dir){
             by++; // Y 좌표값 변경 (+1 : 하강)       
             break;
         
-        case UP:  
-            for(i=0;i<4;i++){ 
+        case UP: // 회전 
+            for(i=0;i<4;i++){ // 현재 좌표의 블록 삭제
                 for(j=0;j<4;j++){
                     if(blocks[b_type][b_rotation][i][j]==1) main_org[by+i][bx+j]=EMPTY;
                 }
             }
-            b_rotation=(b_rotation+1)%4;
-            for(i=0;i<4;i++){  
+            b_rotation=(b_rotation+1)%4; // 회전값 +1 (3 -> 4 경우 0으로 초기화)
+            for(i=0;i<4;i++){ // 회전한 블록 출력 
                 for(j=0;j<4;j++){
                     if(blocks[b_type][b_rotation][i][j]==1) main_org[by+i][bx+j]=ACTIVE_BLOCK;
                 }
