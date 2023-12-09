@@ -661,7 +661,7 @@ int check_game_over(void){
         }
     }
     return 0;
-} // 
+} // 게임 오버 화면 출력 함수
  
 void pause(void){ 
     int i,j;
