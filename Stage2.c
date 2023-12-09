@@ -290,7 +290,7 @@ void new_block(void){
     } // bx, by 위치에 블록 출력
 
     switch (step) {
-        case 1: // 난이도 1 : 다음 블록 1개
+        case 1: // 난이도 1 : 다음 블록 1개 표시
             SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), b_type_next + 1);
             for(i=1;i<3;i++){ 
                 for(j=0;j<4;j++){
@@ -307,7 +307,7 @@ void new_block(void){
             SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 7);
             break;
 
-        case 2: // 난이도 2 : 다음 블록 2개
+        case 2: // 난이도 2 : 다음 블록 2개 표시
             b_dummy=rand()%7; // 가짜 다음 블록
    
             if (b_type_next > b_dummy) { // 가짜 블록의 index 가 낮을 경우
@@ -373,7 +373,7 @@ void new_block(void){
                 SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 7);
             }
             break;
-        case 3: 
+        case 3: // 난이도 3 : 다음 블록 0개 표시
             break;
     }; // status 의 다음 플록 표시 구역에 다음 블록 출력
 } // 새로운 블록 생성 & 다음 블록 표시칸에 출력 함수
