@@ -307,11 +307,11 @@ void new_block(void){
             SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 7);
             break;
 
-        case 2: 
-            b_dummy=rand()%7;
+        case 2: // 난이도 2 : 다음 블록 2개
+            b_dummy=rand()%7; // 가짜 다음 블록
    
-            if (b_type_next > b_dummy) {
-                SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), b_type_next + 1);
+            if (b_type_next > b_dummy) { // 가짜 블록의 index 가 낮을 경우
+                SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), b_type_next + 1); // 블록 고유색
                 for(i=1;i<3;i++){ 
                     for(j=0;j<4;j++){
                         if(blocks[b_type_next][0][i][j]==1) {
@@ -324,7 +324,7 @@ void new_block(void){
                         }
                     }
                 }
-                SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 7);
+                SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 7); 
      
                 SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), b_dummy + 1);
                 for(i=1;i<3;i++){ 
@@ -341,7 +341,7 @@ void new_block(void){
                 }
                 SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 7);
             }
-            else {
+            else { // 진짜 다음 블록과 가짜 다음 블록이 다음 블록 표시 구역의 좌 우 고정되지 않고 랜덤하게 출력하도록 값 비교
                 SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), b_type_next + 1);
                 for(i=1;i<3;i++){ 
                     for(j=0;j<4;j++){
@@ -373,7 +373,7 @@ void new_block(void){
                 SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 7);
             }
             break;
-        case 3:
+        case 3: 
             break;
     }; // status 의 다음 플록 표시 구역에 다음 블록 출력
 } // 새로운 블록 생성 & 다음 블록 표시칸에 출력 함수
