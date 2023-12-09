@@ -517,20 +517,20 @@ void check_line(void){
     int combo=0; // 콤보 횟수 저장 
     
     for(i=MAIN_Y-2;i>3;){ // 바닥 (MAIN_Y) 부터 천장 (3) 까지 check 
-        block_amount=0;
-        for(j=1;j<MAIN_X-1;j++){ 
+        block_amount=0; // 블록 개수 초기화
+        for(j=1;j<MAIN_X-1;j++){ // 벽과 벽 사이의 블록 개수 check
             if(main_org[i][j]>0) block_amount++;
         }
-        if(block_amount==MAIN_X-2){ 
-            if(level_up_on==0){  
-                score+=100*level;  
-                cnt++;  
-                combo++;   
+        if(block_amount==MAIN_X-2){ // 블록이 가득 찬 경우 (한 줄 완성)
+            if(level_up_on==0){ // level_up flag 가 off (다음 단계 넘어갈 시 자동 줄 삭제 기능 포함) 
+                score+=100*level; // 점수 추가 
+                cnt++; // 지운 줄 개수 증가 
+                combo++; // 콤보 증가  
             }
-            for(k=i;k>1;k--){ 
+            for(k=i;k>1;k--){ // 윗줄을 전부 한 칸씩 내림
                 for(l=1;l<MAIN_X-1;l++){
                     if(main_org[k-1][l]!=CEILLING) main_org[k][l]=main_org[k-1][l];
-                    if(main_org[k-1][l]==CEILLING) main_org[k][l]=EMPTY; 
+                    if(main_org[k-1][l]==CEILLING) main_org[k][l]=EMPTY; // 천장 제외
 
                 }
             }
