@@ -431,7 +431,7 @@ int check_crush(int bx, int by, int b_rotation){
         }
     }    
     return true;  
-};
+}; // 이동 & 회전 시 충돌 검사 함수
  
 void move_block(int dir){ 
     int i,j;
