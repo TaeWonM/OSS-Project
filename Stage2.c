@@ -508,7 +508,7 @@ void move_block(int dir){
             by--;
             break;
     }
-}
+} // 블록 이동 함수
  
 void check_line(void){
     int i, j, k, l;
