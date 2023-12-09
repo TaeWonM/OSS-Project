@@ -654,7 +654,7 @@ int check_game_over(void){
                 }
             }
             while (1) {
-                if (GetAsyncKeyState(VK_RETURN)) { // esc 입력 시 메인 스테이지 esc 메뉴 출력
+                if (GetAsyncKeyState(VK_RETURN)) { // 게임 재시작
                     Sleep(100);
                     return 1;
                 }
@@ -670,7 +670,7 @@ void pause(void){
     int x=5;
     int y=5;
     
-    for(i=1;i<MAIN_X-2;i++) { 
+    for(i=1;i<MAIN_X-2;i++) { // 게임 일시 정지 문구
             gotoxy(x,y+0); wprintf(L"▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤");
             gotoxy(x,y+1); wprintf(L"▤                              ▤");
             gotoxy(x,y+2); wprintf(L"▤  +-----------------------+   ▤");
@@ -681,7 +681,7 @@ void pause(void){
             gotoxy(x,y+7); wprintf(L"▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤");
     }
 
-    while (1) {
+    while (1) { // enter 입력 시 게임 재개
         if (GetAsyncKeyState(VK_RETURN)) {
             Sleep(100);
             break;
