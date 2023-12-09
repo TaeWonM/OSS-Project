@@ -755,5 +755,4 @@ void pause(void){
         }
         SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 7);   
     }
-}
-
+} // 게임 일시 정지 화면 출력 함수
