@@ -688,7 +688,7 @@ void pause(void){
         }
     }
 
-    system("cls"); 
+    system("cls"); // 화면 초기화 후 이전 게임 상태 출력
     reset_main_cpy();  
     draw_main();
     draw_map(); 
