@@ -637,14 +637,14 @@ int check_game_over(void){
             gotoxy(x,y+7); wprintf(L"▤  Press Enter to restart..    ▤");
             gotoxy(x,y+8); wprintf(L"▤                              ▤");
             gotoxy(x,y+9); wprintf(L"▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤");
-            last_score=score;  
+            last_score=score; // 이전 게임 점수 변수에 점수 저장 
             
-            if(score>best_score){ 
-                FILE* file=fopen("score.dat", "wt");                 
+            if(score>best_score){ // 최고 기록 갱신 시
+                FILE* file=fopen("score.dat", "wt"); // score.dat 에 저장                
                 
                 gotoxy(x,y+6); wprintf(L"▤  ★★★ BEST SCORE! ★★★   ▤  ");
  
-                if(file==0){  
+                if(file==0){ // 파일 에러 처리 
                     gotoxy(0,0); 
                     printf("FILE ERROR: SYSTEM CANNOT WRITE BEST SCORE ON \"SCORE.DAT\"");
                 }
@@ -654,7 +654,7 @@ int check_game_over(void){
                 }
             }
             while (1) {
-                if (GetAsyncKeyState(VK_RETURN)) {
+                if (GetAsyncKeyState(VK_RETURN)) { // esc 입력 시 메인 스테이지 esc 메뉴 출력
                     Sleep(100);
                     return 1;
                 }
