@@ -513,8 +513,8 @@ void move_block(int dir){
 void check_line(void){
     int i, j, k, l;
     
-    int    block_amount; 
-    int combo=0;  
+    int block_amount; // 한 줄의 채워진 블록 개수 저장
+    int combo=0; // 콤보 횟수 저장 
     
     for(i=MAIN_Y-2;i>3;){  
         block_amount=0;
