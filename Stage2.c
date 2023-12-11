@@ -108,7 +108,9 @@ char *stage2(int diffi){
         }
         drop_block(); // 블록 하강 check
         check_level_up(); // 다음 Lv 넘어가기 위한 조건 달성 check
-        if (level == 11) return stage2achievement; // 게임 클리어 시 업적 달성 여부
+        if (level == 11) {
+            return stage2achievement; // 게임 클리어 시 업적 달성 여부
+        }
         if (check_game_over()) return stage2achievement; // 게임 종료 시 업적 달성 여부
         if(new_block_on==1) new_block(); // 다음 블록 출력
     }
@@ -580,7 +582,7 @@ void check_level_up(void){
                 Sleep(200);
             }
             reset_main_cpy(); // 출력한 문구 삭제 위해 main_cpy 초기화
-            check_line() // 줄 완성 check 
+            check_line(); // 줄 완성 check 
        
             switch(level){ // 레벨 별 하강 속도 변화 
                 case 2:
