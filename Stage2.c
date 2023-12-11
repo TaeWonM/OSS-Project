@@ -108,9 +108,7 @@ char *stage2(int diffi){
         }
         drop_block(); // 블록 하강 check
         check_level_up(); // 다음 Lv 넘어가기 위한 조건 달성 check
-        if (level == 11) {
-            return stage2achievement; // 게임 클리어 시 업적 달성 여부
-        }
+        if (level == 6) return stage2achievement; // 게임 클리어 시 업적 달성 여부
         if (check_game_over()) return stage2achievement; // 게임 종료 시 업적 달성 여부
         if(new_block_on==1) new_block(); // 다음 블록 출력
     }
@@ -555,7 +553,7 @@ void check_line(void){
 void check_level_up(void){
     int i, j;
 
-    if (level == 10) { // Lv 10 에서 목표 전부 달성 시 게임 클리어
+    if (level == 5) { // Lv 5 에서 목표 전부 달성 시 게임 클리어
         level++;
         if (step == 1) stage2achievement[0] = 'O'; // 난이도 1 클리어 업적
         else if (step == 2) stage2achievement[1] = 'O'; // 난이도 2 클리어 업적
@@ -587,30 +585,15 @@ void check_level_up(void){
             switch(level){ // 레벨 별 하강 속도 변화 
                 case 2:
                     speed=50;
-                   break;
+                    break;
                 case 3:
-                    speed=25;
+                    speed=40;
                     break;
                 case 4:
-                    speed=10;
+                    speed=30;
                     break;
                 case 5:
-                    speed=5;
-                    break;
-                case 6:
-                    speed=4;
-                    break;
-                case 7:
-                    speed=3;
-                    break;
-                case 8:
-                    speed=2;
-                    break;
-                case 9:
-                    speed=1;
-                    break;
-                case 10:
-                    speed=0;
+                    speed=20;
                     break;
             }    
             level_up_on=0; // level_up flag off
