@@ -108,7 +108,43 @@ char *stage2(int diffi){
         }
         drop_block(); // 블록 하강 check
         check_level_up(); // 다음 Lv 넘어가기 위한 조건 달성 check
-        if (level == 6) return stage2achievement; // 게임 클리어 시 업적 달성 여부
+        if (level == 6) {
+            int x=20;
+            int y=5;
+            system("cls");
+            gotoxy(x,y+0); wprintf(L"▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤");   
+            gotoxy(x,y+1); wprintf(L"▤                              ▤");
+            gotoxy(x,y+2); wprintf(L"▤  +-----------------------+   ▤");
+            gotoxy(x,y+3); wprintf(L"▤  |  G A M E  C L E A R.. |   ▤");
+            gotoxy(x,y+4); wprintf(L"▤  +-----------------------+   ▤");
+            gotoxy(x,y+5); wprintf(L"▤   YOUR SCORE: %6d         ▤",score);
+            gotoxy(x,y+6); wprintf(L"▤                              ▤");
+            gotoxy(x,y+7); wprintf(L"▤  Press Enter to return...    ▤");
+            gotoxy(x,y+8); wprintf(L"▤                              ▤");
+            gotoxy(x,y+9); wprintf(L"▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤");
+            last_score=score; // 이전 게임 점수 변수에 점수 저장 
+            
+            if(score>best_score){ // 최고 기록 갱신 시
+                FILE* file=fopen("score.dat", "wt"); // score.dat 에 저장                
+                
+                gotoxy(x,y+6); wprintf(L"▤  ★★★ BEST SCORE! ★★★   ▤  ");
+ 
+                if(file==0){ // 파일 에러 처리 
+                    gotoxy(0,0); 
+                    printf("FILE ERROR: SYSTEM CANNOT WRITE BEST SCORE ON \"SCORE.DAT\"");
+                }
+                else{
+                    fprintf(file,"%d", score);
+                    fclose(file);
+                }
+            }
+            while (1) {
+                if (GetAsyncKeyState(VK_RETURN)) { // 게임 재시작
+                    break;
+                }
+            }
+            return stage2achievement; // 게임 클리어 시 업적 달성 여부
+        }
         if (check_game_over()) return stage2achievement; // 게임 종료 시 업적 달성 여부
         if(new_block_on==1) new_block(); // 다음 블록 출력
     }
@@ -380,7 +416,7 @@ void new_block(void){
 } // 새로운 블록 생성 & 다음 블록 표시칸에 출력 함수
  
 int check_key(void){  
-
+    Sleep(30);
     if (GetAsyncKeyState(VK_LEFT) && check_crush(bx-1,by,b_rotation)==true)move_block(LEFT); // 좌측 이동
     else if (GetAsyncKeyState(VK_RIGHT) && check_crush(bx+1,by,b_rotation)==true)move_block(RIGHT); // 우측 이동
     else if (GetAsyncKeyState(VK_DOWN) && check_crush(bx,by+1,b_rotation)==true)move_block(DOWN); // 약한 하강
@@ -552,17 +588,16 @@ void check_line(void){
  
 void check_level_up(void){
     int i, j;
-
-    if (level == 5) { // Lv 5 에서 목표 전부 달성 시 게임 클리어
-        level++;
-        if (step == 1) stage2achievement[0] = 'O'; // 난이도 1 클리어 업적
-        else if (step == 2) stage2achievement[1] = 'O'; // 난이도 2 클리어 업적
-        else if (step == 3) stage2achievement[2] == 'O'; // 난이도 3 클리어 업적
-    }
-    else {
         if(cnt>=10){ // 레벨 당 목표 (10줄 삭제) 달성 시 
             draw_main();
             level_up_on=1; // level_up flag on
+            if (level == 5) { // Lv 5 에서 목표 전부 달성 시 게임 클리어
+                level+=1;
+                if (step == 1) stage2achievement[0] = 'O'; // 난이도 1 클리어 업적
+                if (step == 2) stage2achievement[1] = 'O'; // 난이도 2 클리어 업적
+                if (step == 3) stage2achievement[2] = 'O'; // 난이도 3 클리어 업적
+                return;
+            }
             level+=1; // 레벨 +1
             cnt=0; // 삭제한 줄 수 초기화   
     
@@ -600,8 +635,8 @@ void check_level_up(void){
         
             gotoxy(STATUS_X_ADJ, STATUS_Y_LEVEL); printf(" LEVEL : %5d", level); // 레벨 출력
             gotoxy(STATUS_X_ADJ, STATUS_Y_GOAL); printf(" GOAL  : %5d", 10-cnt); // 목표 출력
+            
         }
-    }
 } // 다음 단계 넘어가는 동작 구현 함수
  
 int check_game_over(void){ 
@@ -612,6 +647,7 @@ int check_game_over(void){
     
     for(i=1;i<MAIN_X-2;i++){ // 천장에 부딪치면 (inactive 발생) 게임 오버
         if(main_org[3][i]>0){ // 게임 오버 문구
+            system("cls");
             gotoxy(x,y+0); wprintf(L"▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤");   
             gotoxy(x,y+1); wprintf(L"▤                              ▤");
             gotoxy(x,y+2); wprintf(L"▤  +-----------------------+   ▤");

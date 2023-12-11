@@ -110,7 +110,9 @@ int main () {
                 break;
             case '2':
                 system("cls");
-                stage2(diffi);
+                char stage2tmp[4];
+                strcpy(stage1tmp,stage2(diffi));
+                for (int i = 0; i < 3; i++) if (stage2tmp[i]=='O') stage2achi[i] = 'O';
                 system("cls");
                 break;
             case '3':
