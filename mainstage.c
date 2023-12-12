@@ -111,7 +111,7 @@ int main () {
             case '2':
                 system("cls");
                 char stage2tmp[4];
-                strcpy(stage1tmp,stage2(diffi));
+                strcpy(stage2tmp,stage2(diffi));
                 for (int i = 0; i < 3; i++) if (stage2tmp[i]=='O') stage2achi[i] = 'O';
                 system("cls");
                 break;
