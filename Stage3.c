@@ -199,7 +199,7 @@ int skill2(){
             phase1move();
             Sleep (30);
         }
-        if (stage3x <= printx + stage3mapmaxx/2 || stage3y >= printy + stage3mapmaxy/2){
+        if (stage3x < printx + stage3mapmaxx/2 || stage3y >= printy + stage3mapmaxy/2){
             life--;
             Setlife();
         }
@@ -221,7 +221,7 @@ int skill2(){
             phase1move();
             Sleep (30);
         }
-        if (stage3x <= printx + stage3mapmaxx/2 || stage3y <= printy + stage3mapmaxy/2){
+        if (stage3x < printx + stage3mapmaxx/2 || stage3y <= printy + stage3mapmaxy/2){
             life--;
             Setlife();
         }
@@ -243,7 +243,7 @@ int skill2(){
             phase1move();
             Sleep (30);
         }
-        if (stage3x >= printx + stage3mapmaxx/2 || stage3y >= printy + stage3mapmaxy/2){
+        if (stage3x > printx + stage3mapmaxx/2 || stage3y >= printy + stage3mapmaxy/2){
             life--;
             Setlife();
         }
@@ -265,7 +265,7 @@ int skill2(){
             phase1move();
             Sleep (30);
         }
-        if (stage3x >= printx + stage3mapmaxx/2 || stage3y <= printy + stage3mapmaxy/2){
+        if (stage3x > printx + stage3mapmaxx/2 || stage3y <= printy + stage3mapmaxy/2){
             life--;
             Setlife();
         }
