@@ -140,13 +140,13 @@ int main () {
                 printf ("%.60s",&map[i][MOVE]);
                 printf("\n");
             }
-            _beginthread(Cooldownset, 0,(void *)1);
-            
+            starthThread = _beginthread(Cooldownset, 0,(void *)1);
+            continue;
         }
         
         xv-=0.1*xv;
         yv+=0.3;
-        if (GetAsyncKeyState (VK_ESCAPE)){
+        if (GetAsyncKeyState (VK_ESCAPE) && cooldown == 1){
             system ("cls");
             mainstagegotoxy(30,10);
             printf ("Press Option 1~3");

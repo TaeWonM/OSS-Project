@@ -88,8 +88,6 @@ char *stage1(int diffi) {
             printf("Press Enter To Return");
             while (1) if (GetAsyncKeyState(VK_RETURN)) return achivemant;
         }
-        GotoXY(80, 10);
-        printf ("%d", count);
         print_mazeGame(maze, MAX_SIZE);
         move_maze(maze, &row, &col);
 

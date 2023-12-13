@@ -679,6 +679,7 @@ int check_game_over(void){
                     Sleep(100);
                     return 1;
                 }
+                else if (GetAsyncKeyState(VK_ESCAPE)) continue;
             }
         }
     }
